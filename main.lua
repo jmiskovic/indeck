@@ -1,6 +1,11 @@
 local editors = require'editors'
-lovr.keyboard = require 'lovr-keyboard'
 local lume = require'lume'
+
+if lovr.getOS() == 'Android' then
+  lovr.keyboard = require 'lovr-keyboard-android'
+else
+  lovr.keyboard = require 'lovr-keyboard'
+end
 
 local reloadables = {
   'playground'
@@ -42,16 +47,17 @@ function lovr.mirror()
   end
 end
 
-function lovr.keypressed(k)
+function lovr.keyboard.keypressed(k)
   if k == 'f5' then
     lovr.event.push('restart')
     return
   end
-  if lovr.keyboard.isDown('lalt') then
-    k = 'alt+'.. k
-  end
+  -- order of prefixes: ctrl+alt+shift+K
   if lovr.keyboard.isDown('lshift') then
     k = 'shift+'.. k
+  end
+  if lovr.keyboard.isDown('lalt') then
+    k = 'alt+'.. k
   end
   if lovr.keyboard.isDown('lctrl') then
     k = 'ctrl+'.. k
@@ -66,7 +72,7 @@ function lovr.keypressed(k)
   end
 end
 
-function lovr.textinput(k)
+function lovr.keyboard.textinput(k)
   for _, editor in ipairs(editors) do 
     editor:textinput(k)
   end

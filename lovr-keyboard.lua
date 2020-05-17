@@ -140,7 +140,7 @@ for k, v in pairs(reverse) do
 end
 
 
-local keyboard = {}
+local keyboard = { pressedKeys = {} }
 
 function keyboard.isDown(key, ...)
   if not key then return false end
@@ -158,5 +158,25 @@ end)
 C.glfwSetCharCallback(window, function(window, char)
     lovr.event.push('textinput', string.char(char))
   end)
+
+function lovr.keypressed(k)
+  keyboard.pressedKeys[k] = true
+  if keyboard.keypressed then
+    keyboard.keypressed(k)
+  end
+end
+
+function lovr.keyreleased(k)
+  keyboard.pressedKeys[k] = false
+  if keyboard.keyreleased then
+    keyboard.keyreleased(k)
+  end
+end
+
+function lovr.textinput(k)
+  if keyboard.textinput then
+    keyboard.textinput(k)
+  end
+end
 
 return keyboard
