@@ -6,7 +6,7 @@ m.colors = {
   handle          = 0xd35c5c,
 }
 
-local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 20)
+local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 48)
 defaultFont:setPixelDensity(1)
 
 m.new = function(width, height, handleSide)
@@ -31,8 +31,13 @@ end
 function m:draw(drawFunction, ...)
   lovr.graphics.push()
   lovr.graphics.transform(self.transform)
+  lovr.graphics.setColor(0x1e1a15)
+  local margin = 0.02
+  lovr.graphics.plane('fill', 0,0,-0.005, self.width + margin, self.height + margin)
   lovr.graphics.setColor(1,1,1)
-  lovr.graphics.plane(self.material, 0,0,0, self.width, self.height)
+  if self.canvas then
+    lovr.graphics.plane(self.material, 0,0,0, self.width, self.height)
+  end
   lovr.graphics.setColor(self.colors.handle)
   local thickness = 0.02
   local handleX = self.handleSide == 'rig' and self.width/2 + thickness or -self.width/2 - thickness

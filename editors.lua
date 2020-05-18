@@ -4,18 +4,32 @@ local buffer = require'buffer'
 local panes = require'panes'
 
 local keymapping      = {
-  ['up']                  = 'cursorUp',
-  ['alt+up']              = 'cursorJumpUp',
-  ['down']                = 'cursorDown',
-  ['alt+down']            = 'cursorJumpDown',
-  ['left']                = 'cursorLeft',
-  ['ctrl+left']           = 'cursorJumpLeft',
-  ['ctrl+right']          = 'cursorJumpRight',
-  ['right']               = 'cursorRight',
-  ['home']                = 'cursorHome',
-  ['end']                 = 'cursorEnd',
-  ['pageup']              = 'pageUp',
-  ['pagedown']            = 'pageDown',
+  ['up']                  = 'moveUp',
+  ['alt+up']              = 'moveJumpUp',
+  ['down']                = 'moveDown',
+  ['alt+down']            = 'moveJumpDown',
+  ['volume_down']         = 'moveLeft',
+  ['volume_up']           = 'moveRight',
+  ['left']                = 'moveLeft',
+  ['ctrl+left']           = 'moveJumpLeft',
+  ['ctrl+right']          = 'moveJumpRight',
+  ['right']               = 'moveRight',
+  ['home']                = 'moveHome',
+  ['end']                 = 'moveEnd',
+  ['pageup']              = 'movePageUp',
+  ['pagedown']            = 'movePageDown',
+  ['shift+up']            = 'selectUp',
+  ['alt+shift+up']        = 'selectJumpUp',
+  ['shift+down']          = 'selectDown',
+  ['alt+shift+down']      = 'selectJumpDown',
+  ['shift+left']          = 'selectLeft',
+  ['ctrl+shift+left']     = 'selectJumpLeft',
+  ['ctrl+shift+right']    = 'selectJumpRight',
+  ['shift+right']         = 'selectRight',
+  ['shift+home']          = 'selectHome',
+  ['shift+end']           = 'selectEnd',
+  ['shift+pageup']        = 'selectPageUp',
+  ['shift+pagedown']      = 'selectPageDown',
   ['tab']                 = 'insertTab',
   ['return']              = 'breakLine',
   ['enter']               = 'breakLine',
@@ -46,6 +60,7 @@ local highlighting =
   label_end    = 0x9d8b70, 
   label        = 0xc6bcb1, --basically an ident between a label_start and label_end.
   unidentified = 0xd35c5c, --anything that isn't one of the above tokens. Consider them errors. Invalid escapes are also unidentified.
+  selection    = 0x353937,
 }
 
 function m.new(width, height)
@@ -65,7 +80,17 @@ function m.new(width, height)
       self.pane:drawTextRectangle(col, row, width)
     end)
   self:refresh()
+  table.insert(m, self)
   return self
+end
+
+function m:close()
+  for i,editor in ipairs(m) do
+    if self == editor then
+      table.remove(m, i)
+      return
+    end
+  end
 end
 
 function m:openFile(path)
@@ -75,6 +100,8 @@ function m:openFile(path)
   local content = lovr.filesystem.read(path)
   print('file open', path, 'size', #content)
   self.buffer:setText(content)
+  self.path = path
+  self:refresh()
 end
 
 function m:listFiles(path)
@@ -105,7 +132,7 @@ end
 local macros = {
   ['ctrl+shift+backspace']  = 'self.buffer:setText("")',
   ['ctrl+shift+o']          = 'self:openFile("playground.lua")',
-  ['ctrl+s']                = 'self:saveFile("playground.lua")',
+  ['ctrl+s']                = 'self:saveFile(self.path)',
 }
 
 function m:keypressed(k)
@@ -122,6 +149,7 @@ end
 
 function m:textinput(k)
   self.buffer:insertCharacter(k)
+  self:refresh()
 end
 
 -- code execution environment

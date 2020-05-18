@@ -23,6 +23,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     scroll = {x=5, y=0}, -- both 0-indexed
     lines = {}, -- text broken in lines
     lexed = {}, -- text lines broken into tokens
+    selection = nil,
 	  drawToken = drawToken,
 	  drawRectangle = drawRectangle,
     -- 'public' api
@@ -53,16 +54,34 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     drawCode = function(self)
       local linesToDraw = math.min(self.rows, #(self.lexed)-self.scroll.y) 
+      local selectionStartLine = self.selection and math.min(self.selection.y, self.cursor.y) or -1
+      local selectionEndLine   = self.selection and math.max(self.selection.y, self.cursor.y) or -1
       for i = 1, linesToDraw do
         local x = -self.scroll.x 
         local y = -(i - 1)
-         -- draw cursor line and caret
-        if i + self.scroll.y == self.cursor.y then
+        local currentLine = i + self.scroll.y
+        -- selection
+        if currentLine >= selectionStartLine and currentLine <= selectionEndLine then
+          if currentLine == selectionStartLine then
+            local selectionLineFrom = self.selection.x -- (currentLine == self.cursor.y) and 
+            local selectionLineTo   = (currentLine == self.cursor.y) and self.cursor.x or self.cols
+            local selectionWidth = selectionLineTo - self.selection.x
+            self.drawRectangle(selectionLineFrom, y, selectionWidth, 'selection')
+          elseif currentLine == selectionEndLine then
+            self.drawRectangle(0, y, self.cursor.x, 'selection')
+          else
+            self.drawRectangle(0, y, self.cols, 'selection')
+          end
+          --self.drawRectangle(self.selection.x, y, self.cursor.x - self.selection.x, 'selection')
+        elseif currentLine == self.cursor.y then -- highlight cursor line
           self.drawRectangle(-1, y, self.cols + 2, 'cursorline')
+        end
+         -- draw selection, cursor line and caret
+        if currentLine == self.cursor.y then
           self.drawToken("|", self.cursor.x - self.scroll.x - 0.5, y, 'caret')
         end
         -- draw single line of text
-        local lineTokens = self.lexed[i + self.scroll.y]
+        local lineTokens = self.lexed[currentLine]
         for j, token in ipairs(lineTokens) do
           self.drawToken(token.data, x, y, token.type)
           x = x + #token.data
@@ -137,7 +156,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.cursor.x = string.len(self.lines[self.cursor.y])
       self:ensureCursorInView()
     end,
-    pageUp = function(self)
+    cursorPageUp = function(self)
       self.cursor.y = self.cursor.y - self.rows
       if self.cursor.y < 1 then 
         self.cursor.y = 1
@@ -145,7 +164,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:ensureCursorInLine()
       self:ensureCursorInView()
     end,
-    pageDown = function(self)
+    cursorPageDown = function(self)
       self.cursor.y = self.cursor.y + self.rows
       if self.cursor.y > #(self.lines) then
         self.cursor.y = #(self.lines)
@@ -206,6 +225,9 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:repeatOverPattern(pattern, self.deleteLeft, self)
     end,
     -- internal functions and helpers
+    deselect = function(self)
+      self.selection = nil
+    end,
     insertString = function(self, str)
       str:gsub("%C", function(c) 
         self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
@@ -246,6 +268,18 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       end
     end,
   }
+  -- generate all select_ and move_ actions
+  for _, functionName in ipairs({'Up', 'JumpUp', 'Down', 'JumpDown', 'Left',
+        'JumpLeft', 'JumpRight', 'Right', 'Home', 'End', 'PageUp', 'PageDown'}) do
+    buffer['select' .. functionName] = function(self)
+      self.selection = self.selection or {x= self.cursor.x, y= self.cursor.y}
+      self['cursor' .. functionName](self)
+    end
+    buffer['move' .. functionName] = function(self)
+      self:deselect()
+      self['cursor' .. functionName](self)
+    end
+  end
   buffer:setText(initialText or "")
   return buffer
 end
