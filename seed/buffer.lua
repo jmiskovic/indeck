@@ -25,7 +25,6 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
 	  rows = rows,
     name = '',
     cursor = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
-    selection = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
     scroll = {x=5, y=0}, -- both 0-indexed
     lines = {}, -- text broken in lines
     lexed = {}, -- text lines broken into tokens
@@ -62,21 +61,8 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     drawCode = function(self)
       local linesToDraw = math.min(self.rows, #(self.lexed)-self.scroll.y) 
-      local selectionFrom, selectionTo = self:selectionSpan()
-      local selectionWidth = (selectionTo.x + selectionTo.y * self.cols) - (selectionFrom.x + selectionFrom.y * self.cols)
       -- highlight cursor line
-      if selectionWidth == 0 then
-        self.drawRectangle(-1, self.cursor.y - self.scroll.y, self.cols + 2, 'cursorline')
-      end
-      -- selection
-      local x, y = selectionFrom.x, selectionFrom.y
-      self.drawRectangle(x, y, selectionWidth, 'selection')
-      selectionWidth = selectionWidth - (self.cols - selectionFrom.x)
-      while selectionWidth > 0 do
-        y = y + 1
-        self.drawRectangle(0, y, selectionWidth, 'selection')
-        selectionWidth = selectionWidth - self.cols
-      end
+      self.drawRectangle(-1, self.cursor.y - self.scroll.y, self.cols + 2, 'cursorline')
       -- file content
       for y = 1, linesToDraw do
         local x = -self.scroll.x 
@@ -242,19 +228,6 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.scroll.x = math.max(columnNumber - math.floor(7 * self.cols / 8), 0)
     end,
     -- internal functions and helpers
-    isSelected = function(self)
-      return self.selection.x ~= self.cursor.x or self.selection.y ~= self.cursor.y
-    end,
-    selectionSpan = function(self)
-      if self.selection.y * self.cols + self.selection.x < self.cursor.y * self.cols + self.cursor.x then
-        return self.selection, self.cursor
-      else
-        return self.cursor, self.selection
-      end
-    end,
-    deselect = function(self)
-      self.selection = nil
-    end,
     insertString = function(self, str)
       str:gsub("%C", function(c) 
         self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
@@ -295,16 +268,11 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       end
     end,
   }
-  -- generate all select_ and move_ actions
+  -- generate move_ actions
   for _, functionName in ipairs({'Up', 'JumpUp', 'Down', 'JumpDown', 'Left',
         'JumpLeft', 'JumpRight', 'Right', 'Home', 'End', 'PageUp', 'PageDown'}) do
-    buffer['select' .. functionName] = function(self)
-      --self.selection = self.selection or {x= self.cursor.x, y= self.cursor.y}
-      self['cursor' .. functionName](self)
-    end
     buffer['move' .. functionName] = function(self)
       self['cursor' .. functionName](self)
-      self.selection.x, self.selection.y = self.cursor.x, self.cursor.y
     end
   end
   buffer:setText(initialText or "")

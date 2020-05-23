@@ -1,3 +1,7 @@
+--[[
+
+self:openFile('playgound.lua')
+--]]
 m = {} -- floating pane as anchor for 2D and 3D graphical content
 m.__index = m
 
@@ -29,24 +33,27 @@ m.new = function(width, height, handleSide)
 end
 
 function m:draw(drawFunction, ...)
+  -- oriented towards -z so that mat4.lookAt() works as expected
   lovr.graphics.push()
   lovr.graphics.transform(self.transform)
   lovr.graphics.setColor(0x1e1a15)
   local margin = 0.02
-  lovr.graphics.plane('fill', 0,0,-0.005, self.width + margin, self.height + margin)
+  lovr.graphics.plane('fill', 0,0,0.005, self.width + margin, self.height + margin)
   lovr.graphics.setColor(1,1,1)
   if self.canvas then
-    lovr.graphics.plane(self.material, 0,0,0, self.width, self.height)
+    lovr.graphics.plane(self.material, 0,0,0, -self.width, self.height, 0*math.pi, 0,0,0)
   end
   lovr.graphics.setColor(self.colors.handle)
   local thickness = 0.02
-  local handleX = self.handleSide == 'rig' and self.width/2 + thickness or -self.width/2 - thickness
+  local handleX = self.handleSide == 'right' and -self.width/2 - thickness or self.width/2 + thickness
   local handleY = 0
   lovr.graphics.box('fill', handleX, handleY, 0,  thickness, self.height * 0.8, thickness)
   if drawFunction then
-    -- make all content drawn in range -1 to 1 meters fit onto the pane
-    lovr.graphics.scale(math.min(self.width, self.height) / 2)
+    -- make all content drawn in xy range -1 to 1 meters fit onto the pane
+    local scaling = math.min(self.width, self.height) / 2
+    lovr.graphics.scale(scaling, scaling, -scaling)
     drawFunction(...)
+    -- within drawFunction, x and y lie on pane and +z is in front of pane
   end
   lovr.graphics.pop()
 end
@@ -68,8 +75,8 @@ end
 
 function m:drawText(text, col, row)
   lovr.graphics.setFont(self.font)
-  local x = col * self.fontWidth
-  local y = row * self.fontHeight
+  local x =  col * self.fontWidth
+  local y = -row * self.fontHeight
   lovr.graphics.print(text, x,y,0, 1, 0, 1,0,0, 0, 'left','top')
 end
 
@@ -77,8 +84,8 @@ function m:drawTextRectangle(col, row, width)
   -- rectangle in text-coordinates
   lovr.graphics.setFont(self.font)
   width = width * self.fontWidth
-  local x = col * self.fontWidth
-  local y = row * self.fontHeight
+  local x =  col * self.fontWidth
+  local y = -row * self.fontHeight
   local height = self.fontHeight
   lovr.graphics.plane('fill', x + width/2, y - height/2, 0, width, height)
 end

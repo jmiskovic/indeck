@@ -58,7 +58,7 @@ local highlighting =
 
 function m.new(width, height)
   local self = setmetatable({}, m)
-  self.pane = panes.new(width, height)
+  self.pane = panes.new(width, height, 'left')
   self.cols = math.floor(width  * self.pane.canvasSize / self.pane.fontWidth)
   self.rows = math.floor(height * self.pane.canvasSize / self.pane.fontHeight) - 1
   self.buffer = buffer.new(self.cols, self.rows,
