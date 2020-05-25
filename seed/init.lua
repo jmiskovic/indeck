@@ -21,7 +21,7 @@ end
 function lovr.load()
   editor = editors.new(0.8, 1)
   local x,y,z = lovr.headset.getPosition('head')
-  editor.pane.transform:lookAt(vec3(0, 1.6, -1.6), vec3(x,y,z), vec3(0,1,0))
+  editor.pane.transform:lookAt(vec3(0, y, -1), vec3(x,y,z), vec3(0,1,0))
   editor:openFile('playground.lua')
 end
 
@@ -42,7 +42,7 @@ function lovr.keyboard.keypressed(k)
   end
   if k == 'f2' then
     editor:saveFile(editor.path)
-    local importName = projectName .. '/' .. 'playground'
+    local importName = 'playground'
     package.loaded[importName] = nil
     playground = require(importName)
     return

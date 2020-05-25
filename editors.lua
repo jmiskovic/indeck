@@ -8,27 +8,37 @@ m.active = nil  -- the one editor which receives text input
 local buffer = require'buffer'
 local panes = require'pane'
 
-local keymapping      = {
-  ['up']                  = 'moveUp',
-  ['alt+up']              = 'moveJumpUp',
-  ['down']                = 'moveDown',
-  ['alt+down']            = 'moveJumpDown',
-  ['volume_down']         = 'moveLeft',
-  ['volume_up']           = 'moveRight',
-  ['left']                = 'moveLeft',
-  ['ctrl+left']           = 'moveJumpLeft',
-  ['ctrl+right']          = 'moveJumpRight',
-  ['right']               = 'moveRight',
-  ['home']                = 'moveHome',
-  ['end']                 = 'moveEnd',
-  ['pageup']              = 'movePageUp',
-  ['pagedown']            = 'movePageDown',
-  ['tab']                 = 'insertTab',
-  ['return']              = 'breakLine',
-  ['enter']               = 'breakLine',
-  ['delete']              = 'deleteRight',
-  ['backspace']           = 'deleteLeft',
-  ['ctrl+backspace']      = 'deleteWord',
+local keymapping = {
+  buffer = {
+    ['up']                  = 'moveUp',
+    ['alt+up']              = 'moveJumpUp',
+    ['down']                = 'moveDown',
+    ['alt+down']            = 'moveJumpDown',
+    ['volume_down']         = 'moveLeft',
+    ['volume_up']           = 'moveRight',
+    ['left']                = 'moveLeft',
+    ['ctrl+left']           = 'moveJumpLeft',
+    ['ctrl+right']          = 'moveJumpRight',
+    ['right']               = 'moveRight',
+    ['home']                = 'moveHome',
+    ['end']                 = 'moveEnd',
+    ['pageup']              = 'movePageUp',
+    ['pagedown']            = 'movePageDown',
+    ['tab']                 = 'insertTab',
+    ['return']              = 'breakLine',
+    ['enter']               = 'breakLine',
+    ['delete']              = 'deleteRight',
+    ['backspace']           = 'deleteLeft',
+    ['ctrl+backspace']      = 'deleteWord',    
+  },
+  macros = {
+    ['ctrl+shift+backspace'] = function(self) self.buffer:setText("") end,
+    ['ctrl+shift+o']         = function(self) self:openFile("playground.lua") end,
+    ['ctrl+s']               = function(self) self:saveFile(self.path) end,
+    ['ctrl+shift+enter']     = function(self) self:execLine() end,
+    ['ctrl+shift+return']    = function(self) self:execLine() end,
+    ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
+  },
 }
 
 local highlighting =
@@ -113,37 +123,51 @@ function m:saveFile(filename)
 end
 
 function m:draw()
-  self.pane:draw()
+  if not self.fullscreen then
+    self.pane:draw()
+  else
+    lovr.graphics.push()
+    lovr.graphics.translate(-50,50,-100)
+    lovr.graphics.scale(0.1)
+    self.buffer:drawCode()
+    lovr.graphics.pop()
+  end
 end
 
 
 function m:refresh()
-  self.pane:drawCanvas(function()
-    lovr.graphics.clear(highlighting.background)
-    self.buffer:drawCode()
-  end)
+  if not self.fullscreen then
+    self.pane:drawCanvas(function()
+      lovr.graphics.clear(highlighting.background)
+      self.buffer:drawCode()
+    end)
+  end
 end
 
 
 -- key handling
-
-local macros = {
-  ['ctrl+shift+backspace']  = 'self.buffer:setText("")',
-  ['ctrl+shift+o']          = 'self:openFile("playground.lua")',
-  ['ctrl+s']                = 'self:saveFile(self.path)',
-}
-
-
 function m:keypressed(k)
-  if keymapping[k] then
-    self.buffer[keymapping[k]](self.buffer)
-  elseif macros[k] then
-    print('executing', k, macros[k])
-    print(self:execUnsafely(macros[k]))
-  elseif k == 'ctrl+shift+enter' or k == 'ctrl+shift+return' then
-    self:execLine()
+  if keymapping.buffer[k] then
+    self.buffer[keymapping.buffer[k]](self.buffer)
+  end
+  if keymapping.macros[k] then
+    print('executing macro for', k)
+    keymapping.macros[k](self)
   end
   self:refresh()
+end
+
+function m:setFullscreen(isFullscreen)
+  self.fullscreen = isFullscreen
+  if self.fullscreen then
+    lovr.graphics.setDepthTest('gequal', false)
+    self.buffer.cols = 200
+    self.buffer.rows = 200
+  else
+    lovr.graphics.setDepthTest('lequal', true)
+    self.buffer.cols, self.buffer.rows = self.cols, self.rows
+    self.buffer:ensureCursorInView()
+  end
 end
 
 function m:textinput(k)

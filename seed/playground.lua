@@ -4,10 +4,8 @@ self:openFile('playgound.lua')
 --]]
 pane = require'pane'.new(.1, .1, 'left')
 
-pane.transform:set(.1, 1.5, -.3, 	math.pi, 	0,1,0)
+pane.transform:set(.2, .15, -.6, 	math.pi, 	0,1,0)
 
-local function draw1()
-end
 local function draw()
 	pane:draw(function()
   math.randomseed(1)

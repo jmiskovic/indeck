@@ -89,7 +89,6 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         local lineTokens = self.lexed[currentLine]
         for j, token in ipairs(lineTokens) do
           self.drawToken(token.data, x, y, token.type)
-          --print('token',x,y)
           x = x + #token.data
         end
       end

@@ -39,8 +39,6 @@ end
 
 local ok = lovr.filesystem.unmount(lovr.filesystem.getSaveDirectory())
 print('unmounting save directory', ok and 'ok' or 'failed')
-print(lovr.filesystem.isFile('abc'))
-
 local sourcePath = lovr.filesystem.getSaveDirectory() .. '/' .. projectName
 local ok = lovr.filesystem.mount(sourcePath, nil, false)
 print('prioretizing sources from directory', sourcePath, ok and 'ok' or 'failed')
