@@ -6,6 +6,7 @@ if not arg['restart'] then
   lovr.errhand = function(message, traceback)
     traceback = traceback or debug.traceback('', 3)
     restartInfo = message .. '\n' .. traceback
+    print(restartInfo)
     return function()
       return 'restart', restartInfo
       -- on restart, restartInfo string will be injected into arg table under 'restart' key

@@ -156,7 +156,11 @@ C.glfwSetKeyCallback(window, function(window, key, scancode, action, mods)
 end)
 
 C.glfwSetCharCallback(window, function(window, char)
-    lovr.event.push('textinput', string.char(char))
+    if char < 128 then
+      lovr.event.push('textinput', string.char(char))
+    else
+      print('non-ascii char', char)
+    end
   end)
 
 function lovr.keypressed(k)

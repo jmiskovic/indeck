@@ -5,6 +5,8 @@ self:openFile('editors.lua')
 local m = {} -- platform independant text buffer
 local lexer = require'lua-lexer'
 
+local clipboard = "" -- shared between buffer instances
+
 --helper functions
 local insertCharAt = function(text, c, pos)
   local first = text:sub(1, pos)
@@ -24,7 +26,9 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
 	  cols = cols,
 	  rows = rows,
     name = '',
-    cursor = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
+    cursor    = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
+    selection = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
+    -- selected text spans between cursor and selection marker
     scroll = {x=5, y=0}, -- both 0-indexed
     lines = {}, -- text broken in lines
     lexed = {}, -- text lines broken into tokens
@@ -33,9 +37,6 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     -- 'public' api
     getText = function(self)
       return table.concat(self.lines, "\n")
-    end,
-    refresh = function(self) -- lexing single line cannot handle multiline comments and strings
-      self.lexed = lexer(self:getText())
     end,
     getCursorLine = function(self)
       return self.lines[self.cursor.y]
@@ -53,16 +54,29 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         end
         table.insert(self.lines, table.concat(lineStrings, ""))
       end
-      if self.cursor.y > #(self.lines) then 
-        self.cursor.y = #(self.lines) 
-      end
-      self:ensureCursorInLine()
+      self:ensureCursorInFile()
+      self:ensureCursorInFile()
       self:ensureCursorInView()
+      self:deselect()
     end,
     drawCode = function(self)
       local linesToDraw = math.min(self.rows, #(self.lexed)-self.scroll.y) 
+      local selectionFrom, selectionTo = self:selectionSpan()
+      local selectionWidth = (selectionTo.x + selectionTo.y * self.cols) - (selectionFrom.x + selectionFrom.y * self.cols)
       -- highlight cursor line
-      self.drawRectangle(-1, self.cursor.y - self.scroll.y, self.cols + 2, 'cursorline')
+      if selectionWidth == 0 then
+        self.drawRectangle(-1, self.cursor.y - self.scroll.y, self.cols + 2, 'cursorline')
+      end
+      -- selection
+      local x, y = selectionFrom.x, selectionFrom.y
+      self.drawRectangle(x - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
+      selectionWidth = selectionWidth - (self.cols - selectionFrom.x)
+      while selectionWidth > 0 do
+        y = y + 1
+        self.drawRectangle(0 - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
+        --selectionWidth = selectionWidth - self.lines[y]:len() --self.cols
+        selectionWidth = selectionWidth - self.cols
+      end
       -- file content
       for y = 1, linesToDraw do
         local x = -self.scroll.x 
@@ -83,20 +97,16 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       local status = string.format('L%d C%d  %s', self.cursor.y, self.cursor.x, self.name)
       self.drawToken(status, self.cols - #status, 0, 'comment')
     end,
-    -- actions triggered by keystrokes
+    -- cursor movement
     cursorUp = function(self)
-      if self.cursor.y > 1 then 
-        self.cursor.y = self.cursor.y - 1
-        self:ensureCursorInLine()
-        self:ensureCursorInView()
-      end
+      self.cursor.y = self.cursor.y - 1
+      self:ensureCursorInFile()
+      self:ensureCursorInView()
     end,
     cursorDown = function(self)
-      if self.cursor.y < #(self.lines) then 
-        self.cursor.y = self.cursor.y + 1
-        self:ensureCursorInLine()
-        self:ensureCursorInView()
-      end
+      self.cursor.y = self.cursor.y + 1
+      self:ensureCursorInFile()
+      self:ensureCursorInView()
     end,
     cursorJumpUp = function(self)
       repeatN(10, self.cursorUp, self)
@@ -153,34 +163,43 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     cursorPageUp = function(self)
       self.cursor.y = self.cursor.y - self.rows
-      if self.cursor.y < 1 then 
-        self.cursor.y = 1
-      end
-      self:ensureCursorInLine()
+      self:ensureCursorInFile()
       self:ensureCursorInView()
     end,
     cursorPageDown = function(self)
       self.cursor.y = self.cursor.y + self.rows
-      if self.cursor.y > #(self.lines) then
-        self.cursor.y = #(self.lines)
-      end
-      self:ensureCursorInLine()
+      self:ensureCursorInFile()
       self:ensureCursorInView()
     end,
+    cursorJumpHome = function(self)
+      self.cursor.x, self.cursor.y = 0, 1
+      self:ensureCursorInView()
+    end,
+    cursorJumpEnd = function(self)
+      self.cursor.y = #self.lines
+      self.cursor.x = #self.lines[self.cursor.y]
+      self:ensureCursorInView()
+    end,
+    -- inserting and removing characters
     insertCharacter = function(self, c)
+      self:deleteSelection()
       self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
       self:lexLine(self.cursor.y)
       self.cursor.x = self.cursor.x + 1
       self:ensureCursorInView()
+      self:deselect()
     end,
     insertTab = function(self)
+      self:deleteSelection()
       self:insertString("  ")
+      self:deselect()
     end,
     breakLine = function(self)
+      self:deleteSelection()
       local nl = self.lines[self.cursor.y]
       local bef = nl:sub(1,self.cursor.x)
-      local aft = nl:sub(self.cursor.x + 1, string.len(nl))
-      local indent = #(nl:match("^%s+") or "")
+      local aft = nl:sub(self.cursor.x + 1, #nl)
+      local indent = #(bef:match("^%s+") or "")
       self.lines[self.cursor.y] = bef
       self:lexLine(self.cursor.y)
       table.insert(self.lines, self.cursor.y + 1, aft)
@@ -188,29 +207,36 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:lexLine(self.cursor.y + 1)
       self:cursorHome()
       self:cursorDown()
+      self:deselect()
       repeatN(indent, self.insertCharacter, self, " ")
     end,
     deleteRight = function(self)
-      local length = string.len(self.lines[self.cursor.y])
-      if length == self.cursor.x then -- end of line
-        if self.cursor.y < #self.lines then
-          -- if we have another line, remove newline by joining lines
-          local nl = self.lines[self.cursor.y] .. self.lines[self.cursor.y + 1]
-          self.lines[self.cursor.y] = nl
+      if self:isSelected() then
+        self:deleteSelection()
+      else
+        local length = string.len(self.lines[self.cursor.y])
+        if length == self.cursor.x then -- end of line
+          if self.cursor.y < #self.lines then
+            -- if we have another line, remove newline by joining lines
+            local nl = self.lines[self.cursor.y] .. self.lines[self.cursor.y + 1]
+            self.lines[self.cursor.y] = nl
+            self:lexLine(self.cursor.y)
+            table.remove(self.lines, self.cursor.y + 1)
+            table.remove(self.lexed, self.cursor.y + 1)
+          end
+        else -- middle of line, remove char
+          local nl = self.lines[self.cursor.y]
+          local bef = nl:sub(1, self.cursor.x)
+          local aft = nl:sub(self.cursor.x + 2, string.len(nl))
+          self.lines[self.cursor.y] = bef..aft
           self:lexLine(self.cursor.y)
-          table.remove(self.lines, self.cursor.y + 1)
-          table.remove(self.lexed, self.cursor.y + 1)
         end
-      else -- middle of line, remove char
-        local nl = self.lines[self.cursor.y]
-        local bef = nl:sub(1, self.cursor.x)
-        local aft = nl:sub(self.cursor.x + 2, string.len(nl))
-        self.lines[self.cursor.y] = bef..aft
-        self:lexLine(self.cursor.y)
       end
     end,
     deleteLeft = function(self)
-      if self:cursorLeft() then
+      if self:isSelected() then
+        self:deleteSelection()
+      elseif self:cursorLeft() then
         self:deleteRight()
       end
     end,
@@ -218,6 +244,78 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:deleteLeft()
       local pattern = self:charAtCursor():find("[%d%l%u]") and "[%d%l%u]" or "%s"
       self:repeatOverPattern(pattern, self.deleteLeft, self)
+    end,
+    -- clipboard
+    cutText = function(self)
+      if self:isSelected() then
+        self:copyText()
+        self:deleteSelection()
+      else
+        clipboard = self.lines[self.cursor.y] .. '\n'
+        table.remove(self.lines, self.cursor.y)
+        table.remove(self.lexed, self.cursor.y)
+      end
+      self:ensureCursorInFile()
+    end,
+    copyText = function(self)
+      if self:isSelected() then
+        local selectionFrom, selectionTo = self:selectionSpan()
+        local lines = {}
+        for y = selectionFrom.y, selectionTo.y do
+          local fromX = y == selectionFrom.y and selectionFrom.x  or 0
+          local   toX = y == selectionTo.y   and selectionTo.x    or self.lines[y]:len()
+          table.insert(lines, self.lines[y]:sub(fromX + 1, toX))
+        end
+        clipboard = table.concat(lines, '\n')
+      else -- copy cursor line
+        clipboard = self.lines[self.cursor.y] .. '\n'
+      end
+    end,
+    pasteText = function(self)
+      self:insertString(clipboard)
+    end,
+    -- helper functions
+    isSelected = function(self)
+      return self.selection.x ~= self.cursor.x or self.selection.y ~= self.cursor.y
+    end,
+    selectionSpan = function(self)
+      if self.selection.y * self.cols + self.selection.x < self.cursor.y * self.cols + self.cursor.x then
+        return self.selection, self.cursor
+      else
+        return self.cursor, self.selection
+      end
+    end,
+    deleteSelection = function(self)
+      if not self:isSelected() then return end
+      local selectionFrom, selectionTo = self:selectionSpan()
+      local singleLineChange = selectionFrom.y == selectionTo.y
+      local lines = {}
+      for y = selectionTo.y, selectionFrom.y, -1 do
+        local fromX = y == selectionFrom.y and selectionFrom.x  or 0
+        local   toX = y == selectionTo.y   and selectionTo.x    or self.lines[y]:len()
+        if y > selectionFrom.y and y < selectionTo.y then
+          table.remove(self.lines, y)
+          table.remove(self.lexed, y)
+        else
+          local fromX = y == selectionFrom.y and selectionFrom.x  or 0
+          local   toX = y == selectionTo.y   and selectionTo.x    or self.lines[y]:len()
+          local bef = self.lines[y]:sub(0, fromX)
+          local aft = self.lines[y]:sub(toX + 1, self.lines[y]:len())
+          self.lines[y] = bef .. aft
+        end
+      end
+      self.cursor.x, self.cursor.y = selectionFrom.x, selectionFrom.y
+      self:deselect()
+      if singleLineChange then
+        self:lexLine(self.cursor.y)
+      else
+        self:deleteRight()
+        self:lexAll()
+      end
+      self:ensureCursorInView()
+    end,
+    deselect = function(self)
+      self.selection.x, self.selection.y = self.cursor.x, self.cursor.y    
     end,
     jumpToLine = function(self, lineNumber, columnNumber)
       lineNumber = math.min(lineNumber or 1, #self.lines)
@@ -227,13 +325,24 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.scroll.y = math.max(lineNumber - math.floor(self.rows / 2), 1)
       self.scroll.x = math.max(columnNumber - math.floor(7 * self.cols / 8), 0)
     end,
-    -- internal functions and helpers
     insertString = function(self, str)
-      str:gsub("%C", function(c) 
-        self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
-        self.cursor.x = self.cursor.x + 1
-      end)
-      self:lexLine(self.cursor.y)
+      local singleLineChange = true
+      for c in str:gmatch(".") do
+        if c == '\n' then
+          singleLineChange = false
+          self:deselect()
+          self:breakLine()
+        elseif c:match('%C') then
+          self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
+          self.cursor.x = self.cursor.x + 1
+        end
+      end
+      if singleLineChange then
+        self:lexLine(self.cursor.y)
+      else
+        self:lexAll()
+      end
+      self:deselect()
     end,
     charAtCursor = function(self)
       return self.lines[self.cursor.y]:sub(self.cursor.x, self.cursor.x)
@@ -241,11 +350,15 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     lexLine = function(self, lineNum)
       self.lexed[lineNum] = lexer(self.lines[lineNum])[1]
     end,
-    ensureCursorInLine = function(self)
-      local length = string.len(self.lines[self.cursor.y])
-      if length < self.cursor.x then
-        self.cursor.x = length
-      end
+    lexAll = function(self) -- lexing single line cannot handle multiline comments and strings
+      self.lexed = lexer(self:getText())
+    end,
+    ensureCursorInFile = function(self)
+      self.cursor.y = math.max(self.cursor.y, 1)
+      self.cursor.y = math.min(self.cursor.y, #(self.lines))
+      local lineLength = string.len(self.lines[self.cursor.y] or "")
+      self.cursor.x = math.max(self.cursor.x, 0)
+      self.cursor.x = math.min(self.cursor.x, lineLength)
     end,
     ensureCursorInView = function(self)
       if self.cursor.y <= self.scroll.y then 
@@ -268,11 +381,16 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       end
     end,
   }
-  -- generate move_ actions
-  for _, functionName in ipairs({'Up', 'JumpUp', 'Down', 'JumpDown', 'Left',
-        'JumpLeft', 'JumpRight', 'Right', 'Home', 'End', 'PageUp', 'PageDown'}) do
+  -- generate all select_ and move_ actions
+  for _, functionName in ipairs({'Up', 'Down', 'Left', 'Right', 'JumpUp', 'JumpDown', 'JumpLeft', 'JumpRight',
+                                               'Home', 'End', 'PageUp', 'PageDown', 'JumpHome', 'JumpEnd'}) do
+    buffer['select' .. functionName] = function(self)
+      --self.selection = self.selection or {x= self.cursor.x, y= self.cursor.y}
+      self['cursor' .. functionName](self)
+    end
     buffer['move' .. functionName] = function(self)
       self['cursor' .. functionName](self)
+      self:deselect()
     end
   end
   buffer:setText(initialText or "")

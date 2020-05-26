@@ -11,12 +11,12 @@ local panes = require'pane'
 local keymapping = {
   buffer = {
     ['up']                  = 'moveUp',
-    ['alt+up']              = 'moveJumpUp',
     ['down']                = 'moveDown',
-    ['alt+down']            = 'moveJumpDown',
     ['volume_down']         = 'moveLeft',
     ['volume_up']           = 'moveRight',
     ['left']                = 'moveLeft',
+    ['alt+up']              = 'moveJumpUp',
+    ['alt+down']            = 'moveJumpDown',
     ['ctrl+left']           = 'moveJumpLeft',
     ['ctrl+right']          = 'moveJumpRight',
     ['right']               = 'moveRight',
@@ -24,12 +24,31 @@ local keymapping = {
     ['end']                 = 'moveEnd',
     ['pageup']              = 'movePageUp',
     ['pagedown']            = 'movePageDown',
+    ['ctrl+home']           = 'moveJumpHome',
+    ['ctrl+end']            = 'moveJumpEnd',
+    
+    ['shift+up']            = 'selectUp',
+    ['alt+shift+up']        = 'selectJumpUp',
+    ['shift+down']          = 'selectDown',
+    ['alt+shift+down']      = 'selectJumpDown',
+    ['shift+left']          = 'selectLeft',
+    ['ctrl+shift+left']     = 'selectJumpLeft',
+    ['ctrl+shift+right']    = 'selectJumpRight',
+    ['shift+right']         = 'selectRight',
+    ['shift+home']          = 'selectHome',
+    ['shift+end']           = 'selectEnd',
+    ['shift+pageup']        = 'selectPageUp',
+    ['shift+pagedown']      = 'selectPageDown',
+
     ['tab']                 = 'insertTab',
     ['return']              = 'breakLine',
     ['enter']               = 'breakLine',
     ['delete']              = 'deleteRight',
     ['backspace']           = 'deleteLeft',
-    ['ctrl+backspace']      = 'deleteWord',    
+    ['ctrl+backspace']      = 'deleteWord',
+    ['ctrl+x']              = 'cutText',
+    ['ctrl+c']              = 'copyText',
+    ['ctrl+v']              = 'pasteText',
   },
   macros = {
     ['ctrl+shift+backspace'] = function(self) self.buffer:setText("") end,
@@ -38,6 +57,7 @@ local keymapping = {
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
+    ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
     ['f2']                   = function(self) self:reloadCode() end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
@@ -127,7 +147,7 @@ end
 
 function m:draw()
   if not self.fullscreen then
-    self.pane:draw(require('playground'))
+    self.pane:draw()
   else
     lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()
@@ -196,11 +216,8 @@ function m:execLine()
   if commentPos then
     line = line:sub(1, commentPos - 1)
   end
-  local cursorX = self.buffer.cursor.x
   local success, result = self:execUnsafely(line)
-  self.buffer.lines[lineNum] = line .. " --" .. tostring(result)
-  self.buffer:lexLine(lineNum)
-  self.buffer.cursor.x = cursorX
+  self.buffer:setName((success and 'ok' or 'fail') .. ' > ' .. (result or ""))
 end
 
 function m:execUnsafely(code)
