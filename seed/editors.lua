@@ -37,6 +37,9 @@ local keymapping = {
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
+    ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
+    ['f2']                   = function(self) self:reloadCode() end,
+    ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
   },
 }
@@ -124,11 +127,12 @@ end
 
 function m:draw()
   if not self.fullscreen then
-    self.pane:draw()
+    self.pane:draw(require('playground'))
   else
+    lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()
     lovr.graphics.translate(-50,50,-100)
-    lovr.graphics.scale(0.1)
+    lovr.graphics.scale(0.05)
     self.buffer:drawCode()
     lovr.graphics.pop()
   end
@@ -160,11 +164,11 @@ end
 function m:setFullscreen(isFullscreen)
   self.fullscreen = isFullscreen
   if self.fullscreen then
-    lovr.graphics.setDepthTest('gequal', false)
-    self.buffer.cols = 200
-    self.buffer.rows = 200
+    --lovr.graphics.setDepthTest('gequal', false)
+    self.buffer.cols = 100
+    self.buffer.rows = 100
   else
-    lovr.graphics.setDepthTest('lequal', true)
+    --lovr.graphics.setDepthTest('lequal', true)
     self.buffer.cols, self.buffer.rows = self.cols, self.rows
     self.buffer:ensureCursorInView()
   end
@@ -176,6 +180,14 @@ function m:textinput(k)
 end
 
 -- code execution environment
+
+function m:reloadCode()
+  self:saveFile(self.path)
+  local importName = self.path:match('([^%.]+)%.lua')
+  package.loaded[importName] = nil
+  playground = require(importName)
+  return
+end
 
 function m:execLine()
   local line = self.buffer:getCursorLine()

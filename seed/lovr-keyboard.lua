@@ -162,7 +162,18 @@ C.glfwSetCharCallback(window, function(window, char)
 function lovr.keypressed(k)
   keyboard.pressedKeys[k] = true
   if keyboard.keypressed then
-    keyboard.keypressed(k)
+    local combo = k
+    -- order of prefixes: ctrl+alt+shift+K
+    if lovr.keyboard.isDown('lshift') or lovr.keyboard.isDown('rshift') then
+      combo = 'shift+'.. combo
+    end
+    if lovr.keyboard.isDown('lalt') then
+      combo = 'alt+'.. combo
+    end
+    if lovr.keyboard.isDown('lctrl') then
+      combo = 'ctrl+'.. combo
+    end
+    keyboard.keypressed(k, combo)
   end
 end
 

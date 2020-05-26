@@ -51,7 +51,7 @@ function m:draw(drawFunction, ...)
   if drawFunction then
     -- make all content drawn in xy range -1 to 1 meters fit onto the pane
     local scaling = math.min(self.width, self.height) / 2
-    lovr.graphics.scale(scaling, scaling, -scaling)
+    lovr.graphics.scale(-scaling, scaling, -scaling)
     drawFunction(...)
     -- within drawFunction, x and y lie on pane and +z is in front of pane
   end
@@ -69,7 +69,6 @@ function m:drawCanvas(drawFunction, ...)
   drawFunction(...)
   lovr.graphics.pop()
   lovr.graphics.setCanvas()
-  --lovr.graphics.setColor(1,1,1)
   self.material:setTexture(self.canvas:getTexture())
 end
 

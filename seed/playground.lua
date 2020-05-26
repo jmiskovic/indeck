@@ -1,25 +1,22 @@
---[[
-
-self:openFile('playgound.lua')
---]]
-pane = require'pane'.new(.1, .1, 'left')
-
-pane.transform:set(.2, .15, -.6, 	math.pi, 	0,1,0)
-
 local function draw()
-	pane:draw(function()
+  lovr.graphics.push()
+  lovr.graphics.translate(1,1,0)
+  lovr.graphics.scale(.15)
   math.randomseed(1)
- 	local t = lovr.timer.getTime()
-		for x = -1, 1, .5 do
-			for y = -1, 1, .5 do
-    local shade = math.random() * .3 + .3
-    lovr.graphics.setColor(shade, shade, shade)
-				local origin = vec3(x, y, 0)
-				h = 1 + math.sin(x + math.sin(y * t) + t)
-				lovr.graphics.beam(origin, origin + vec3(0, 0, h), 0.16)
-			end
-		end
-	end)
+  local t = lovr.timer.getTime()
+  ---[[
+  for x = -1, 1, .5 do
+    for y = -1, 1, .5 do
+      local shade = math.random() * .3 + .3
+      lovr.graphics.setColor(shade, shade, shade)
+      local origin = vec3(x, y, 0)
+      h = 1 + math.sin(x + math.sin(y * t) + t)
+      lovr.graphics.beam(origin, origin + vec3(0, 0, h), 0.16)
+    end
+  end
+  --]]
+  lovr.graphics.print('abc', 0, 0, 0, 0.05)
+  lovr.graphics.pop()
 end
 
 -- pole primitive extends from origin and has lenght and direction of delta vector

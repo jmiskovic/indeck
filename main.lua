@@ -4,7 +4,7 @@ projectName = 'sandbox'
 if require('recovery') then return end
 
 -- wipe project and start afresh
-if false then
+if true then
   for _, item in ipairs(lovr.filesystem.getDirectoryItems(projectName)) do
     local itempath = projectName .. '/' .. item
     if lovr.filesystem.isFile(itempath) then
