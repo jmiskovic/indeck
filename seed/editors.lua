@@ -58,6 +58,7 @@ local keymapping = {
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
+    ['ctrl+o']               = function(self) self:listFiles("/") end,
     ['f2']                   = function(self) self:reloadCode() end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
@@ -126,15 +127,18 @@ function m:openFile(filename)
   local content = lovr.filesystem.read(filename)
   print('file open', path, 'size', #content)
   self.buffer:setText(content)
-  self.buffer:setName(lovr.filesystem.getRealDirectory(filename)  ..'/'.. filename)
+  local coreFile = lovr.filesystem.getRealDirectory(filename) == lovr.filesystem.getSource()
+  self.buffer:setName((coreFile and 'core! ' or '').. filename)
   self.path = filename
   self:refresh()
 end
 
 function m:listFiles(path)
-  local list = table.concat(lovr.filesystem.getDirectoryItems(path), " | ")
-  print('list:', list)
-  return list
+  self.buffer:setText('')
+  self.buffer:setName('FILES')
+  for _,filename in ipairs(lovr.filesystem.getDirectoryItems(path)) do
+    self.buffer:insertString(string.format('self:openFile(\'%s\')\n', filename))
+  end
 end
 
 function m:saveFile(filename)

@@ -86,7 +86,7 @@ function m:drawTextRectangle(col, row, width)
   local x =  col * self.fontWidth
   local y = -row * self.fontHeight
   local height = self.fontHeight
-  lovr.graphics.plane('fill', x + width/2, y - height/2, 0, width, height)
+  lovr.graphics.plane('fill', x + width/2, y - height/2, -10, width, height)
 end
 
 return m
