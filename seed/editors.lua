@@ -144,7 +144,7 @@ end
 function m:saveFile(filename)
   bytes = lovr.filesystem.write(filename, self.buffer:getText())
   self.path = filename
-  self.buffer:setName(lovr.filesystem.getRealDirectory(filename) ..'/'.. filename)
+  self.buffer:setName(filename)
   print('file save', filename, 'size', bytes)
   return bytes
 end
@@ -221,7 +221,7 @@ function m:execLine()
     line = line:sub(1, commentPos - 1)
   end
   local success, result = self:execUnsafely(line)
-  self.buffer:setName((success and 'ok' or 'fail') .. ' > ' .. (result or ""))
+  self.buffer.statusLine = (success and 'ok' or 'fail') .. ' > ' .. (result or "")
 end
 
 function m:execUnsafely(code)

@@ -54,9 +54,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         end
         table.insert(self.lines, table.concat(lineStrings, ""))
       end
-      self:ensureCursorInFile()
-      self:ensureCursorInFile()
-      self:ensureCursorInView()
+      self:updateView()
       self:deselect()
     end,
     drawCode = function(self)
@@ -94,19 +92,16 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         end
       end
       -- status line
-      local status = string.format('L%d C%d  %s', self.cursor.y, self.cursor.x, self.name)
-      self.drawToken(status, self.cols - #status, 0, 'comment')
+      self.drawToken(self.statusLine, self.cols - #self.statusLine, 0, 'comment')
     end,
     -- cursor movement
     cursorUp = function(self)
       self.cursor.y = self.cursor.y - 1
-      self:ensureCursorInFile()
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorDown = function(self)
       self.cursor.y = self.cursor.y + 1
-      self:ensureCursorInFile()
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorJumpUp = function(self)
       repeatN(10, self.cursorUp, self)
@@ -124,7 +119,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         end
       else
         self.cursor.x = self.cursor.x - 1
-        self:ensureCursorInView()
+        self:updateView()
       end
       return true
     end,
@@ -139,7 +134,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         end
       else
         self.cursor.x = self.cursor.x + 1
-        self:ensureCursorInView()
+        self:updateView()
       end
       return true
     end,
@@ -155,30 +150,28 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     cursorHome = function(self)
       self.cursor.x = 0
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorEnd = function(self)
       self.cursor.x = string.len(self.lines[self.cursor.y])
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorPageUp = function(self)
       self.cursor.y = self.cursor.y - self.rows
-      self:ensureCursorInFile()
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorPageDown = function(self)
       self.cursor.y = self.cursor.y + self.rows
-      self:ensureCursorInFile()
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorJumpHome = function(self)
       self.cursor.x, self.cursor.y = 0, 1
-      self:ensureCursorInView()
+      self:updateView()
     end,
     cursorJumpEnd = function(self)
       self.cursor.y = #self.lines
       self.cursor.x = #self.lines[self.cursor.y]
-      self:ensureCursorInView()
+      self:updateView()
     end,
     -- inserting and removing characters
     insertCharacter = function(self, c)
@@ -186,7 +179,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
       self:lexLine(self.cursor.y)
       self.cursor.x = self.cursor.x + 1
-      self:ensureCursorInView()
+      self:updateView()
       self:deselect()
     end,
     insertTab = function(self)
@@ -255,7 +248,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         table.remove(self.lines, self.cursor.y)
         table.remove(self.lexed, self.cursor.y)
       end
-      self:ensureCursorInFile()
+      self:updateView()
     end,
     copyText = function(self)
       if self:isSelected() then
@@ -313,7 +306,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         self:deleteRight()
         self:lexAll()
       end
-      self:ensureCursorInView()
+      self:updateView()
     end,
     deselect = function(self)
       self.selection.x, self.selection.y = self.cursor.x, self.cursor.y    
@@ -354,14 +347,12 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     lexAll = function(self) -- lexing single line cannot handle multiline comments and strings
       self.lexed = lexer(self:getText())
     end,
-    ensureCursorInFile = function(self)
+    updateView = function(self)
       self.cursor.y = math.max(self.cursor.y, 1)
       self.cursor.y = math.min(self.cursor.y, #(self.lines))
       local lineLength = string.len(self.lines[self.cursor.y] or "")
       self.cursor.x = math.max(self.cursor.x, 0)
       self.cursor.x = math.min(self.cursor.x, lineLength)
-    end,
-    ensureCursorInView = function(self)
       if self.cursor.y <= self.scroll.y then 
         self.scroll.y = self.cursor.y - 1
       elseif self.cursor.y > self.scroll.y + self.rows then 
@@ -372,6 +363,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       elseif self.cursor.x > self.scroll.x + self.cols then 
         self.scroll.x = self.cursor.x + 10 - self.cols
       end
+      self.statusLine = string.format('L%d C%d  %s', self.cursor.y, self.cursor.x, self.name)
     end,
     repeatOverPattern = function(self, pattern, moveF, ...)
     	-- execute moveF() over text as long as character matches pattern and cursor moves
