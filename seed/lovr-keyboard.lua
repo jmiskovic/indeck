@@ -131,6 +131,37 @@ local keymap = {
   ['menu'] = 348
 }
 
+local combos = {
+  ['shift+`'] = '~',
+  ['shift+1'] = '!',
+  ['shift+2'] = '@',
+  ['shift+3'] = '#',
+  ['shift+4'] = '$',
+  ['shift+5'] = '%',
+  ['shift+6'] = '^',
+  ['shift+7'] = '&',
+  ['shift+8'] = '*',
+  ['shift+9'] = '(',
+  ['shift+0'] = ')',
+  ['shift+-'] = '_',
+  ['shift+='] = '+',
+  ['shift+]'] = '}',
+  ['shift+['] = '{',
+  ['shift+\\'] = '|',
+  ['shift+\''] = '"',
+  ['shift+;'] = ':',
+  ['shift+/'] = '?',
+  ['shift+.'] = '>',
+  ['shift+,'] = '<',
+  ['ralt+q'] = '\\',
+  ['ralt+w'] = '|',
+  ['ralt+v'] = '@',
+  ['ralt+b'] = '{',
+  ['ralt+n'] = '}',
+  ['space'] = ' ',
+}
+
+
 local reverse = {}
 for k, v in pairs(keymap) do
   reverse[v] = k
@@ -165,19 +196,31 @@ C.glfwSetCharCallback(window, function(window, char)
 
 function lovr.keypressed(k)
   keyboard.pressedKeys[k] = true
+  local combo = k
+  -- order of prefixes: ctrl+alt+shift+K
+  if lovr.keyboard.isDown('lshift') or lovr.keyboard.isDown('rshift') then
+    combo = 'shift+'.. combo
+  end
+  if lovr.keyboard.isDown('lalt') then
+    combo = 'alt+'.. combo
+  end
+  if lovr.keyboard.isDown('ralt') then
+    combo = 'ralt+'.. combo
+  end
+  if lovr.keyboard.isDown('lctrl') then
+    combo = 'ctrl+'.. combo
+  end
   if keyboard.keypressed then
-    local combo = k
-    -- order of prefixes: ctrl+alt+shift+K
-    if lovr.keyboard.isDown('lshift') or lovr.keyboard.isDown('rshift') then
-      combo = 'shift+'.. combo
-    end
-    if lovr.keyboard.isDown('lalt') then
-      combo = 'alt+'.. combo
-    end
-    if lovr.keyboard.isDown('lctrl') then
-      combo = 'ctrl+'.. combo
-    end
     keyboard.keypressed(k, combo)
+  end
+  if keyboard.textinput then
+    if combos[combo] then
+      keyboard.textinput(combos[combo])
+    elseif combo:len() == 1 then
+      keyboard.textinput(k)
+    elseif combo:match('^shift%+%l$') then
+      keyboard.textinput(combo:sub(#combo, #combo):upper())
+    end
   end
 end
 
@@ -189,8 +232,17 @@ function lovr.keyreleased(k)
 end
 
 function lovr.textinput(k)
+  -- desktop version could use proper callback
+  -- currently converting from keypress to test out the android version for correctness
+  --[[ 
+  local combo = ""
+  for k, v in pairs(keyboard.pressedKeys) do
+    if v then combo = combo .. '+' .. k end
+  end
+  print(string.format("['%s'] = '%s'", combo, k))
+  --]]
   if keyboard.textinput then
-    keyboard.textinput(k)
+    --keyboard.textinput(k)
   end
 end
 

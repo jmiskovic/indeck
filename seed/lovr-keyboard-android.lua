@@ -261,6 +261,35 @@ local keymap                      = {
 ['help']                          = 259,
 }
 
+local combos = {
+  ['shift+`']  = '~',
+  ['shift+1']  = '!',
+  ['shift+2']  = '@',
+  ['shift+3']  = '#',
+  ['shift+4']  = '$',
+  ['shift+5']  = '%',
+  ['shift+6']  = '^',
+  ['shift+7']  = '&',
+  ['shift+8']  = '*',
+  ['shift+9']  = '(',
+  ['shift+0']  = ')',
+  ['shift+-']  = '_',
+  ['shift+=']  = '+',
+  ['shift+]']  = '}',
+  ['shift+[']  = '{',
+  ['shift+\\'] = '|',
+  ['shift+\''] = '"',
+  ['shift+;']  = ':',
+  ['shift+/']  = '?',
+  ['shift+.']  = '>',
+  ['shift+,']  = '<',
+  ['ralt+q']   = '\\',
+  ['ralt+w']   = '|',
+  ['ralt+v']   = '@',
+  ['ralt+b']   = '{',
+  ['ralt+n']   = '}',
+  ['space']    = ' ',
+}
 
 local reverse = {}
 for k, v in pairs(keymap) do
@@ -275,10 +304,34 @@ local keyboard = {pressedKeys = {}}
 -- event callbacks call into app-specified keyboard callbacks
 function lovr.keypressed(k)
   keyboard.pressedKeys[k] = true
+  local combo = k
+  -- order of prefixes: ctrl+alt+shift+K
+  if lovr.keyboard.isDown('lshift') or lovr.keyboard.isDown('rshift') then
+    combo = 'shift+'.. combo
+  end
+  if lovr.keyboard.isDown('lalt') then
+    combo = 'alt+'.. combo
+  end
+  if lovr.keyboard.isDown('ralt') then
+    combo = 'ralt+'.. combo
+  end
+  if lovr.keyboard.isDown('lctrl') then
+    combo = 'ctrl+'.. combo
+  end
+  if keyboard.textinput then
+    if combos[combo] then
+      keyboard.textinput(combos[combo])
+    elseif combo:len() == 1 then
+      keyboard.textinput(k)
+    elseif combo:match('^shift%+%l$') then
+      keyboard.textinput(combo:sub(#combo, #combo):upper())
+    end
+  end
   if keyboard.keypressed then
-    keyboard.keypressed(k)
+    keyboard.keypressed(k, combo)
   end
 end
+
 
 function lovr.keyreleased(k)
   keyboard.pressedKeys[k] = false
@@ -289,7 +342,7 @@ end
 
 function lovr.textinput(k)
   if keyboard.textinput then
-    keyboard.textinput(k)
+    --keyboard.textinput(k)
   end
 end
 
