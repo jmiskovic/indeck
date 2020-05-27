@@ -98,6 +98,11 @@ function m.new(width, height)
   self.buffer = buffer.new(self.cols, self.rows,
     function(text, col, row, tokenType) -- draw single token
       local color = highlighting[tokenType] or 0xFFFFFF
+      -- in-editor preview of colors in hex format 0xRRGGBBAA
+      if tokenType == 'number' and text:match('0x%x+') then
+        lovr.graphics.setColor(tonumber(text))
+        self.pane:drawTextRectangle(col, row, 1)
+      end
       lovr.graphics.setColor(color)
       self.pane:drawText(text, col, row)
     end,
