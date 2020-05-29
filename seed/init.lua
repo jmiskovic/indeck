@@ -1,7 +1,3 @@
---[[
-
-self:openFile('playgound.lua')
---]]
 local editors = require'editors'
 local playground = require('playground')
 if lovr.getOS() == 'Android' then
@@ -22,8 +18,8 @@ end
 function lovr.load()
   editor = editors.new(0.8, 1)
   local x,y,z = lovr.headset.getPosition('head')
-  editor.pane.transform:lookAt(vec3(0, y, -1), vec3(x,y,z), vec3(0,1,0))
   editor:openFile('playground.lua')
+  editor:center()
 end
 
 

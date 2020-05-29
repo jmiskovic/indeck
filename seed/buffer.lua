@@ -1,7 +1,3 @@
---[[
-
-self:openFile('editors.lua')
---]]
 local m = {} -- platform independant text buffer
 local lexer = require'lua-lexer'
 

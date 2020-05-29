@@ -18,9 +18,12 @@ If interpreting project fails due to coding errors, the interpreting environment
 
 # TODOs
 
-* editor improvements: selection, copy/paste, undo
-* editor GUI: open files, save as, spawning/closing/moving editors
-* live reloading instead of restarting project
-* preserving context when reloading project (editor context, avatar location)
-* way to switch projects from inside
-* mechanism for fetching project files from Quest to computer (or moving to external storage)
+* editor improvements: undo, search
+* more user-friendly file list/open/save(as)/close
+* spawning/closing/moving editors
+* better live reloading and more robust recovery mode
+* preserving some context when reloading project (editor context, avatar location)
+* project switch/create/duplicate/remove
+* sync projects from Quest to computer (or Git?)
+* color picker
+* bundled framework API

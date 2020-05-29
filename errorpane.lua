@@ -30,6 +30,7 @@ local highlighting =
 }
 
 function m.init(width, height, content)
+  height = height * 1.5
   m.pane = panes.new(width, height)
   m.cols = math.floor(width  * m.pane.canvasSize / m.pane.fontWidth)
   m.rows = math.floor(height * m.pane.canvasSize / m.pane.fontHeight)
@@ -69,10 +70,7 @@ end
 function m.jumpToSource()
   local line = m.buffer.lines[m.buffer.cursor.y]
   filename, lineNumber = line:match('([^ %c\\%.]+%.lua):(%d+):')
-  print('jumping to', filename, 'line number', lineNumber)
   if filename and lineNumber and #filename > 0 and editors.active then
-    print('switching to: ', projectName .. '/' .. filename)
-    print(lovr.filesystem.isFile(projectName .. '/' .. filename))
     editors.active:openFile(projectName .. '/' .. filename)
     editors.active.buffer:jumpToLine(tonumber(lineNumber))
     editors.active:refresh()
@@ -88,7 +86,7 @@ function m.keypressed(k)
   elseif k == 'ctrl+down' then
     m.buffer:moveDown()
     m.refresh()
-  elseif k == 'ctrl+return' then
+  elseif k == 'ctrl+enter' or k == 'ctrl+return' then
     m.jumpToSource()
   end
 end

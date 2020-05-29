@@ -1,7 +1,3 @@
---[[
-
-self:openFile('playgound.lua')
---]]
 local m = {} -- floating pane of editable code
 m.__index = m
 m.active = nil  -- the one editor which receives text input
@@ -62,6 +58,7 @@ local keymapping = {
     ['f2']                   = function(self) self:reloadCode() end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
+    ['ctrl+space']           = function(self) self:center() end,
   },
 }
 
@@ -157,6 +154,7 @@ end
 function m:draw()
   if not self.fullscreen then
     self.pane:draw()
+    --self.pane:draw(require'sandbox')
   else
     lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()
@@ -175,6 +173,14 @@ function m:refresh()
       self.buffer:drawCode()
     end)
   end
+end
+
+function m:center()
+  local x,y,z, angle, ax,ay,az = lovr.headset.getPose('head')
+  local headTransform = mat4(x,y,z, angle, ax,ay,az)
+  local headPosition = vec3(headTransform:mul(0,0,0))
+  local panePosition = vec3(headTransform:mul(0,0,-1))
+  self.pane.transform:lookAt(panePosition, headPosition, vec3(0,1,0))
 end
 
 

@@ -1,7 +1,3 @@
---[[
-
-self:openFile('playgound.lua')
---]]
 m = {} -- floating pane as anchor for 2D and 3D graphical content
 m.__index = m
 
@@ -81,7 +77,6 @@ end
 
 function m:drawTextRectangle(col, row, width)
   -- rectangle in text-coordinates
-  lovr.graphics.setFont(self.font)
   width = width * self.fontWidth
   local x =  col * self.fontWidth
   local y = -row * self.fontHeight
