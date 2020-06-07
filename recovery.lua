@@ -34,8 +34,8 @@ local panes = require'pane'
   local editor = editors.new(0.8, 1)
   editor.pane.transform:set(0,1.5,-1, 1,1,1, math.pi, 0,1,0)
   editor:refresh()
-  errorpane.init(0.8, 0.4, restartInfo .. '\n\nctrl+up/down  scroll up/down\nctrl+enter    jump to source')
-  errorpane.pane.transform:set(0.7,1.5,-0.7, 1,1,1, 2/3 * math.pi, 0,1,0)
+  errorpane.init(1, 0.4, restartInfo .. '\n\nctrl+up/down  scroll up/down\nctrl+enter    jump to source')
+  errorpane.pane.transform:set(0.7, 1.5, -0.4,  1,1,1,  2/3 * math.pi, 0,1,0)
   errorpane.jumpToSource()
 end
 
