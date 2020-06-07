@@ -314,7 +314,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       columnNumber = math.min(columnNumber or 0, #self.lines[lineNumber] - 1) 
       self.cursor.x = columnNumber
       self.cursor.y = lineNumber
-      self.scroll.y = math.max(lineNumber - math.floor(self.rows / 2), 1)
+      self.scroll.y = math.max(lineNumber - math.floor(self.rows / 2), 0)
       self.scroll.x = math.max(columnNumber - math.floor(7 * self.cols / 8), 0)
     end,
     insertString = function(self, str)

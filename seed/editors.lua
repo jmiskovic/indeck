@@ -55,8 +55,6 @@ local keymapping = {
     ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
     ['ctrl+o']               = function(self) self:listFiles("") end,
-    ['f2']                   = function(self) self:reloadCode() end,
-    ['media_play_pause']     = function(self) self:reloadCode() end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
     ['ctrl+space']           = function(self) self:center() end,
@@ -246,14 +244,6 @@ function m:textinput(k)
 end
 
 -- code execution environment
-
-function m:reloadCode()
-  self:saveFile(self.path)
-  local importName = self.path:match('([^%.]+)%.lua')
-  package.loaded[importName] = nil
-  playground = require(importName)
-  return
-end
 
 function m:execLine()
   local line = self.buffer:getCursorLine()
