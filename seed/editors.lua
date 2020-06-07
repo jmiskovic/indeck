@@ -54,13 +54,15 @@ local keymapping = {
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
-    ['ctrl+o']               = function(self) self:listFiles("/") end,
+    ['ctrl+o']               = function(self) self:listFiles("") end,
     ['f2']                   = function(self) self:reloadCode() end,
+    ['media_play_pause']     = function(self) self:reloadCode() end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
     ['ctrl+space']           = function(self) self:center() end,
   },
 }
+
 
 local highlighting =
 { -- taken from base16-woodland
@@ -86,6 +88,7 @@ local highlighting =
   unidentified = 0xd35c5c, --anything that isn't one of the above tokens. Consider them errors. Invalid escapes are also unidentified.
   selection    = 0x353937,
 }
+
 
 function m.new(width, height)
   local self = setmetatable({}, m)
@@ -113,6 +116,7 @@ function m.new(width, height)
   return self
 end
 
+
 function m:close()
   for i,editor in ipairs(m) do
     if self == editor then
@@ -121,6 +125,7 @@ function m:close()
     end
   end
 end
+
 
 function m:openFile(filename)
   if not lovr.filesystem.isFile(filename) then
@@ -135,13 +140,36 @@ function m:openFile(filename)
   self:refresh()
 end
 
+
 function m:listFiles(path)
   self.buffer:setText('')
   self.buffer:setName('FILES')
-  for _,filename in ipairs(lovr.filesystem.getDirectoryItems(path)) do
-    self.buffer:insertString(string.format('self:openFile(\'%s\')\n', filename))
+  self.path = ''
+  --determine parent dir
+  local previous = ''
+  local parent = ''
+  for subpath in path:gmatch('[^/]+/') do
+    previous = subpath
+    parent = parent .. previous
   end
+  parent = parent:sub(1, #parent - 1)
+  self.buffer:insertString(string.format('self:listFiles(\'%s\')\n', parent))
+  --list directory items, first subdirectories then files
+  local files = {}
+  for _,filename in ipairs(lovr.filesystem.getDirectoryItems(path)) do
+    local fullpath = path .. '/' .. filename
+    if lovr.filesystem.isDirectory(fullpath) then
+      self.buffer:insertString(string.format('self:listFiles(\'%s\')\n', fullpath))
+    else
+      table.insert(files, fullpath)
+    end
+  end
+  for _, fullpath in ipairs(files) do
+    self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
+  end
+  self.buffer:insertString('\nctrl+shift+enter   confirm selection')
 end
+
 
 function m:saveFile(filename)
   bytes = lovr.filesystem.write(filename, self.buffer:getText())
@@ -151,10 +179,10 @@ function m:saveFile(filename)
   return bytes
 end
 
+
 function m:draw()
   if not self.fullscreen then
     self.pane:draw()
-    --self.pane:draw(require'sandbox')
   else
     lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()
@@ -175,12 +203,13 @@ function m:refresh()
   end
 end
 
+
 function m:center()
   local x,y,z, angle, ax,ay,az = lovr.headset.getPose('head')
   local headTransform = mat4(x,y,z, angle, ax,ay,az)
   local headPosition = vec3(headTransform:mul(0,0,0))
   local panePosition = vec3(headTransform:mul(0,0,-1))
-  self.pane.transform:lookAt(panePosition, headPosition, vec3(0,1,0))
+  self.pane.transform:lookAt(panePosition, headPosition)
 end
 
 
@@ -196,6 +225,7 @@ function m:keypressed(k)
   self:refresh()
 end
 
+
 function m:setFullscreen(isFullscreen)
   self.fullscreen = isFullscreen
   if self.fullscreen then
@@ -205,9 +235,10 @@ function m:setFullscreen(isFullscreen)
   else
     --lovr.graphics.setDepthTest('lequal', true)
     self.buffer.cols, self.buffer.rows = self.cols, self.rows
-    self.buffer:ensureCursorInView()
+    self.buffer:updateView()
   end
 end
+
 
 function m:textinput(k)
   self.buffer:insertCharacter(k)
@@ -235,6 +266,7 @@ function m:execLine()
   self.buffer.statusLine = (success and 'ok' or 'fail') .. ' > ' .. (result or "")
 end
 
+
 function m:execUnsafely(code)
   local userCode, err = loadstring(code)
   local result = ""
@@ -243,7 +275,7 @@ function m:execUnsafely(code)
     return false, err
   end
   -- set up current scope environment for user code execution
-  local environment = {self=self, print=print}
+  local environment = {self=self, print=print, lovr=lovr}
   setfenv(userCode, environment)
   -- timber! 
   return pcall(userCode)
