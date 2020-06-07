@@ -183,7 +183,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:insertString("  ")
       self:deselect()
     end,
-    breakLine = function(self)
+    breakLine = function(self, withoutIndent)
       self:deleteSelection()
       local nl = self.lines[self.cursor.y]
       local bef = nl:sub(1,self.cursor.x)
@@ -197,7 +197,9 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:cursorHome()
       self:cursorDown()
       self:deselect()
-      repeatN(indent, self.insertCharacter, self, " ")
+      if not withoutIndent then
+        repeatN(indent, self.insertCharacter, self, " ")
+      end
     end,
     deleteRight = function(self)
       if self:isSelected() then
@@ -321,7 +323,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         if c == '\n' then
           singleLineChange = false
           self:deselect()
-          self:breakLine()
+          self:breakLine(true)
         elseif c:match('%C') then
           self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
           self.cursor.x = self.cursor.x + 1
