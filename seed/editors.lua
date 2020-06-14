@@ -47,14 +47,14 @@ local keymapping = {
     ['ctrl+v']              = 'pasteText',
   },
   macros = {
-    ['ctrl+shift+backspace'] = function(self) self.buffer:setText("") end,
-    ['ctrl+shift+o']         = function(self) self:openFile("playground.lua") end,
+    ['ctrl+shift+backspace'] = function(self) self.buffer:setText('') end,
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
-    ['ctrl+o']               = function(self) self:listFiles("") end,
+    ['ctrl+o']               = function(self) self:listFiles('') end,
+    ['f1']                   = function(self) self:listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
     ['ctrl+space']           = function(self) self:center() end,
@@ -130,7 +130,7 @@ function m:openFile(filename)
     return false, "no such file"
   end
   local content = lovr.filesystem.read(filename)
-  print('file open', path, 'size', #content)
+  print('file open', filename, 'size', #content)
   self.buffer:setText(content)
   local coreFile = lovr.filesystem.getRealDirectory(filename) == lovr.filesystem.getSource()
   self.buffer:setName((coreFile and 'core! ' or '').. filename)

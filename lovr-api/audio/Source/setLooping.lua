@@ -1,0 +1,12 @@
+return {
+  summary = 'Set whether or not the Source loops.',
+  description = 'Sets whether or not the Source loops.',
+  arguments = {
+    {
+      name = 'loop',
+      type = 'boolean',
+      description = 'Whether or not the Source will loop.'
+    }
+  },
+  returns = {}
+}
