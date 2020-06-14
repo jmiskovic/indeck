@@ -19,8 +19,8 @@ end
 function m.new(cols, rows, drawToken, drawRectangle, initialText)
   local buffer = {
     -- all coordinates in text space (integers)
-	  cols = cols,
-	  rows = rows,
+    cols = cols,
+    rows = rows,
     name = '',
     cursor    = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
     selection = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
@@ -28,8 +28,8 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     scroll = {x=5, y=0}, -- both 0-indexed
     lines = {}, -- text broken in lines
     lexed = {}, -- text lines broken into tokens
-	  drawToken = drawToken,
-	  drawRectangle = drawRectangle,
+    drawToken = drawToken,
+    drawRectangle = drawRectangle,
     -- 'public' api
     getText = function(self)
       return table.concat(self.lines, "\n")
@@ -316,6 +316,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.cursor.y = lineNumber
       self.scroll.y = math.max(lineNumber - math.floor(self.rows / 2), 0)
       self.scroll.x = math.max(columnNumber - math.floor(7 * self.cols / 8), 0)
+      self:deselect()
     end,
     insertString = function(self, str)
       local singleLineChange = true
@@ -364,7 +365,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.statusLine = string.format('L%d C%d  %s', self.cursor.y, self.cursor.x, self.name)
     end,
     repeatOverPattern = function(self, pattern, moveF, ...)
-    	-- execute moveF() over text as long as character matches pattern and cursor moves
+      -- execute moveF() over text as long as character matches pattern and cursor moves
       while self:charAtCursor():match(pattern) do
         local oldX, oldY = self.cursor.x, self.cursor.y
         moveF(...)
