@@ -12,8 +12,10 @@ if not arg['restart'] then
       -- on restart, restartInfo string will be injected into arg table under 'restart' key
     end
   end
-  return false -- normal operation
+  return false -- resume booting user project
 end
+
+-- recovery mode
 
 local editors = require'editors'
 local errorpane = require'errorpane'
@@ -30,6 +32,7 @@ local panes = require'pane'
   local editor = editors.new(0.8, 1)
   editor.pane.transform:set(0,1.5,-1, 1,1,1, math.pi, 0,1,0)
   editor:refresh()
+  lovr.graphics.setBackgroundColor(0x111E13)
   errorpane.init(1, 0.4, restartInfo .. '\n\nctrl+up/down  scroll up/down\nctrl+enter    jump to source')
   errorpane.pane.transform:set(0.7, 1.5, -0.4,  1,1,1,  2/3 * math.pi, 0,1,0)
   errorpane.jumpToSource()
@@ -46,7 +49,9 @@ end
 function lovr.keyboard.keypressed(k)
   if k == 'f5' then
     lovr.event.push('restart')
-    return
+  end
+  if k == 'escape' then
+    lovr.event.push('quit')
   end
   -- order of prefixes: ctrl+alt+shift+K
   if lovr.keyboard.isDown('lshift') then

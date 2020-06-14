@@ -71,7 +71,7 @@ function m.jumpToSource()
   local line = m.buffer.lines[m.buffer.cursor.y]
   filename, lineNumber = line:match('([^ %c\\%.]+%.lua):(%d+):')
   if filename and lineNumber and #filename > 0 and editors.active then
-    editors.active:openFile(projectName .. '/' .. filename)
+    editors.active:openFile(filename)
     editors.active.buffer:jumpToLine(tonumber(lineNumber))
     editors.active:refresh()
   end
