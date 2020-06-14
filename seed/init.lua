@@ -1,22 +1,15 @@
 local editors = require'editors'
 local physics = require'physics'
+lovr.keyboard = require 'lovr-keyboard'
 
 local projectName = 'demo_physics'
 
 local editor
 
-if lovr.getOS() == 'Android' then
-  lovr.keyboard = require 'lovr-keyboard-android'
-else
-  lovr.keyboard = require 'lovr-keyboard'
-  function lovr.mirror_()
-    -- desktop hack to keep camera in place
-    lovr.graphics.clear()
-    lovr.draw()
-  end
-  function lovr.update(dt)
-    lovr.timer.sleep(0.02)
-  end
+-- desktop simulator hack to keep camera in place
+function lovr.mirror_()
+  lovr.graphics.clear()
+  lovr.draw()
 end
 
 

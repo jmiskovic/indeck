@@ -17,11 +17,7 @@ end
 
 local editors = require'editors'
 local errorpane = require'errorpane'
-if lovr.getOS() == 'Android' then
-  lovr.keyboard = require 'lovr-keyboard-android'
-else
-  lovr.keyboard = require 'lovr-keyboard'
-end
+lovr.keyboard = require 'lovr-keyboard'
 
 function lovr.load()
   -- parse restart information
