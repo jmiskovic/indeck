@@ -15,11 +15,14 @@ if not arg['restart'] then
   return false -- resume booting user project
 end
 
--- recovery mode
+-- application error detected -> enter the recovery mode
 
+-- unmount user save dir to make sure recovery versions are required, then remount to make available
+lovr.filesystem.unmount(lovr.filesystem.getSaveDirectory())
 local editors = require'editors'
 local errorpane = require'errorpane'
 lovr.keyboard = require 'lovr-keyboard'
+lovr.filesystem.mount(lovr.filesystem.getSaveDirectory(), "", false)
 
 function lovr.load()
   -- parse restart information

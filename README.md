@@ -44,8 +44,6 @@ A working knowledge of LÖVR framework is needed to develop useful applications 
 
 All user files can be found in save directory. On Oculus Quest it will be in `/sdcard/Android/data/org.indeck.app/files/`, on desktop you can execute `return lovr.filesystem.getSaveDirectory()` to fetch the path.
 
-If user creates `main.lua`, it will be preferred over internal one so recovery feature can not be expected to work. Please refrain from creating `main.lua` in save directory (sub-directories are OK though).
-
 The project can get to unusable state, most notably with infinite loops, too much geometry, or physics engine crashing. On Oculus Quest the Termux app provides access to shell and text editors that can be used to recover the project. Termux can also run *wget* to fetch extra libraries, and even *Git* for full project source control. There are also instructions in the `init.lua` on how to reset project to initial source code base.
 
 To run the inDECK app from ADB, use `adb shell am start org.indeck.app/org.lovr.oculusmobile.MainActivity`. Same line can be adjusted for running within Termux shell.

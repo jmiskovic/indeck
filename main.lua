@@ -19,4 +19,8 @@ end
 package.loaded['main'] = nil
 package.loaded['recovery'] = nil
 
+-- make user directory files overshadow app files
+lovr.filesystem.unmount(lovr.filesystem.getSaveDirectory())
+lovr.filesystem.mount(lovr.filesystem.getSaveDirectory(), "", false)
+
 require'init'
