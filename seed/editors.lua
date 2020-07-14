@@ -53,6 +53,7 @@ local keymapping = {
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
+    ['shift+space']          = function(self) self.buffer:insertString(' ') end,
     ['ctrl+o']               = function(self) self:listFiles('') end,
     ['f1']                   = function(self) self:listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
@@ -166,10 +167,12 @@ function m:listFiles(path)
     self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
   end
   self.buffer:insertString('\nctrl+shift+enter   confirm selection')
+  self:refresh()
 end
 
 
 function m:saveFile(filename)
+  filename = filename or self.path
   bytes = lovr.filesystem.write(filename, self.buffer:getText())
   self.path = filename
   self.buffer:setName(filename)
@@ -180,7 +183,7 @@ end
 
 function m:draw()
   if not self.fullscreen then
-    self.pane:draw()
+    self.pane:draw(self == m.active)
   else
     lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()

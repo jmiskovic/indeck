@@ -3,7 +3,8 @@ m.__index = m
 
 m.colors = {
   background      = 0x231e18,
-  handle          = 0xd35c5c,
+  active          = 0xd35c5c,
+  disabled        = 0x242424,
 }
 
 local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 48)
@@ -28,7 +29,7 @@ m.new = function(width, height, handleSide)
   return self
 end
 
-function m:draw(drawFunction, ...)
+function m:draw(isActive, drawFunction, ...)
   -- oriented towards -z so that mat4.lookAt() works as expected
   lovr.graphics.push()
   lovr.graphics.transform(self.transform)
@@ -39,7 +40,7 @@ function m:draw(drawFunction, ...)
   if self.canvas then
     lovr.graphics.plane(self.material, 0,0,0, -self.width, self.height, 0*math.pi, 0,0,0)
   end
-  lovr.graphics.setColor(self.colors.handle)
+  lovr.graphics.setColor(isActive and self.colors.active or self.colors.disabled)
   local thickness = 0.02
   local handleX = self.handleSide == 'right' and -self.width/2 - thickness or self.width/2 + thickness
   local handleY = 0
