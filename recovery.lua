@@ -66,10 +66,10 @@ function lovr.keyboard.keypressed(k)
   if lovr.keyboard.isDown('lctrl') then
     k = 'ctrl+'.. k
   end
-  editors.active:keypressed(k)
+  editors.keypressed(k)
   errorpane.keypressed(k)
 end
 
 function lovr.keyboard.textinput(k)
-  editors.active:textinput(k)
+  editors.textinput(k)
 end

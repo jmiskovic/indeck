@@ -1,12 +1,10 @@
-local m = {}
-
-function m.load()
+function lovr.load()
 end
 
-function m.update(dt)
+function lovr.update(dt)
 end
 
-function m.draw()
+function lovr.draw()
   -- draw ground and 12 rotating blocks around world origin
   lovr.graphics.setColor(0x243f26)
   lovr.graphics.cylinder(0,-1,0,  2,  math.pi/2,  1,0,0,  2)
@@ -26,5 +24,3 @@ function m.draw()
     lovr.graphics.box('fill', handPose)
   end
 end
-
-return m

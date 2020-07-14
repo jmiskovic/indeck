@@ -1,16 +1,27 @@
 -- recovery mode has own environment, stop executing if activated
 if require('recovery') then return end
 
+
+function copy_all(source, destination)
+end
+
 -- on first time create project directory and copy seed files
 if not lovr.filesystem.isFile('init.lua') then
   print('seeding user project for first time')
   for _, item in ipairs(lovr.filesystem.getDirectoryItems('seed')) do
     if lovr.filesystem.isFile('/seed/' .. item) then
-      print('copying', item, ' ')
+      print('copying', item)
       local content = lovr.filesystem.read('/seed/' .. item)
       local success = lovr.filesystem.write(item, content)
-    else
-      print('skipping', item)
+    elseif lovr.filesystem.isDirectory('/seed/' .. item) then
+      lovr.filesystem.createDirectory(item)
+      for _, subitem in ipairs(lovr.filesystem.getDirectoryItems('/seed/' .. item)) do
+        if lovr.filesystem.isFile('/seed/' .. item .. '/' .. subitem) then
+          print('copying', subitem)
+          local content = lovr.filesystem.read('/seed/'  .. item .. '/' .. subitem)
+          local success = lovr.filesystem.write(item .. '/' .. subitem, content)
+        end
+      end
     end
   end
 end

@@ -1,4 +1,5 @@
 local m = {} -- floating pane of editable code
+
 m.__index = m
 m.active = nil  -- the one editor which receives text input
 local buffer = require'buffer'
@@ -214,19 +215,6 @@ function m:center()
 end
 
 
--- key handling
-function m:keypressed(k)
-  if keymapping.buffer[k] then
-    self.buffer[keymapping.buffer[k]](self.buffer)
-  end
-  if keymapping.macros[k] then
-    print('executing macro for', k)
-    keymapping.macros[k](self)
-  end
-  self:refresh()
-end
-
-
 function m:setFullscreen(isFullscreen)
   self.fullscreen = isFullscreen
   if self.fullscreen then
@@ -241,9 +229,51 @@ function m:setFullscreen(isFullscreen)
 end
 
 
-function m:textinput(k)
-  self.buffer:insertCharacter(k)
-  self:refresh()
+-- key handling
+function m.keypressed(k)
+  if m.active then
+    -- execute buffer-mapped action for keypress
+    if keymapping.buffer[k] then
+      m.active.buffer[keymapping.buffer[k]](m.active.buffer)
+    end
+    -- execute macros
+    if keymapping.macros[k] then
+      print('executing macro for', k)
+      keymapping.macros[k](m.active)
+    end
+    if m.active then m.active:refresh() end
+  end
+  if k == 'ctrl+p' then           -- spawn new editor
+    m.active = m.new(1, 1)
+    m.active:listFiles('')
+    m.active:center()
+  elseif k == 'ctrl+tab' then     -- select next editor
+    local lastEditor = m[#m]
+    for i, editor in ipairs(m) do
+      if editor == m.active then break end
+      lastEditor = editor      
+    end
+    m.active = lastEditor
+  elseif k == 'ctrl+w' then       -- close current editor
+    local lastEditor
+    for i, editor in ipairs(m) do
+      if editor == m.active then
+        print(i,'found')
+        table.remove(m, i)
+      else
+        lastEditor = editor
+      end
+    end
+    m.active = lastEditor
+  end
+end
+
+
+function m.textinput(k)
+  if m.active then
+    m.active.buffer:insertCharacter(k)
+    m.active:refresh()
+  end
 end
 
 -- code execution environment
