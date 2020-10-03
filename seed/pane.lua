@@ -59,13 +59,14 @@ function m:drawCanvas(drawFunction, ...)
   if not self.canvas then
     self.canvas = lovr.graphics.newCanvas(self.canvasSize, self.canvasSize, {stereo=false, depth=false})
   end
-  lovr.graphics.setCanvas(self.canvas)
   lovr.graphics.push()
   lovr.graphics.origin()
-  lovr.graphics.setProjection(self.ortho)
+  lovr.graphics.setCanvas(self.canvas)
+  lovr.graphics.setViewPose(1, mat4())
+  lovr.graphics.setProjection(1, self.ortho)
   drawFunction(...)
-  lovr.graphics.pop()
   lovr.graphics.setCanvas()
+  lovr.graphics.pop()
   self.material:setTexture(self.canvas:getTexture())
 end
 
