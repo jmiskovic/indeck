@@ -17,11 +17,12 @@ end
 
 -- application error detected -> enter the recovery mode
 
+local modifiers = {ctrl = false, alt = false, shift = false}
+
 -- unmount user save dir to make sure recovery versions are required, then remount to make available
 lovr.filesystem.unmount(lovr.filesystem.getSaveDirectory())
 local editors = require'editors'
 local errorpane = require'errorpane'
-lovr.keyboard = require 'lovr-keyboard'
 lovr.filesystem.mount(lovr.filesystem.getSaveDirectory(), "", false)
 
 function lovr.load()
@@ -29,8 +30,6 @@ function lovr.load()
   local restartInfo = arg['restart']
   --error pane
 local panes = require'pane'
-  --errorpane.buffer:setText(restartInfo)
-  --errorpane:refresh()
   -- editor
   local editor = editors.new(0.8, 1)
   editor.pane.transform:set(0,1.5,-1, 1,1,1, math.pi, 0,1,0)
@@ -49,27 +48,51 @@ function lovr.draw()
   errorpane.draw()
 end
 
-function lovr.keyboard.keypressed(k)
-  if k == 'f5' then
+function lovr.keypressed(key, scancode, isrepeat)
+  if key == 'lctrl' or key == 'rctrl' then
+    modifiers.ctrl = true
+    return
+  elseif key == 'lalt' or key == 'ralt' then
+    modifiers.alt = true
+    return
+  elseif key == 'lshift' or key == 'rshift' then
+    modifiers.shift = true
+    return
+  end
+  local combo = string.format('%s%s%s%s',
+    modifiers.ctrl  and 'ctrl+'  or '',
+    modifiers.alt   and 'alt+'   or '',
+    modifiers.shift and 'shift+' or '',
+    key)
+  if combo =='ctrl+r' then
+    editors.active:saveFile()
+    reloadCode(hotswapName)
+  end
+  if combo =='ctrl+shift+r' then
     lovr.event.push('restart')
   end
-  if k == 'escape' then
+  if combo =='escape' then
     lovr.event.push('quit')
   end
-  -- order of prefixes: ctrl+alt+shift+K
-  if lovr.keyboard.isDown('lshift') then
-    k = 'shift+'.. k
-  end
-  if lovr.keyboard.isDown('lalt') then
-    k = 'alt+'.. k
-  end
-  if lovr.keyboard.isDown('lctrl') then
-    k = 'ctrl+'.. k
-  end
-  editors.keypressed(k)
-  errorpane.keypressed(k)
+  editors.keypressed(combo)
+  errorpane.keypressed(combo)
 end
 
-function lovr.keyboard.textinput(k)
-  editors.textinput(k)
+function lovr.keyreleased(key, scancode)
+  if key == 'lctrl' or key == 'rctrl' then
+    modifiers.ctrl = false
+    return
+  elseif key == 'lalt' or key == 'ralt' then
+    modifiers.alt = false
+    return
+  elseif key == 'lshift' or key == 'rshift' then
+    modifiers.shift = false
+    return
+  end
+end
+
+function lovr.textinput(k)
+  if k:match('[^\n]') then
+    editors.textinput(k)
+  end
 end
