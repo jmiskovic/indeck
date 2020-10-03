@@ -10,15 +10,18 @@ return {
     {
       name = 'anisotropy',
       type = 'number',
-      description = 'The level of anisotropy to use when using anisotropic filtering.'
+      description = 'The level of anisotropy to use.'
     }
   },
   returns = {},
   notes = [[
     The default setting for new textures can be set with `lovr.graphics.setDefaultFilter`.
+
+    The maximum supported anisotropy level can be queried using `lovr.graphics.getLimits`.
   ]],
   related = {
     'lovr.graphics.getDefaultFilter',
-    'lovr.graphics.setDefaultFilter'
+    'lovr.graphics.setDefaultFilter',
+    'lovr.graphics.getLimits'
   }
 }

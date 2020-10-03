@@ -7,8 +7,6 @@ return {
   notes = 'If you want to resume the stopped audio later, see `lovr.audio.pause`.',
   related = {
     'Source:stop',
-    'lovr.audio.pause',
-    'lovr.audio.resume',
-    'lovr.audio.rewind'
+    'lovr.audio.pause'
   }
 }

@@ -2,8 +2,8 @@ return {
   tag = 'callbacks',
   summary = 'Called before quitting.',
   description = [[
-    This callback is called right before the game is about to quit.  Use it to perform any cleanup
-    you need to do.  You can also return a "truthy" value from this callback to abort quitting.
+    This callback is called right before the application is about to quit.  Use it to perform any
+    necessary cleanup work.  A truthy value can be returned from this callback to abort quitting.
   ]],
   arguments = {},
   returns = {

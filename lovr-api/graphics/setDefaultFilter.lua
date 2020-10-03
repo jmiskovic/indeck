@@ -14,16 +14,18 @@ return {
     {
       name = 'anisotropy',
       type = 'number',
-      description = [[
-        If the filtering mode is "anisotropic", returns the level of anisotropy.  Otherwise, this
-        will be nil.
-      ]]
+      description = 'The level of anisotropy to use.'
     }
   },
   returns = {},
-  notes = 'The default filter is `trilinear`.',
+  notes = [[
+    The default filter is `trilinear`.
+
+    The maximum supported anisotropy level can be queried using `lovr.graphics.getLimits`.
+  ]],
   related = {
     'Texture:getFilter',
-    'Texture:setFilter'
+    'Texture:setFilter',
+    'lovr.graphics.getLimits'
   }
 }

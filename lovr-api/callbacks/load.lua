@@ -22,6 +22,11 @@ return {
       loadLevel(1)
     end
   ]],
+  notes = [[
+    If the project was loaded from a restart using `lovr.event.restart`, the return value from the
+    previously-run `lovr.restart` callback will be made available to this callback as the `restart`
+    key in the `args` table.
+  ]],
   related = {
     'lovr.quit'
   }

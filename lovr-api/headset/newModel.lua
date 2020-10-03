@@ -15,9 +15,23 @@ return {
       name = 'model',
       type = 'Model',
       description = 'The new Model, or `nil` if a model could not be loaded.'
+    },
+    {
+      name = 'options',
+      type = 'table',
+      default = '{}',
+      description = 'Options for loading the model.',
+      table = {
+        {
+          name = 'animated',
+          type = 'boolean',
+          default = 'false',
+          description = 'Whether an animatable model should be loaded, for use with `lovr.headset.animate`.'
+        }
+      }
     }
   },
-  notes = 'Generally, this is only supported on the `openvr` driver right now.',
+  notes = 'This is only supported on the `openvr` and `vrapi` drivers right now.',
   example = [[
     local models = {}
 
@@ -31,5 +45,8 @@ return {
         end
       end
     end
-  ]]
+  ]],
+  related = {
+    'lovr.headset.animate'
+  }
 }

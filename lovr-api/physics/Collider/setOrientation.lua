@@ -29,6 +29,8 @@ return {
     'Collider:getAngularVelocity',
     'Collider:setAngularVelocity',
     'Collider:getPosition',
-    'Collider:setPosition'
+    'Collider:setPosition',
+    'Collider:getPose',
+    'Collider:setPose'
   }
 }

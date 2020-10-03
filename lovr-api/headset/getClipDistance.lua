@@ -19,6 +19,8 @@ return {
     }
   },
   notes = [[
-    This is not currently supported by the `oculusmobile` headset driver.
+    The default near and far clipping planes are 0.1 meters and 100.0 meters.
+
+    This is not currently supported by the `vrapi` headset driver.
   ]]
 }

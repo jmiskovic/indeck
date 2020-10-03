@@ -13,7 +13,13 @@ return {
       description = 'The new value of the uniform.'
     }
   },
-  returns = {},
+  returns = {
+    {
+      name = 'success',
+      type = 'boolean',
+      description = 'Whether the uniform exists and was updated.'
+    }
+  },
   notes = [[
     The shader does not need to be active to update its uniforms.
 
@@ -93,9 +99,6 @@ return {
     - `samplerCube`
     - `sampler2DArray`
 
-    An error is thrown if the uniform does not exist or is not used in the shader.  The
-    `Shader:hasUniform` function can be used to check if a uniform variable exists.
-
     `Blob`s can be used to pass arbitrary binary data to Shader variables.
   ]],
   example = {
@@ -104,10 +107,9 @@ return {
       function lovr.load()
         shader = lovr.graphics.newShader([[
           uniform vec3 offset;
-          vec4 lovrMain() {
-            vec4 vertex = lovrVertex;
+          vec4 position(mat4 projection, mat4 transform, vec4 vertex) {
             vertex.xyz += offset;
-            return lovrProjection * lovrTransform * vertex;
+            return projection * transform * vertex;
           }
         ]], nil)
 
@@ -116,6 +118,7 @@ return {
     ]=]
   },
   related = {
+    'Shader:hasUniform',
     'ShaderBlock:send',
     'Shader:sendBlock'
   }

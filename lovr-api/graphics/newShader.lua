@@ -82,6 +82,10 @@ return {
       instead of the `color` function, and can write color values to the `lovrCanvas` array instead
       of returning a single color.  Each color in the array gets written to the corresponding
       texture attached to the canvas.
+    - `highp` is a boolean flag specific to mobile GPUs that changes the default precision for
+      fragment shaders to use high precision instead of the default medium precision.  This can fix
+      visual issues caused by a lack of precision, but isn't guaranteed to be supported on some
+      lower-end systems.
     - The following flags are used only by the `standard` PBR shader:
       - `normalMap` should be set to `true` to render objects with a normal map, providing a more
       detailed, bumpy appearance.  Currently, this requires the model to have vertex tangents.

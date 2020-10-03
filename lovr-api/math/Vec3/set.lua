@@ -20,6 +20,10 @@ return {
     u = {
       type = 'Vec3',
       description = 'The vector to copy the values from.'
+    },
+    m = {
+      type = 'Mat4',
+      description = 'The matrix to use the position of.'
     }
   },
   returns = {
@@ -35,6 +39,10 @@ return {
     },
     {
       arguments = { 'u' },
+      returns = { 'v' }
+    },
+    {
+      arguments = { 'm' },
       returns = { 'v' }
     }
   },

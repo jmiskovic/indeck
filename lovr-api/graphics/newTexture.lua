@@ -29,8 +29,7 @@ return {
     },
     images = {
       type = 'table',
-      description = [[
-      ]]
+      description = 'A table of image filenames to load.'
     },
     flags = {
       type = 'table',

@@ -60,6 +60,7 @@ return {
     'World:newBoxCollider',
     'World:newCapsuleCollider',
     'World:newCylinderCollider',
+    'World:newMeshCollider',
     'World:newSphereCollider',
     'Collider',
     'Shape'

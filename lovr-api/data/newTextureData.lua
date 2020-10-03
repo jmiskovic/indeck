@@ -26,6 +26,15 @@ return {
       type = 'Blob',
       description = 'The Blob containing image data to decode.'
     },
+    data = {
+      type = 'Blob',
+      default = 'nil',
+      description = 'Raw pixel values to use as the TextureData contents.  If `nil`, the data will all be zero.'
+    },
+    source = {
+      type = 'TextureData',
+      description = 'The TextureData to clone.'
+    },
     flip = {
       type = 'boolean',
       default = 'true',
@@ -48,10 +57,13 @@ return {
       returns = { 'textureData' }
     },
     {
-      description = [[
-        Create an empty TextureData, initializing all pixel values to 0 (transparent black).
-      ]],
-      arguments = { 'width', 'height', 'format' },
+      description = 'Create a TextureData with a given size and pixel format.',
+      arguments = { 'width', 'height', 'format', 'data' },
+      returns = { 'textureData' }
+    },
+    {
+      description = 'Clone an existing TextureData.',
+      arguments = { 'source' },
       returns = { 'textureData' }
     },
     {
@@ -61,7 +73,10 @@ return {
     }
   },
   notes = [[
-    Right now the supported image file formats are png, jpg, hdr, dds (DXT1, DXT3, DXT5), ktx, and
-    astc.
+    The supported image file formats are png, jpg, hdr, dds (DXT1, DXT3, DXT5), ktx, and astc.
+
+    Only 2D textures are supported for DXT/ASTC.
+
+    Currently textures loaded as KTX need to be in DXT/ASTC formats.
   ]]
 }

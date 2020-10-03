@@ -57,6 +57,7 @@ return {
     'lovr.headset.getOrientation',
     'lovr.headset.getVelocity',
     'lovr.headset.getAngularVelocity',
+    'lovr.headset.getSkeleton',
     'lovr.headset.isTracked',
     'lovr.headset.getDriver'
   }

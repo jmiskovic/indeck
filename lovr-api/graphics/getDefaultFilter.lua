@@ -15,10 +15,7 @@ return {
     {
       name = 'anisotropy',
       type = 'number',
-      description = [[
-        If the filtering mode is "anisotropic", returns the level of anisotropy.  Otherwise, this
-        will be nil.
-      ]]
+      description = 'The level of anisotropy.'
     }
   },
   notes = 'The default filter is `trilinear`.',

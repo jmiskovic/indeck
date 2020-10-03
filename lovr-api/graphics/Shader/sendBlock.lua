@@ -32,6 +32,7 @@ return {
     `ShaderBlock:getShaderCode` to get a GLSL snippet that is compatible with the block.
   ]],
   related = {
+    'Shader:hasBlock',
     'Shader:send',
     'ShaderBlock:send',
     'ShaderBlock:getShaderCode',

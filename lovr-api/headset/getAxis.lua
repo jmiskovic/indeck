@@ -30,8 +30,8 @@ return {
     }
   },
   notes = [[
-    The axis values will be between 0 and 1 for 1D axes, and between -1 and 1 for multidimensional
-    axes.
+    The axis values will be between 0 and 1 for 1D axes, and between -1 and 1 for each component of
+    a multidimensional axis.
   ]],
   related = {
     'DeviceAxis',

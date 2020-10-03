@@ -24,6 +24,8 @@ return {
     'Collider:getLinearVelocity',
     'Collider:setLinearVelocity',
     'Collider:getOrientation',
-    'Collider:setOrientation'
+    'Collider:setOrientation',
+    'Collider:getPose',
+    'Collider:setPose'
   }
 }

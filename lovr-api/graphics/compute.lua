@@ -36,7 +36,12 @@ return {
     }
   },
   returns = {},
-  notes = 'Only compute shaders created with `lovr.graphics.newComputeShader` can be used here.',
+  notes = [[
+    Only compute shaders created with `lovr.graphics.newComputeShader` can be used here.
+
+    There are GPU-specific limits on the `x`, `y`, and `z` values which can be queried in the
+    `compute` entry of `lovr.graphics.getLimits`.
+  ]],
   related = {
     'lovr.graphics.newComputeShader',
     'lovr.graphics.getShader',

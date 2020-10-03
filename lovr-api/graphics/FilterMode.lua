@@ -16,13 +16,6 @@ return {
     {
       name = 'trilinear',
       description = 'Smooth pixel sampling, with smooth sampling across mipmap levels.'
-    },
-    {
-      name = 'anisotropic',
-      description = [[
-        Anisotropic texture filtering.  The level of anisotropy can also be specified when setting
-        this filter mode.  Gives the best results but is also slower.
-      ]]
     }
   },
   related = {

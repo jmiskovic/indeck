@@ -18,11 +18,6 @@ return {
           description = 'A unique label for this project.'
         },
         {
-          name = 'hotkeys',
-          type = 'boolean',
-          description = 'Whether to enable the default hotkeys (F5 to restart, Esc to quit).'
-        },
-        {
           name = 'headset',
           type = 'table',
           description = 'Configuration for the headset.',
@@ -174,6 +169,10 @@ return {
     If the `lovr.graphics` module is disabled or the window isn't created, attempting to use any
     functionality requiring graphics may cause a crash.
 
+    Enabling the `t.graphics.debug` flag will add additional error checks and will send messages
+    from the GPU driver to the `lovr.log` callback.  This will decrease performance but can help
+    provide information on performance problems or other bugs.
+
     The `headset.offset` field is a vertical offset applied to the scene for headsets that do not
     center their tracking origin on the floor.  This can be thought of as a "default user height".
     Setting this offset makes it easier to design experiences that work in both seated and standing
@@ -187,11 +186,11 @@ return {
           -- Set the project identity
           t.identity = 'default'
 
-          -- Hotkeys
-          t.hotkeys = true
+          -- Graphics
+          t.graphics.debug = false
 
           -- Headset settings
-          t.headset.drivers = { 'leap', 'openxr', 'oculus', 'oculusmobile', 'openvr', 'webvr', 'desktop' }
+          t.headset.drivers = { 'openxr', 'oculus', 'vrapi', 'openvr', 'webxr', 'desktop' }
           t.headset.msaa = 4
           t.headset.offset = 1.7
 

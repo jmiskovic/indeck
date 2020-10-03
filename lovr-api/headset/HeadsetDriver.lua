@@ -17,16 +17,8 @@ return {
       description = 'A VR simulator using keyboard/mouse.'
     },
     {
-      name = 'leap',
-      description = 'Leap Motion hand tracking driver.'
-    },
-    {
       name = 'oculus',
       description = 'Oculus Desktop SDK.'
-    },
-    {
-      name = 'oculusmobile',
-      description = 'Oculus Mobile SDK.'
     },
     {
       name = 'openvr',
@@ -37,8 +29,16 @@ return {
       description = 'OpenXR.'
     },
     {
-      name = 'webvr',
-      description = 'WebVR.'
+      name = 'vrapi',
+      description = 'Oculus Mobile SDK.'
+    },
+    {
+      name = 'pico',
+      description = 'Pico.'
+    },
+    {
+      name = 'webxr',
+      description = 'WebXR.'
     }
   }
 }

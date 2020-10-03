@@ -28,6 +28,22 @@ return {
     {
       name = 'eye/right',
       description = 'The right eye.'
+    },
+    {
+      name = 'beacon/1',
+      description = 'The first tracking device (i.e. lighthouse).'
+    },
+    {
+      name = 'beacon/2',
+      description = 'The second tracking device (i.e. lighthouse).'
+    },
+    {
+      name = 'beacon/3',
+      description = 'The third tracking device (i.e. lighthouse).'
+    },
+    {
+      name = 'beacon/4',
+      description = 'The fourth tracking device (i.e. lighthouse).'
     }
   }
 }

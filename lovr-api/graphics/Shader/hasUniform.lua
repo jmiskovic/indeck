@@ -18,5 +18,8 @@ return {
   notes = [[
     If a uniform variable is defined but unused in the shader, the shader compiler will optimize it
     out and the uniform will not report itself as present.
-  ]]
+  ]],
+  related = {
+    'Shader:send'
+  }
 }

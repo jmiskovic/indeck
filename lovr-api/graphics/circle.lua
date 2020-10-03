@@ -54,24 +54,32 @@ return {
       type = 'number',
       default = '0',
       description = 'The z coordinate of the circle\'s axis of rotation.'
+    },
+    segments = {
+      type = 'number',
+      default = '32',
+      description = [[
+        The number of segments to use for the circle geometry.  Higher numbers increase smoothness
+        but increase rendering cost slightly.
+      ]]
     }
   },
   returns = {},
   variants = {
     {
-      arguments = { 'mode', 'x', 'y', 'z', 'radius', 'angle', 'ax', 'ay', 'az' },
+      arguments = { 'mode', 'x', 'y', 'z', 'radius', 'angle', 'ax', 'ay', 'az', 'segments' },
       returns = {}
     },
     {
-      arguments = { 'material', 'x', 'y', 'z', 'radius', 'angle', 'ax', 'ay', 'az' },
+      arguments = { 'material', 'x', 'y', 'z', 'radius', 'angle', 'ax', 'ay', 'az', 'segments' },
       returns = {}
     },
     {
-      arguments = { 'mode', 'transform' },
+      arguments = { 'mode', 'transform', 'segments' },
       returns = {}
     },
     {
-      arguments = { 'material', 'transform' },
+      arguments = { 'material', 'transform', 'segments' },
       returns = {}
     }
   },

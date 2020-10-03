@@ -36,6 +36,14 @@ return {
           name = 'texturesize',
           type = 'number',
           description = 'The maximum width or height of textures, in pixels.'
+        },
+        {
+          name = 'compute',
+          type = 'table',
+          description = [[
+            A table of three numbers indicating the maximum number of compute threads that can be
+            run with `lovr.graphics.compute`.
+          ]]
         }
       }
     }
