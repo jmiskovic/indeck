@@ -7,14 +7,14 @@ m.colors = {
   disabled        = 0x242424,
 }
 
-local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 48)
+local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 24)
 defaultFont:setPixelDensity(1)
 
 m.new = function(width, height, handleSide)
   local self = setmetatable({
     width = width,     -- meters
-    height = height, 
-    canvasSize = 2048,
+    height = height,
+    canvasSize = 1024,
     canvas = nil,      -- lazily created in drawCanvas
     material = lovr.graphics.newMaterial(),
     font = defaultFont,

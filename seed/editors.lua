@@ -195,7 +195,7 @@ function m:draw()
     lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()
     lovr.graphics.translate(-50,50,-100)
-    lovr.graphics.scale(0.05)
+    lovr.graphics.scale(0.1)
     self.buffer:drawCode()
     lovr.graphics.pop()
   end
