@@ -4,7 +4,14 @@ local lexer = require'lua-lexer'
 local clipboard = "" -- shared between buffer instances
 
 --helper functions
+local function sanitize(text)
+  text = text:gsub('[\192-\255][\128-\191]*', '?') -- remove non-ASCII chars which would cause crash
+  text = text:gsub('\t', '  ')                     -- convert tabs to spaces
+  return text
+end
+
 local insertCharAt = function(text, c, pos)
+  c = sanitize(c)
   local first = text:sub(1, pos)
   local last = text:sub(pos + 1)
   return first .. c .. last
@@ -14,7 +21,6 @@ end
 local repeatN = function(n, f, ...)
   for i=1,n do f(...) end
 end
-
 
 function m.new(cols, rows, drawToken, drawRectangle, initialText)
   local buffer = {
@@ -41,6 +47,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.name = name:gsub("%c", "")
     end,
     setText = function(self, text)
+      text = sanitize(text)
       self.lines = {}
       self.lexed = lexer(text)
       for i, line in ipairs(self.lexed) do
@@ -180,7 +187,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     insertTab = function(self)
       self:deleteSelection()
-      self:insertString("  ")
+      self:insertString("  ") -- tab width is adjustable here
       self:deselect()
     end,
     breakLine = function(self, withoutIndent)
