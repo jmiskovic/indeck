@@ -7,9 +7,16 @@ local projectName = 'sandbox'
 -- source file that can be dynamically hotswapped
 local hotswapName = 'main'
 
--- stub draw, overwritten on module load
-local function projectDraw() end
-local function projectUpdate() end
+-- contained callbacks that loaded module tried to register as global
+-- init'ed as stubs, overwritten on project module load
+local callbacks = {
+  draw = function () end,
+  update = function () end,
+  keypressed = function (key, scancode, isrepeat) end,
+  keyreleased = function (key, scancode) end,
+  textinput = function (k) end,
+}
+
 
 function lovr.load()
   reloadCode(projectName .. '/main')
@@ -20,7 +27,7 @@ end
 
 
 function lovr.update(dt)
-  projectUpdate(dt)
+  callbacks.update(dt)
 end
 
 
@@ -30,7 +37,7 @@ function lovr.draw()
   end
   lovr.graphics.setFont()
   lovr.graphics.setColor(1,1,1)
-  projectDraw()
+  callbacks.draw()
 end
 
 
@@ -61,6 +68,7 @@ function lovr.keypressed(key, scancode, isrepeat)
     lovr.event.push('quit')
   end
   editors.keypressed(combo)
+  callbacks.keypressed(key, scancode, isrepeat, combo)
 end
 
 
@@ -75,6 +83,7 @@ function lovr.keyreleased(key, scancode)
     modifiers.shift = false
     return
   end
+  callbacks.keyreleased(key, scancode)
 end
 
 
@@ -82,28 +91,31 @@ function lovr.textinput(k)
   if k:match('[^\n]') then
     editors.textinput(k)
   end
+  callbacks.textinput(k)
 end
 
 
 function reloadCode(name)
-  local storedLoad = lovr.load
-  local storedDraw = lovr.draw
-  local storedUpdate = lovr.update
-
+  local stored = {
+    load = lovr.load,
+    draw = lovr.draw,
+    update = lovr.update,
+    keypressed = lovr.keypressed,
+    keyreleased = lovr.keyreleased,
+    textinput = lovr.textinput,
+  }
   -- reloading  module
   lovr.filesystem.setRequirePath(projectName .. '/?.lua;' .. '?.lua;?/init.lua;lua_modules/?.lua;lua_modules/?/init.lua')
   package.loaded[name] = nil
   require(name)
 
-  -- handling overwriten lovr callbacks
-  if storedLoad ~= lovr.load then
-    lovr.load() -- module expects it's lovr.load() implementation to be called
-  end
-  if storedDraw ~= lovr.draw then
-    lovr.draw, projectDraw = storedDraw, lovr.draw -- keep own lovr.draw, but store projectDraw
-  end
-  if storedUpdate ~= lovr.update then
-    lovr.update, projectUpdate = storedUpdate, lovr.update -- keep own lovr.draw, but store projectDraw
+  -- handling lovr callbacks that loaded module has overwritten
+  if stored.load ~= lovr.load then lovr.load() end  -- call once (might as well right now) and forget
+  for _, fname in ipairs({'draw', 'update', 'keypressed', 'keyreleased', 'textinput'}) do
+    if stored[fname] ~= lovr[fname] then
+      lovr[fname], callbacks[fname] = stored[fname], lovr[fname]  -- the switch
+      -- own lovr callbacks are restored and loaded module's callbacks will be called as needed
+    end
   end
 end
 
