@@ -23,7 +23,7 @@ local keymapping = {
     ['pagedown']            = 'movePageDown',
     ['ctrl+home']           = 'moveJumpHome',
     ['ctrl+end']            = 'moveJumpEnd',
-    
+
     ['shift+up']            = 'selectUp',
     ['alt+shift+up']        = 'selectJumpUp',
     ['shift+down']          = 'selectDown',
@@ -72,7 +72,7 @@ local highlighting =
   whitespace   = 0x111111, --spaces, newlines, tabs, and carriage returns
   comment      = 0x9d8b70, --either multi-line or single-line comments
   string_start = 0x9d8b70, --starts and ends of a string. There will be no non-string tokens between these two.
-  string_end   = 0x9d8b70, 
+  string_end   = 0x9d8b70,
   string       = 0xb7ba53, --part of a string that isn't an escape
   escape       = 0x6eb958, --a string escape, like \n, only found inside strings
   keyword      = 0xb690e2, --keywords. Like "while", "end", "do", etc
@@ -83,7 +83,7 @@ local highlighting =
   vararg       = 0xca7f32, --...
   operator     = 0xcabcb1, --operators, like +, -, %, =, ==, >=, <=, ~=, etc
   label_start  = 0x9d8b70, --the starts and ends of labels. Always equal to '::'. Between them there can only be whitespace and label tokens.
-  label_end    = 0x9d8b70, 
+  label_end    = 0x9d8b70,
   label        = 0xc6bcb1, --basically an ident between a label_start and label_end.
   unidentified = 0xd35c5c, --anything that isn't one of the above tokens. Consider them errors. Invalid escapes are also unidentified.
   selection    = 0x353937,
@@ -127,7 +127,11 @@ function m:close()
 end
 
 
-function m:openFile(filename)
+function m:openFile(filename_line)
+  -- file path can optionally include line number to jump to, like 'main.lua:50'
+  local filename, linenumber = filename_line:match('([^:]+):([%d]+)')
+  filename = filename or filename_line
+  linenumber = linenumber or 1
   if not lovr.filesystem.isFile(filename) then
     return false, "no such file"
   end
@@ -137,6 +141,7 @@ function m:openFile(filename)
   local coreFile = lovr.filesystem.getRealDirectory(filename) == lovr.filesystem.getSource()
   self.buffer:setName((coreFile and 'core! ' or '').. filename)
   self.path = filename
+  self.buffer:jumpToLine(linenumber)
   self:refresh()
 end
 
@@ -168,6 +173,7 @@ function m:listFiles(path)
     self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
   end
   self.buffer:insertString('\nctrl+shift+enter   confirm selection')
+  self.buffer:moveUp()  self.buffer:moveUp()
   self:refresh()
 end
 
@@ -241,7 +247,7 @@ function m.keypressed(k)
       print('executing macro for', k)
       keymapping.macros[k](m.active)
     end
-    if m.active then m.active:refresh() end
+    m.active:refresh()
   end
   if k == 'ctrl+p' then           -- spawn new editor
     m.active = m.new(1, 1)
@@ -251,7 +257,7 @@ function m.keypressed(k)
     local lastEditor = m[#m]
     for i, editor in ipairs(m) do
       if editor == m.active then break end
-      lastEditor = editor      
+      lastEditor = editor
     end
     m.active = lastEditor
   elseif k == 'ctrl+w' then       -- close current editor
@@ -300,7 +306,7 @@ function m:execUnsafely(code)
   -- set up current scope environment for user code execution
   local environment = {self=self, print=print, lovr=lovr}
   setfenv(userCode, environment)
-  -- timber! 
+  -- timber!
   return pcall(userCode)
 end
 
