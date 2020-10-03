@@ -48,18 +48,16 @@ local keymapping = {
     ['ctrl+v']              = 'pasteText',
   },
   macros = {
-    ['ctrl+shift+backspace'] = function(self) self.buffer:setText('') end,
-    ['ctrl+s']               = function(self) self:saveFile(self.path) end,
-    ['ctrl+shift+enter']     = function(self) self:execLine() end,
-    ['ctrl+shift+return']    = function(self) self:execLine() end,
-    ['ctrl+del']             = function(self) lovr.filesystem.remove('init.lua') end,
-    ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
-    ['shift+space']          = function(self) self.buffer:insertString(' ') end,
     ['ctrl+o']               = function(self) self:listFiles('') end,
+    ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['f1']                   = function(self) self:listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
+    ['ctrl+shift+enter']     = function(self) self:execLine() end,
+    ['ctrl+shift+return']    = function(self) self:execLine() end,
+    ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
     ['ctrl+space']           = function(self) self:center() end,
+    ['shift+space']          = function(self) self.buffer:insertString(' ') end,
   },
 }
 

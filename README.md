@@ -20,40 +20,57 @@ The editor can access and modify all user project files. This includes editor it
 
 ## Editor
 
-The code editor is pretty standard and minimalistic implementation that's mostly modeled after Sublime Text (without any advanced features). The editor is driven by shortcuts without any convenience GUI features. Note: *editor never asks to save changes - all unsaved progress is lost*.
+The code editor is pretty standard and minimalistic implementation that's mostly modeled after Sublime Text, without the advanced features. The editor is driven by shortcuts without any convenience GUI features.
+
+Note: *editor never asks to save changes - all unsaved progress is lost*.
 
 Editor has ability to execute a single line of code where cursor is located, triggered with Ctrl+Shift+Enter. The code is executed in context of current editor. The result of execution appears in status line on top of editor. This serves as replacement for REPL, as well as a replacement for GUI layer, as more direct way for developer to interact with environment.
 
-The Ctrl+O shortcut is used to list source files, and each line will contain Lua command that opens that file in current editor. There are more keyboard shortcuts to be found at beginning of editor's source code.
+The Ctrl+O shortcut is used to list source files, and each line will contain Lua command that opens that file in current editor. Directories are listed before file, and first directory will be the link to parent directory like the .. directory in standard file browsers.
+
+* `Ctrl+Space` centers the editor to be in front of camera
+* `Ctrl+P` spawns a new editor 
+* `Ctrl+Tab` selects next editor
+* `Ctrl+W` closes current editor
+
+There are more keyboard shortcuts to be found (and modified as needed) at beginning of editor's source code.
 
 ## Code reloading
 
-There are two methods of updating running environment with modified code. First is complete restart of application with F5 shortcut. All code changes across all files will be applied. When starting with new project the complete reload is almost instantaneous, while more initialization code (loading assets) necessary slows it down. Main drawback is that editor context is lost.
+There are two methods of updating running environment with modified code. First is complete restart of application. All code changes across all files will be applied. Main drawback is that editor context is lost. The restart can also be slow if there's lot of initialization code (loading assets).
 
-The other reload method is the partial hotswap with F2 shortcut (also Play/Pause key on multimedia keyboards). Editor context is preserved which allows for fast iteration cycles. The hotswap method forces reloading of single specified source code file and it has limitations on what parts of running environment will be affected. 
+The other reload method is the partial hotswap. Editor context is preserved which allows for fast iteration cycles. The hotswap method forces reloading of single specified source code file and it has limitations on what parts of running environment will be affected.
 
-Any stored reference to old functions won't be magically replaced with new variants. This is especially problematic for callbacks and changes in initialization parts. The hotswap method works best when used for rapidly iterating on rendering or updating code. These are basic Lua mechanisms without any 'magic', more information on effective usage and limitations can be found [here](https://defold.com/manuals/modules/#hot-reloading-modules) and [here](https://defold.com/manuals/hot-reload/#reloading-scripts).
+Any stored reference to old functions won't be magically replaced with new variants after hotswap. This is especially problematic for callbacks and changes in initialization parts. The hotswap method works best when used for rapidly iterating on rendering or updating code. These are basic Lua mechanisms without any 'magic', more information on effective usage and limitations can be found [here](https://defold.com/manuals/modules/#hot-reloading-modules) and [here](https://defold.com/manuals/hot-reload/#reloading-scripts).
+
+* `F5` or `Ctrl+Shift+R` restart the application
+* `F2` or `Ctrl+R` hotswap the user module
+* `Esc` exit the app into OS
 
 ## Recovery mode
 
 If interpreting project fails due to coding errors, the interpreting environment will fall back to recovery mode. The recovery mode is meant for quickly fixing introduced bug and getting back into main live-coding environment. Recovery mode shows code editor and the stack trace that can be used to jump around code base. When the error is fixed, save the file (Ctrl+S) and reboot the environment (F5).
 
+Unfortunately the project and development environment can still get into unusable state. It could be due to an infinite loop, or too much geometry, or physics engine crashing. These issues are not Lua syntax errors, so recovery mode will not be triggered.
+
+To fix code issues while on Oculus Quest, it's possible to use the Termux app. It provides access to shell and text editors that can be used to recover the project. Termux can also run *wget* to fetch extra libraries, and even *Git* for full project source control.
+
+If changes to development environment are not desireable, there are instructions at end of `init.lua` on how to factory reset the environment. It will force the repeated seeding of initial code, which will overwrite all changes to environment files.
+
+
 ## Additional notes
 
-A working knowledge of LÖVR framework is needed to develop useful applications without taking the headset off constantly to look up documentation. While it's not really easy or fast, the environment does include LÖVR API files that list all functions and explanations of parameters. The API docs are accessible by pressing F1 (remember to save the file first).
+A working knowledge of LÖVR framework is needed to develop useful applications without taking the headset off constantly to look up documentation. While it's not really easy or fast, the environment does include LÖVR API files that list all functions and explanations of parameters. The API docs are accessible by pressing F1 (remember to save the file first or spawn another editor).
 
-All user files can be found in save directory. On Oculus Quest it will be in `/sdcard/Android/data/org.indeck.app/files/`, on desktop you can execute `return lovr.filesystem.getSaveDirectory()` to fetch the path.
+All user files can be found in app's save directory. On Oculus Quest it will be in `/sdcard/Android/data/org.indeck.app/files/`, on desktop you can execute `return lovr.filesystem.getSaveDirectory()` to fetch the path.
 
-The project can get to unusable state, most notably with infinite loops, too much geometry, or physics engine crashing. On Oculus Quest the Termux app provides access to shell and text editors that can be used to recover the project. Termux can also run *wget* to fetch extra libraries, and even *Git* for full project source control. There are also instructions in the `init.lua` on how to reset project to initial source code base.
 
 To run the inDECK app from ADB, use `adb shell am start org.indeck.app/org.lovr.oculusmobile.MainActivity`. Same line can be adjusted for running within Termux shell.
 
 # TODOs
 
 * editor improvements: search, undo
-* multiple editors (spawning, selecting and closing)
 * preserving information when reloading project (editor context, avatar location)
 * scripts to sync the project from Quest to computer (or Git integration?)
 * integrated color picker
 * error-catching implemented in user project (without fallback to recovery mode)
-* VR hand tracking
