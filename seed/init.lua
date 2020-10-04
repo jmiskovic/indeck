@@ -57,11 +57,11 @@ function lovr.keypressed(key, scancode, isrepeat)
     modifiers.alt   and 'alt+'   or '',
     modifiers.shift and 'shift+' or '',
     key)
-  if combo =='ctrl+r' then
+  if combo == 'f1' or combo == 'ctrl+r' then
     editors.active:saveFile()
     reloadCode(hotswapName)
   end
-  if combo =='ctrl+shift+r' then
+  if combo == 'f5' or combo == 'ctrl+shift+r' then
     lovr.event.push('restart')
   end
   if combo =='escape' then
