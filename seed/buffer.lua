@@ -1,12 +1,12 @@
 local m = {} -- platform independant text buffer
 local lexer = require'lua-lexer'
 
-local clipboard = "" -- shared between buffer instances
+local clipboard = '' -- shared between buffer instances
 
 --helper functions
 local function sanitize(text)
   text = text:gsub('[\192-\255][\128-\191]*', '?') -- remove non-ASCII chars which would cause crash
-  text = text:gsub('\t', '  ')                     -- convert tabs to spaces
+  text = text:gsub('\t', '')                       -- tabs are handled with buffer:insertTab()
   return text
 end
 
@@ -38,13 +38,13 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     drawRectangle = drawRectangle,
     -- 'public' api
     getText = function(self)
-      return table.concat(self.lines, "\n")
+      return table.concat(self.lines, '\n')
     end,
     getCursorLine = function(self)
       return self.lines[self.cursor.y]
     end,
     setName = function(self, name)
-      self.name = name:gsub("%c", "")
+      self.name = name:gsub('%c', '')
     end,
     setText = function(self, text)
       text = sanitize(text)
@@ -55,7 +55,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         for l, token in ipairs(line) do
           table.insert(lineStrings, token.data)
         end
-        table.insert(self.lines, table.concat(lineStrings, ""))
+        table.insert(self.lines, table.concat(lineStrings, ''))
       end
       self:updateView()
       self:deselect()
@@ -84,7 +84,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         local currentLine = y + self.scroll.y
          -- draw cursor line and caret
         if currentLine == self.cursor.y then
-          self.drawToken("|", self.cursor.x - self.scroll.x - 0.5, y, 'caret')
+          self.drawToken('|', self.cursor.x - self.scroll.x - 0.5, y, 'caret')
         end
         -- draw single line of text
         local lineTokens = self.lexed[currentLine]
@@ -143,12 +143,12 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     cursorJumpLeft = function(self)
       self:cursorLeft()
-      local pattern = self:charAtCursor():find("[%d%l%u]") and "[%d%l%u]" or "%s"
+      local pattern = self:charAtCursor():find('[%d%l%u]') and '[%d%l%u]' or '%s'
       self:repeatOverPattern(pattern, self.cursorLeft, self)
     end,
     cursorJumpRight = function(self)
       self:cursorRight()
-      local pattern = self:charAtCursor():find("[%d%l%u]") and "[%d%l%u]" or "%s"
+      local pattern = self:charAtCursor():find('[%d%l%u]') and '[%d%l%u]' or '%s'
       self:repeatOverPattern(pattern, self.cursorRight, self)
     end,
     cursorHome = function(self)
@@ -187,7 +187,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     insertTab = function(self)
       self:deleteSelection()
-      self:insertString("  ") -- tab width is adjustable here
+      self:insertString('  ') -- tab width is adjustable here
       self:deselect()
     end,
     breakLine = function(self, withoutIndent)
@@ -195,7 +195,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       local nl = self.lines[self.cursor.y]
       local bef = nl:sub(1,self.cursor.x)
       local aft = nl:sub(self.cursor.x + 1, #nl)
-      local indent = #(bef:match("^%s+") or "")
+      local indent = #(bef:match('^%s+') or '')
       self.lines[self.cursor.y] = bef
       self:lexLine(self.cursor.y)
       table.insert(self.lines, self.cursor.y + 1, aft)
@@ -205,7 +205,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:cursorDown()
       self:deselect()
       if not withoutIndent then
-        repeatN(indent, self.insertCharacter, self, " ")
+        repeatN(indent, self.insertCharacter, self, ' ')
       end
     end,
     deleteRight = function(self)
@@ -240,7 +240,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     deleteWord = function(self)
       self:deleteLeft()
-      local pattern = self:charAtCursor():find("[%d%l%u]") and "[%d%l%u]" or "%s"
+      local pattern = self:charAtCursor():find('[%d%l%u]') and '[%d%l%u]' or '%s'
       self:repeatOverPattern(pattern, self.deleteLeft, self)
     end,
     -- clipboard
@@ -327,7 +327,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     insertString = function(self, str)
       local singleLineChange = true
-      for c in str:gmatch(".") do
+      for c in str:gmatch('.') do
         if c == '\n' then
           singleLineChange = false
           self:deselect()
@@ -356,7 +356,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     updateView = function(self)
       self.cursor.y = math.max(self.cursor.y, 1)
       self.cursor.y = math.min(self.cursor.y, #(self.lines))
-      local lineLength = string.len(self.lines[self.cursor.y] or "")
+      local lineLength = string.len(self.lines[self.cursor.y] or '')
       self.cursor.x = math.max(self.cursor.x, 0)
       self.cursor.x = math.min(self.cursor.x, lineLength)
       if self.cursor.y <= self.scroll.y then 
@@ -392,7 +392,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:deselect()
     end
   end
-  buffer:setText(initialText or "")
+  buffer:setText(initialText or '')
   return buffer
 end
 
