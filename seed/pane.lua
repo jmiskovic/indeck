@@ -61,6 +61,7 @@ function m:drawCanvas(drawFunction, ...)
   end
   lovr.graphics.push()
   lovr.graphics.origin()
+  lovr.graphics.setShader()
   lovr.graphics.setCanvas(self.canvas)
   lovr.graphics.setViewPose(1, mat4())
   lovr.graphics.setProjection(1, self.ortho)

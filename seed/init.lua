@@ -32,6 +32,7 @@ end
 
 
 function lovr.draw()
+  lovr.graphics.setShader()
   for _, editor in ipairs(editors) do
     editor:draw()
   end
