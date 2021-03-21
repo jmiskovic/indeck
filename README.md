@@ -10,6 +10,7 @@ The project is written in Lua and runs on top of [LÖVR framework](https://lovr.
 
 At current stage inDECK is useful but somewhat rough. I use it regularly for VR prototyping. The project is to be a minimalistic self-hosted and self-editable environment, and not a feature-full library hidden behind stable API.
 
+
 # Description
 
 The project consists of 'hosting' part and 'project seed' part. The hosting code initializes and boots up the coding environment, and has recovery mode included. The project seed codebase is a blueprint for user projects. When app is started for first time, all seed source files are copied into user project directory.
@@ -17,6 +18,7 @@ The project consists of 'hosting' part and 'project seed' part. The hosting code
 Within the inDECK development environment both hosting and project seed parts are not accessible. If they were, it would be easy to make whole environment unusable or unstable with no easy way to recover. Instead users can modify project files that are copied from seed part.
 
 The editor can access and modify all user project files. This includes editor itself, so it is possible to improve editor within the live development environment.
+
 
 ## Editor
 
@@ -29,11 +31,14 @@ Editor has ability to execute a single line of code where cursor is located, tri
 The Ctrl+O shortcut is used to list source files, and each line will contain Lua command that opens that file in current editor. Directories are listed before file, and first directory will be the link to parent directory like the .. directory in standard file browsers.
 
 * `Ctrl+Space` centers the editor to be in front of camera
-* `Ctrl+P` spawns a new editor 
+* `Ctrl+P` spawns a new editor
 * `Ctrl+Tab` selects next editor
 * `Ctrl+W` closes current editor
+* `Ctrl+S` stores current editors into a session file
+* `Ctrl+L` opens editors loaded from a session file
 
 There are more keyboard shortcuts to be found (and modified as needed) at beginning of editor's source code.
+
 
 ## Code reloading
 
@@ -43,34 +48,32 @@ The other reload method is the partial hotswap. Editor context is preserved whic
 
 Any stored reference to old functions won't be magically replaced with new variants after hotswap. This is especially problematic for callbacks and changes in initialization parts. The hotswap method works best when used for rapidly iterating on rendering or updating code. These are basic Lua mechanisms without any 'magic', more information on effective usage and limitations can be found [here](https://defold.com/manuals/modules/#hot-reloading-modules) and [here](https://defold.com/manuals/hot-reload/#reloading-scripts).
 
-* `F5` or `Ctrl+Shift+R` restart the application
-* `F2` or `Ctrl+R` hotswap the user module
+* `Ctrl+Shift+R` restart the application
+* `Ctrl+R` hotswap the user module
 * `Esc` exit the app into OS
+
 
 ## Recovery mode
 
 If interpreting project fails due to coding errors, the interpreting environment will fall back to recovery mode. The recovery mode is meant for quickly fixing introduced bug and getting back into main live-coding environment. Recovery mode shows code editor and the stack trace that can be used to jump around code base. When the error is fixed, save the file (Ctrl+S) and reboot the environment (F5).
 
-Unfortunately the project and development environment can still get into unusable state. It could be due to an infinite loop, or too much geometry, or physics engine crashing. These issues are not Lua syntax errors, so recovery mode will not be triggered.
-
-To fix code issues while on Oculus Quest, it's possible to use the Termux app. It provides access to shell and text editors that can be used to recover the project. Termux can also run *wget* to fetch extra libraries, and even *Git* for full project source control.
+Unfortunately the project and development environment can still get into unusable state. It could be due to an infinite loop, or too much geometry, or physics engine crashing. These issues are not Lua syntax errors, so recovery mode will not be triggered. In such situations it is possible to manually enter the recovery mode by holding the grip button on right controller while application is starting.
 
 If changes to development environment are not desireable, there are instructions at end of `init.lua` on how to factory reset the environment. It will force the repeated seeding of initial code, which will overwrite all changes to environment files.
 
 
-## Additional notes
+# Additional notes
 
-A working knowledge of LÖVR framework is needed to develop useful applications without taking the headset off constantly to look up documentation. While it's not really easy or fast, the environment does include LÖVR API files that list all functions and explanations of parameters. The API docs are accessible by pressing F1 (remember to save the file first or spawn another editor).
+A working knowledge of LÖVR framework is needed to develop useful applications without taking the headset off constantly to look up documentation. While it's not really easy or fast, the environment does include LÖVR API files that list all functions and explanations of parameters. The API docs are accessible by pressing F1 key.
 
 All user files can be found in app's save directory. On Oculus Quest it will be in `/sdcard/Android/data/org.indeck.app/files/`, on desktop you can execute `return lovr.filesystem.getSaveDirectory()` to fetch the path.
 
-
-To run the inDECK app from ADB, use `adb shell am start org.indeck.app/org.lovr.oculusmobile.MainActivity`. Same line can be adjusted for running within Termux shell.
+To run the inDECK app from ADB, use `adb shell am start org.indeck.app/org.indeck.app.Activity`. Same line can be adjusted for running within Termux shell on Quest.
 
 # TODOs
 
 * editor improvements: search, undo
 * preserving information when reloading project (editor context, avatar location)
-* scripts to sync the project from Quest to computer (or Git integration?)
+* scripts to sync the project from Quest to computer (or Termux scripts for Git sync?)
 * integrated color picker
 * error-catching implemented in user project (without fallback to recovery mode)
