@@ -191,6 +191,39 @@ function m:saveFile(filename)
 end
 
 
+function m.storeSession(name)
+  local bytes
+  local scriptList = {}
+  table.insert(scriptList, 'return {')
+  for _, editor in ipairs(m) do
+    if editor.path then
+      table.insert(scriptList, ' {')
+      table.insert(scriptList,  string.format("  path = '%s:%d',", tostring(editor.path), editor.buffer.cursor.y))
+      table.insert(scriptList,  string.format('  pose = {%s}', table.concat({editor.pane.transform:unpack()}, ', ')))
+      table.insert(scriptList, ' },\n')
+    end
+  end
+  table.insert(scriptList, '}\n')
+  local content = table.concat(scriptList, '\n')
+  bytes = lovr.filesystem.write(name .. '.lua', content)
+end
+
+
+function m.restoreSession(name)
+  package.loaded[name] = nil
+  local ok, session = pcall(require, name)
+  if ok then
+    for i, e in ipairs(session) do
+      editor = m.new(1, 1)
+      editor:openFile(e.path)
+      editor.pane.transform:set(unpack(e.pose))
+    end
+  else
+    print(session)
+  end
+end
+
+
 function m:draw()
   if not self.fullscreen then
     self.pane:draw(self == m.active)
@@ -263,6 +296,10 @@ function m.keypressed(k)
       end
     end
     m.active = lastEditor
+  elseif k == 'ctrl+shift+s' then -- store session
+    m.storeSession('saved-session')
+  elseif k == 'ctrl+shift+l' then -- store session
+    m.restoreSession('saved-session')
   end
 end
 
