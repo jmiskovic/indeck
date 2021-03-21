@@ -11,7 +11,7 @@ local hotswapName = 'main'
 -- init'ed as stubs, overwritten on project module load
 local callbacks = {
   draw = function () end,
-  update = function () end,
+  update = function (dt) end,
   keypressed = function (key, scancode, isrepeat) end,
   keyreleased = function (key, scancode) end,
   textinput = function (k) end,
@@ -36,8 +36,6 @@ function lovr.draw()
   for _, editor in ipairs(editors) do
     editor:draw()
   end
-  lovr.graphics.setFont()
-  lovr.graphics.setColor(1,1,1)
   callbacks.draw()
 end
 
@@ -58,11 +56,11 @@ function lovr.keypressed(key, scancode, isrepeat)
     modifiers.alt   and 'alt+'   or '',
     modifiers.shift and 'shift+' or '',
     key)
-  if combo == 'f1' or combo == 'ctrl+r' then
-    editors.active:saveFile()
+  if combo =='ctrl+r' then
+    if editors.active then editors.active:saveFile() end
     reloadCode(hotswapName)
   end
-  if combo == 'f5' or combo == 'ctrl+shift+r' then
+  if combo =='ctrl+shift+r' then
     lovr.event.push('restart')
   end
   if combo =='escape' then
