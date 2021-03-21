@@ -1,4 +1,6 @@
-local m = {} -- floating pane of editable code
+-- editor is a floating pane of editable code that accepts keyboard input
+local m
+m = {}  -- this table stores functions under keys and also all editors in a list
 
 m.__index = m
 m.active = nil  -- the one editor which receives text input
@@ -12,8 +14,8 @@ local keymapping = {
     ['volume_down']         = 'moveLeft',
     ['volume_up']           = 'moveRight',
     ['left']                = 'moveLeft',
-    ['alt+up']              = 'moveJumpUp',
-    ['alt+down']            = 'moveJumpDown',
+    ['ctrl+up']              = 'moveJumpUp',
+    ['ctrl+down']            = 'moveJumpDown',
     ['ctrl+left']           = 'moveJumpLeft',
     ['ctrl+right']          = 'moveJumpRight',
     ['right']               = 'moveRight',
@@ -50,13 +52,13 @@ local keymapping = {
   macros = {
     ['ctrl+o']               = function(self) self:listFiles('') end,
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
-    ['f1']                   = function(self) self:listFiles('lovr-api') end,
+    ['ctrl+h']               = function(self) m.new(1, 1):listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
-    ['ctrl+space']           = function(self) self:center() end,
+    ['ctrl+space']           = function(self) self.pane:center() end,
     ['shift+space']          = function(self) self.buffer:insertString(' ') end,
   },
 }
@@ -293,7 +295,7 @@ function m:execUnsafely(code)
     return false, err
   end
   -- set up current scope environment for user code execution
-  local environment = {self=self, print=print, lovr=lovr}
+  local environment = {self=self, print=print, require=require, lovr=lovr}
   setfenv(userCode, environment)
   -- timber!
   return pcall(userCode)
