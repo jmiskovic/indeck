@@ -14,7 +14,7 @@ local insertCharAt = function(text, c, pos)
   c = sanitize(c)
   local first = text:sub(1, pos)
   local last = text:sub(pos + 1)
-  return first .. c .. last
+  return first .. c .. last, #c
 end
 
 
@@ -179,9 +179,10 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     -- inserting and removing characters
     insertCharacter = function(self, c)
       self:deleteSelection()
-      self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
+      local length
+      self.lines[self.cursor.y], length = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
       self:lexLine(self.cursor.y)
-      self.cursor.x = self.cursor.x + 1
+      self.cursor.x = self.cursor.x + length
       self:updateView()
       self:deselect()
     end,
@@ -333,8 +334,9 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
           self:deselect()
           self:breakLine(true)
         elseif c:match('%C') then
-          self.lines[self.cursor.y] = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
-          self.cursor.x = self.cursor.x + 1
+          local length
+          self.lines[self.cursor.y], length = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
+          self.cursor.x = self.cursor.x + length
         end
       end
       if singleLineChange then
