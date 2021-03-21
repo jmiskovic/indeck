@@ -11,7 +11,7 @@ local hotswapName = 'main'
 -- init'ed as stubs, overwritten on project module load
 local callbacks = {
   draw = function () end,
-  update = function (dt) end,
+  update = function () end,
   keypressed = function (key, scancode, isrepeat) end,
   keyreleased = function (key, scancode) end,
   textinput = function (k) end,
@@ -22,7 +22,6 @@ function lovr.load()
   reloadCode(projectName .. '/main')
   local editor = editors.new(1, 1)
   editor:listFiles(projectName)
-  editor:center()
 end
 
 

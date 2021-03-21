@@ -7,14 +7,14 @@ m.colors = {
   disabled        = 0x242424,
 }
 
-local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 24)
+local defaultFont = lovr.graphics.newFont('ubuntu-mono.ttf', 30)
 defaultFont:setPixelDensity(1)
 
 m.new = function(width, height, handleSide)
   local self = setmetatable({
     width = width,     -- meters
     height = height,
-    canvasSize = 1024,
+    canvasSize = 1600,
     canvas = nil,      -- lazily created in drawCanvas
     material = lovr.graphics.newMaterial(),
     font = defaultFont,
@@ -29,13 +29,23 @@ m.new = function(width, height, handleSide)
   return self
 end
 
+
+function m:center()
+  local x,y,z, angle, ax,ay,az = lovr.headset.getPose('head')
+  local headTransform = mat4(x,y,z, angle, ax,ay,az)
+  local headPosition = vec3(headTransform:mul(0,0,0))
+  local panePosition = vec3(headTransform:mul(0,0,-0.8))
+  self.transform:target(panePosition, headPosition)
+end
+
+
 function m:draw(isActive, drawFunction, ...)
   -- oriented towards -z so that mat4.lookAt() works as expected
   lovr.graphics.push()
   lovr.graphics.transform(self.transform)
   lovr.graphics.setColor(0x1e1a15)
   local margin = 0.02
-  lovr.graphics.plane('fill', 0,0,0.005, self.width + margin, self.height + margin)
+  lovr.graphics.plane('fill', 0,0,0.005, self.width + margin, self.height + margin, math.pi, 0,1,0)
   lovr.graphics.setColor(1,1,1)
   if self.canvas then
     lovr.graphics.plane(self.material, 0,0,0, -self.width, self.height, 0*math.pi, 0,0,0)

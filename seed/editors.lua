@@ -109,6 +109,7 @@ function m.new(width, height)
       lovr.graphics.setColor(color)
       self.pane:drawTextRectangle(col, row, width)
     end)
+  self.pane:center()
   table.insert(m, self)
   m.active = self
   return self
@@ -177,6 +178,7 @@ end
 
 
 function m:saveFile(filename)
+  local bytes
   filename = filename or self.path
   bytes = lovr.filesystem.write(filename, self.buffer:getText())
   self.path = filename
@@ -192,7 +194,7 @@ function m:draw()
   else
     lovr.graphics.clear(highlighting.background)
     lovr.graphics.push()
-    lovr.graphics.translate(-50,50,-100)
+    lovr.graphics.translate(-50,100,-100)
     lovr.graphics.scale(0.1)
     self.buffer:drawCode()
     lovr.graphics.pop()
@@ -207,15 +209,6 @@ function m:refresh()
       self.buffer:drawCode()
     end)
   end
-end
-
-
-function m:center()
-  local x,y,z, angle, ax,ay,az = lovr.headset.getPose('head')
-  local headTransform = mat4(x,y,z, angle, ax,ay,az)
-  local headPosition = vec3(headTransform:mul(0,0,0))
-  local panePosition = vec3(headTransform:mul(0,0,-1))
-  self.pane.transform:lookAt(panePosition, headPosition)
 end
 
 
@@ -250,7 +243,6 @@ function m.keypressed(k)
   if k == 'ctrl+p' then           -- spawn new editor
     m.active = m.new(1, 1)
     m.active:listFiles('')
-    m.active:center()
   elseif k == 'ctrl+tab' then     -- select next editor
     local lastEditor = m[#m]
     for i, editor in ipairs(m) do
@@ -262,7 +254,6 @@ function m.keypressed(k)
     local lastEditor
     for i, editor in ipairs(m) do
       if editor == m.active then
-        print(i,'found')
         table.remove(m, i)
       else
         lastEditor = editor
