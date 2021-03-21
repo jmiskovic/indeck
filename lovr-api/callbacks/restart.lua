@@ -11,7 +11,7 @@ return {
   returns = {
     {
       type = '*',
-      name = 'abort',
+      name = 'cookie',
       description = 'The value to send to the next `lovr.load`.'
     }
   },

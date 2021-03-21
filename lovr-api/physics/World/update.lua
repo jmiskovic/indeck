@@ -9,7 +9,7 @@ return {
     {
       name = 'dt',
       type = 'number',
-      description = 'The amount of time to advance the simultion forward.'
+      description = 'The amount of time to advance the simulation forward.'
     },
     {
       name = 'resolver',

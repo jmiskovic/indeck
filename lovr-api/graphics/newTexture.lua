@@ -61,7 +61,7 @@ return {
         {
           name = 'format',
           type = 'TextureFormat',
-          default = 'rgba',
+          default = [['rgba']],
           description = 'The format used for the Texture (when creating a blank texture).'
         },
         {

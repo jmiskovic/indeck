@@ -25,8 +25,10 @@ return {
   },
   returns = {},
   notes = [[
-    On the `web` and `android` platforms (see `lovr.getOS`), headset rendering is asynchronous and
-    the callback passed to `lovr.headset.renderTo` will not be called immediately.  This is due to
-    certain restrictions inherent to these platforms.
+    When using the `pico` headset driver, headset rendering is asynchronous and the callback passed
+    to `lovr.headset.renderTo` will not be called immediately.
+
+    If the callback is `nil`, an empty frame cleared to current graphics background color will be
+    submitted to the headset.
   ]]
 }

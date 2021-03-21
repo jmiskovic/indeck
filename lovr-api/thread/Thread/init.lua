@@ -9,6 +9,7 @@ return {
   constructor = 'lovr.thread.newThread',
   related = {
     'lovr.threaderror',
+    'lovr.system.getCoreCount',
     'Channel'
   }
 }

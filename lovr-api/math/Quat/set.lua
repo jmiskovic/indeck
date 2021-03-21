@@ -5,7 +5,6 @@ return {
     components, the summary is:
 
     - Four numbers can be used to specify an angle/axis rotation, similar to other LÖVR functions.
-      - Alternatively, a `vec3` can be used for the axis.
     - Four numbers plus the fifth `raw` flag can be used to set the raw values of the quaternion.
     - An existing quaternion can be passed in to copy its values.
     - A single direction vector can be specified to turn its direction (relative to the default
@@ -33,10 +32,6 @@ return {
       type = 'number',
       default = '0',
       description = 'The z component of the axis of rotation.'
-    },
-    axis = {
-      type = 'vec3',
-      description = 'The axis of rotation (does not need to be normalized).'
     },
     raw = {
       type = 'boolean',
@@ -69,10 +64,6 @@ return {
   variants = {
     {
       arguments = { 'angle', 'ax', 'ay', 'az', 'raw' },
-      returns = { 'q' }
-    },
-    {
-      arguments = { 'angle', 'axis' },
       returns = { 'q' }
     },
     {

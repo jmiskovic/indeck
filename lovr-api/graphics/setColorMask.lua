@@ -3,7 +3,7 @@ return {
   summary = 'Enable or disable color channels.',
   description = [[
     Enables and disables individual color channels.  When a color channel is enabled, it will be
-    affected by drawing commmands and clear commands.
+    affected by drawing commands and clear commands.
   ]],
   arguments = {
     {

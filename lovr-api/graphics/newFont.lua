@@ -16,6 +16,16 @@ return {
       default = '32',
       description = 'The size of the font, in pixels.'
     },
+    padding = {
+      type = 'number',
+      default = '2',
+      description = 'The number of pixels of padding around each glyph.'
+    },
+    spread = {
+      type = 'number',
+      default = '4.0',
+      description = 'The range of the distance field, in pixels.'
+    },
     rasterizer = {
       type = 'Rasterizer',
       description = 'The existing Rasterizer object used to render the glyphs.'
@@ -29,16 +39,16 @@ return {
   },
   variants = {
     {
-      arguments = { 'filename', 'size' },
+      arguments = { 'filename', 'size', 'padding', 'spread' },
       returns = { 'font' }
     },
     {
       description = 'Creates a new Font from the default font included with LÖVR (Varela Round).',
-      arguments = { 'size' },
+      arguments = { 'size', 'padding', 'spread' },
       returns = { 'font' }
     },
     {
-      arguments = { 'rasterizer' },
+      arguments = { 'rasterizer', 'padding', 'spread' },
       returns = { 'font' }
     }
   },

@@ -11,6 +11,6 @@ return {
   },
   related = {
     'Blob:getPointer',
-    'SoundData:getBlob'
+    'Sound:getBlob'
   }
 }

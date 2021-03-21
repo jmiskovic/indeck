@@ -17,7 +17,6 @@ return {
     }
   },
   related = {
-    'AudioStream:getDuration',
-    'SoundData:getDuration'
+    'Sound:getDuration'
   }
 }

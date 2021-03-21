@@ -72,7 +72,7 @@ return {
       needs a skeleton to work properly and is slower than normal rendering.
     - `alphaCutoff` is a numeric flag that can be used to implement simple "cutout" style
       transparency, where pixels with alpha below a certain threshold will be discarded.  The value
-      of the flag should be a number between 0.0 and 1.0, representing the alpha treshold.
+      of the flag should be a number between 0.0 and 1.0, representing the alpha threshold.
     - `uniformScale` is a boolean flag used for optimization.  If the Shader is only going to be
       used with objects that have a *uniform* scale (i.e. the x, y, and z components of the scale
       are all the same number), then this flag can be set to use a faster method to compute the

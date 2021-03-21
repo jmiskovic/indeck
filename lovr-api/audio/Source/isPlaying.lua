@@ -8,5 +8,10 @@ return {
       type = 'boolean',
       description = 'Whether the Source is playing.'
     }
+  },
+  related = {
+    'Source:play',
+    'Source:pause',
+    'Source:stop'
   }
 }

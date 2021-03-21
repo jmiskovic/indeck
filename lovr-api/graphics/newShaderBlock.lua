@@ -28,7 +28,7 @@ return {
         {
           name = 'usage',
           type = 'BufferUsage',
-          default = 'dynamic',
+          default = [['dynamic']],
           description = 'How the data in the block will be updated.'
         },
         {

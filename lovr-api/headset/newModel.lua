@@ -6,15 +6,8 @@ return {
     {
       name = 'device',
       type = 'Device',
-      default = 'head',
+      default = [['head']],
       description = 'The device to load a model for.'
-    }
-  },
-  returns = {
-    {
-      name = 'model',
-      type = 'Model',
-      description = 'The new Model, or `nil` if a model could not be loaded.'
     },
     {
       name = 'options',
@@ -29,6 +22,13 @@ return {
           description = 'Whether an animatable model should be loaded, for use with `lovr.headset.animate`.'
         }
       }
+    }
+  },
+  returns = {
+    {
+      name = 'model',
+      type = 'Model',
+      description = 'The new Model, or `nil` if a model could not be loaded.'
     }
   },
   notes = 'This is only supported on the `openvr` and `vrapi` drivers right now.',

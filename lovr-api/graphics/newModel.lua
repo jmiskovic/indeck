@@ -1,7 +1,9 @@
 return {
   tag = 'graphicsObjects',
   summary = 'Create a new Model.',
-  description = 'Creates a new Model from a file.  The supported 3D file formats are OBJ and glTF.',
+  description = [[
+    Creates a new Model from a file.  The supported 3D file formats are OBJ, glTF, and STL.
+  ]],
   arguments = {
     filename = {
       type = 'string',
@@ -40,5 +42,6 @@ return {
     - glTF: base64 images are not supported (base64 buffer data works though).
     - glTF: Only the default scene is loaded.
     - glTF: Currently, each skin in a Model can have up to 48 joints.
+    - STL: ASCII STL files are not supported.
   ]]
 }

@@ -24,6 +24,7 @@ return {
     }
   },
   returns = {},
+  notes = 'If the Shape isn\'t attached to a Collider, this will error.',
   related = {
     'Shape:getPosition',
     'Shape:setPosition'

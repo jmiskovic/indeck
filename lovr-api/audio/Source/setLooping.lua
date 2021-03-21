@@ -8,5 +8,6 @@ return {
       description = 'Whether or not the Source will loop.'
     }
   },
-  returns = {}
+  returns = {},
+  notes = 'Attempting to loop a Source backed by a stream `Sound` will cause an error.'
 }

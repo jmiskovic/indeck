@@ -26,6 +26,13 @@ return {
     If the project was loaded from a restart using `lovr.event.restart`, the return value from the
     previously-run `lovr.restart` callback will be made available to this callback as the `restart`
     key in the `args` table.
+
+    The `args` table follows the [Lua
+    standard](https://en.wikibooks.org/wiki/Lua_Programming/command_line_parameter).  The arguments
+    passed in from the shell are put into a global table named `arg` and passed to `lovr.load`, but
+    with indices offset such that the "script" (the project path) is at index 0.  So all arguments
+    (if any) intended for the project are at successive indices starting with 1, and the executable
+    and its "internal" arguments are in normal order but stored in negative indices.
   ]],
   related = {
     'lovr.quit'

@@ -15,6 +15,10 @@ return {
       description = 'Whether the archive was unmounted.'
     }
   },
+  notes = [[
+    This function is not thread safe.  Mounting or unmounting an archive while other threads call
+    lovr.filesystem functions is not supported.
+  ]],
   related = {
     'lovr.filesystem.mount'
   }

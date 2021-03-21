@@ -37,6 +37,10 @@ return {
   notes = [[
     If the Device does not support tracking joints or the poses are unavailable, `nil` is returned.
 
+    The joint orientation is similar to the graphics coordinate system: -Z is the forwards
+    direction, pointing towards the fingertips.  The +Y direction is "up", pointing out of the back
+    of the hand.  The +X direction is to the right, perpendicular to X and Z.
+
     Hand joints are returned in the following order:
 
     <table>

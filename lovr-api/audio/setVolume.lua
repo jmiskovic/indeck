@@ -2,15 +2,22 @@ return {
   tag = 'listener',
   summary = 'Set the master volume.',
   description = [[
-    Sets the master volume.  The volume of all Sources will be multiplied by this factor.
+    Sets the master volume.  All audio sent to the playback device has its volume multiplied by this
+    factor.
   ]],
-  arguments = {},
-  returns = {
+  arguments = {
     {
       name = 'volume',
       type = 'number',
       description = 'The master volume.'
+    },
+    {
+      name = 'units',
+      type = 'VolumeUnit',
+      default = [['linear']],
+      description = 'The units of the value.'
     }
   },
-  notes = 'The default is 1.0.'
+  returns = {},
+  notes = 'The volume will be clamped to a 0-1 range (0 dB).'
 }

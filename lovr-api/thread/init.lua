@@ -1,6 +1,6 @@
 return {
   tag = 'modules',
-  summary = 'Allows you to work with background threads.',
+  summary = 'Allows the creation of background threads.',
   description = [[
     The `lovr.thread` module provides functions for creating threads and communicating between them.
 
@@ -10,8 +10,10 @@ return {
     framerate or performance of the main thread.  Some examples of this include asset loading,
     networking and network requests, and physics simulation.
 
-    Threads come with some limitations though.
+    Threads come with some caveats:
 
+    - Threads run in a bare Lua environment.  The `lovr` module (and any of lovr's modules) need to
+      be required before they can be used.
     - Threads are completely isolated from other threads.  They do not have access to the variables
       or functions of other threads, and communication between threads must be coordinated through
       `Channel` objects.
@@ -21,5 +23,8 @@ return {
     - `lovr.event.pump` cannot be called from a thread.
     - Crashes or problems can happen if two threads access the same object at the same time, so
       special care must be taken to coordinate access to objects from multiple threads.
-  ]]
+  ]],
+  related = {
+    'lovr.system.getCoreCount'
+  }
 }

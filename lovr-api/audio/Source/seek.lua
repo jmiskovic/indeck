@@ -15,5 +15,5 @@ return {
     }
   },
   returns = {},
-  notes = 'This function can not be used on a Source backed by a raw `AudioStream`.'
+  notes = 'Seeking a Source backed by a stream `Sound` has no meaningful effect.'
 }

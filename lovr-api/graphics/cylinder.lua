@@ -81,5 +81,8 @@ return {
       arguments = { 'material', 'x', 'y', 'z', 'length', 'angle', 'ax', 'ay', 'az', 'r1', 'r2', 'capped', 'segments' },
       returns = {}
     }
-  }
+  },
+  notes = [[
+    Currently, cylinders don't have UVs.
+  ]]
 }

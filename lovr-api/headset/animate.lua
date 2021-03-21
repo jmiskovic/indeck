@@ -12,7 +12,7 @@ return {
     {
       name = 'device',
       type = 'Device',
-      default = 'head',
+      default = [['head']],
       description = 'The device to use for the animation data.'
     },
     {

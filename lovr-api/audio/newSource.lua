@@ -1,7 +1,7 @@
 return {
   tag = 'sources',
   summary = 'Create a new Source.',
-  description = 'Creates a new Source from an ogg file.',
+  description = 'Creates a new Source from an ogg, wav, or mp3 file.',
   arguments = {
     filename = {
       type = 'string',
@@ -11,17 +11,9 @@ return {
       type = 'Blob',
       description = 'The Blob containing the Source data.'
     },
-    stream = {
-      type = 'AudioStream',
-      description = 'The AudioStream used to stream audio data to the Source.'
-    },
     soundData = {
-      type = 'SoundData',
-      description = 'The SoundData containing raw audio samples to play.'
-    },
-    type = {
-      type = 'SourceType',
-      description = 'How to stream in audio data.'
+      type = 'Sound',
+      description = 'The Sound containing raw audio samples to play.'
     }
   },
   returns = {
@@ -32,20 +24,19 @@ return {
   },
   variants = {
     {
-      arguments = { 'filename', 'type' },
+      arguments = { 'filename' },
       returns = { 'source' }
     },
     {
-      arguments = { 'blob', 'type' },
+      arguments = { 'blob' },
       returns = { 'source' }
     },
     {
-      arguments = { 'stream', 'type' },
-      returns = { 'source' }
-    },
-    {
-      arguments = { 'soundData' },
+      arguments = { 'sound' },
       returns = { 'source' }
     }
+  },
+  related = {
+    'Source:clone'
   }
 }

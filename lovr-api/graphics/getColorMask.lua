@@ -2,8 +2,8 @@ return {
   tag = 'graphicsState',
   summary = 'Get whether each color channel is enabled.',
   description = [[
-    Returns a boolean for each color channel (red, green, blue, alpha) indiciating whether it is
-    enabled.  When a color channel is enabled, it will be affected by drawing commmands and clear
+    Returns a boolean for each color channel (red, green, blue, alpha) indicating whether it is
+    enabled.  When a color channel is enabled, it will be affected by drawing commands and clear
     commands.
   ]],
   arguments = {},

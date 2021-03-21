@@ -1,6 +1,6 @@
 return {
   summary = 'Get the underlying Rasterizer.',
-  description = 'Returns the underyling `Rasterizer` object for a Font.',
+  description = 'Returns the underlying `Rasterizer` object for a Font.',
   arguments = {},
   returns = {
     {

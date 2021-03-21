@@ -2,22 +2,33 @@ return {
   summary = 'Write to a file.',
   description = 'Write to a file.',
   arguments = {
-    {
-      name = 'filename',
+    filename = {
       type = 'string',
       description = 'The file to write to.'
     },
-    {
-      name = 'content',
+    content = {
       type = 'string',
       description = 'A string to write to the file.'
+    },
+    blob = {
+      type = 'Blob',
+      description = 'A Blob containing data to write to the file.'
     }
   },
   returns = {
-    {
-      name = 'bytes',
+    bytes = {
       type = 'number',
       description = 'The number of bytes written.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'filename', 'content' },
+      returns = { 'bytes' }
+    },
+    {
+      arguments = { 'filename', 'blob' },
+      returns = { 'bytes' }
     }
   },
   notes = [[

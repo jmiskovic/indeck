@@ -44,6 +44,9 @@ return {
   notes = [[
     The `append` option lets you control the priority of the archive's files in the event of naming
     collisions.
+
+    This function is not thread safe.  Mounting or unmounting an archive while other threads call
+    lovr.filesystem functions is not supported.
   ]],
   example = {
     description = 'Mount `data.zip` with a file `images/background.png`:',

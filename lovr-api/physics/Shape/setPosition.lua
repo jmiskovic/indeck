@@ -18,6 +18,7 @@ return {
       description = 'The z offset.'
     }
   },
+  notes = 'If the Shape isn\'t attached to a Collider, this will error.',
   returns = {},
   related = {
     'Shape:getOrientation',

@@ -18,6 +18,26 @@ return {
           description = 'A unique label for this project.'
         },
         {
+          name = 'audio',
+          type = 'table',
+          description = 'Configuration for the audio module.',
+          table = {
+            {
+              name = 'spatializer',
+              type = 'string',
+              description = [[
+                An audio spatializer to use (`simple`, `oculus`, or `phonon`).  If `nil`, all of
+                them are attempted.'
+              ]]
+            },
+            {
+              name = 'start',
+              type = 'boolean',
+              description = 'Whether the playback device should be automatically started.'
+            }
+          }
+        },
+        {
           name = 'headset',
           type = 'table',
           description = 'Configuration for the headset.',
@@ -160,7 +180,7 @@ return {
   },
   returns = {},
   notes = [[
-    Disabling the `headset` module can improve startup time a lot if you aren't intending to use
+    Disabling the headset module can improve startup time a lot if you aren't intending to use
     `lovr.headset`.
 
     You can set `t.window` to nil to avoid creating the window. You can do it yourself later by
@@ -185,6 +205,10 @@ return {
 
           -- Set the project identity
           t.identity = 'default'
+
+          -- Audio
+          t.audio.spatializer = nil
+          t.audio.start = true
 
           -- Graphics
           t.graphics.debug = false

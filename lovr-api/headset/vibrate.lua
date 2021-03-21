@@ -8,7 +8,7 @@ return {
     {
       name = 'device',
       type = 'Device',
-      default = 'head',
+      default = [['head']],
       description = 'The device to vibrate.'
     },
     {

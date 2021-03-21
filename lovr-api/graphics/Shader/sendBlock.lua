@@ -19,7 +19,7 @@ return {
     {
       name = 'access',
       type = 'UniformAccess',
-      default = 'readwrite',
+      default = [['readwrite']],
       description = 'How the Shader will use this block (used as an optimization hint).'
     }
   },

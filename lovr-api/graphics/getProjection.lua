@@ -31,7 +31,7 @@ return {
     },
     matrix = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The matrix containing the projection.'
     }
   },
   variants = {

@@ -2,9 +2,9 @@ return {
   tag = 'modules',
   summary = 'Plays sound.',
   description = [[
-    The `lovr.audio` module is responsible for playing sound effects and music.  Currently, the only
-    supported audio format is .ogg (Vorbis).  Playing a sound involves creating a `Source` object
-    for the sound and calling `Source:play` on it.
+    The `lovr.audio` module is responsible for playing sound effects and music.  To play a sound,
+    create a `Source` object and call `Source:play` on it.  Currently ogg, wav, and mp3 audio
+    formats are supported.
   ]],
   sections = {
     {
@@ -17,17 +17,21 @@ return {
       tag = 'listener',
       description = [[
         The listener is a virtual object in 3D space that "hears" all the sounds that are playing.
-        The listener can be positioned and oriented in 3D space, which controls how Sources in the
-        world are heard.  For example, sounds further away from the listener will be more quiet, and
-        sounds to the left of the listener will be heard from the left speaker.  By default, the
-        listener will be synchronized with any connected headset so audio is positioned properly as
-        the headset is moved around and rotated.
+        It can be positioned and oriented in 3D space, which controls how Sources in the world are
+        heard.  Usually this would be locked to the headset pose.
       ]]
     },
     {
-      name = 'Microphones',
-      tag = 'microphones',
-      description = 'Microphones can be used to receive audio input.'
+      name = 'Devices',
+      tag = 'devices',
+      description = [[
+        It's possible to list the available audio devices on the system, and pick a specific device
+        to use for either playback or capture.  Devices can also be manually started and stopped.
+        Other useful features of `lovr.audio.setDevice` include the ability to stream all audio data
+        to a custom sink and the option to create a device in exclusive mode for higher performance.
+        By default, the default playback device is automatically initialized and started, but this
+        can be configured using `lovr.conf`.
+      ]]
     }
   }
 }

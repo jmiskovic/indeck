@@ -1,7 +1,7 @@
 return {
   tag = 'worldCollision',
   summary = 'Enable collision between two tags.',
-  description = 'Enables collision between two collison tags.',
+  description = 'Enables collision between two collision tags.',
   arguments = {
     {
       name = 'tag1',

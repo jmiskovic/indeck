@@ -12,7 +12,17 @@ return {
     },
     blob = {
       type = 'Blob',
-      description = 'A Blob to replace the entire block with.'
+      description = 'A Blob to replace the block data with.'
+    },
+    offset = {
+      type = 'number',
+      default = '0',
+      description = 'A byte offset into the Blob to start writing from.'
+    },
+    extent = {
+      type = 'number',
+      default = 'nil',
+      description = 'The number of bytes to write.  If `nil`, writes as many bytes as possible.'
     }
   },
   returns = {
@@ -27,7 +37,7 @@ return {
       returns = {}
     },
     {
-      arguments = { 'blob' },
+      arguments = { 'blob', 'offset', 'extent' },
       returns = { 'bytes' }
     }
   },

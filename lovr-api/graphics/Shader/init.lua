@@ -15,14 +15,14 @@ return {
 
     The default vertex shader:
 
-        vec4 lovrMain() {
-          return lovrProjection * lovrTransform * lovrVertex;
+        vec4 position(mat4 projection, mat4 transform, vec4 vertex) {
+          return projection * transform * vertex;
         }
 
     The default fragment shader:
 
-        vec4 lovrMain() {
-          return lovrGraphicsColor * lovrDiffuseColor * lovrVertexColor * texture(lovrDiffuseTexture, lovrTexCoord);
+        vec4 color(vec4 graphicsColor, sampler2D image, vec2 uv) {
+          return graphicsColor * lovrDiffuseColor * lovrVertexColor * texture(image, uv);
         }
 
     Additionally, the following headers are prepended to the shader source, giving you convenient
@@ -108,14 +108,14 @@ return {
         lovr.graphics.setShader(lovr.graphics.newShader([[
           out vec3 vNormal; // This gets passed to the fragment shader
 
-          vec4 lovrMain() {
+          vec4 position(mat4 projection, mat4 transform, vec4 vertex) {
             vNormal = lovrNormal;
-            return lovrProjection * lovrTransform * lovrVertex;
+            return projection * transform * vertex;
           }
         ]], [[
           in vec3 vNormal; // This gets passed from the vertex shader
 
-          vec4 lovrMain() {
+          vec4 color(vec4 gcolor, sampler2D image, vec2 uv) {
             return vec4(vNormal * .5 + .5, 1.0);
           }
         ]]))

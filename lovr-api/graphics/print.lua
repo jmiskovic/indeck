@@ -61,7 +61,7 @@ return {
       type = 'number',
       default = '0',
       description = [[
-        The maximum width of each line, in meters (affected by `scale`).  Set to 0 or nil for no
+        The maximum width of each line, in meters (before scale is applied).  Set to 0 or nil for no
         wrapping.
       ]]
     },
