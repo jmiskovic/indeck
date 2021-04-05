@@ -50,7 +50,7 @@ local keymapping = {
     ['ctrl+v']              = 'pasteText',
   },
   macros = {
-    ['ctrl+o']               = function(self) self:listFiles('') end,
+    ['ctrl+o']               = function(self) self:listFiles() end,
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['ctrl+h']               = function(self) m.new(1, 1):listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
@@ -93,6 +93,7 @@ local highlighting =
 
 function m.new(width, height)
   local self = setmetatable({}, m)
+  self.path = ''
   self.pane = panes.new(width, height)
   self.cols = math.floor(width  * self.pane.canvasSize / self.pane.fontWidth)
   self.rows = math.floor(height * self.pane.canvasSize / self.pane.fontHeight) - 1
@@ -149,6 +150,9 @@ end
 
 
 function m:listFiles(path)
+  if not path then -- try to use directory path of currently open file
+    path = m.active and m.active.path:sub(1, (m.active.path:find('/[^/]+$') or 1) - 1) or ''
+  end
   self.buffer:setText('')
   self.buffer:setName('FILES')
   self.path = ''
@@ -278,7 +282,7 @@ function m.keypressed(k)
   end
   if k == 'ctrl+p' then           -- spawn new editor
     m.active = m.new(1, 1)
-    m.active:listFiles('')
+    m.active:listFiles()
   elseif k == 'ctrl+tab' then     -- select next editor
     local lastEditor = m[#m]
     for i, editor in ipairs(m) do
