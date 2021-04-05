@@ -214,6 +214,9 @@ end
 
 
 function m.restoreSession(name)
+  for _, editor in ipairs(m) do
+    editor:close() -- discarding potentially unsaved changes!
+  end
   package.loaded[name] = nil
   local ok, session = pcall(require, name)
   if ok then
