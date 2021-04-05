@@ -75,7 +75,6 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       while selectionWidth > 0 do
         y = y + 1
         self.drawRectangle(0 - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
-        --selectionWidth = selectionWidth - self.lines[y]:len() --self.cols
         selectionWidth = selectionWidth - self.cols
       end
       -- file content
@@ -359,12 +358,20 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.lexed = lexer(self:getText())
     end,
     updateView = function(self)
+      -- constrain cursor to text limits
       self.cursor.y = math.max(self.cursor.y, 1)
       self.cursor.y = math.min(self.cursor.y, #(self.lines))
       local lineLength = string.len(self.lines[self.cursor.y] or '')
       self.cursor.x = math.max(self.cursor.x, 0)
       self.cursor.x = math.min(self.cursor.x, lineLength)
-      if self.cursor.y <= self.scroll.y then 
+      -- constrain selection to text limits
+      self.selection.y = math.max(self.selection.y, 1)
+      self.selection.y = math.min(self.selection.y, #(self.lines))
+      local lineLength = string.len(self.lines[self.selection.y] or "")
+      self.selection.x = math.max(self.selection.x, 0)
+      self.selection.x = math.min(self.selection.x, lineLength)
+      -- keep cursor on screen
+      if self.cursor.y <= self.scroll.y then
         self.scroll.y = self.cursor.y - 1
       elseif self.cursor.y > self.scroll.y + self.rows then 
         self.scroll.y = self.cursor.y - self.rows
@@ -374,6 +381,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       elseif self.cursor.x > self.scroll.x + self.cols then 
         self.scroll.x = self.cursor.x + 10 - self.cols
       end
+      -- update status line
       self.statusLine = string.format('L%d C%d  %s', self.cursor.y, self.cursor.x, self.name)
     end,
     repeatOverPattern = function(self, pattern, moveF, ...)
