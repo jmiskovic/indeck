@@ -249,10 +249,13 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       if self:isSelected() then
         self:copyText()
         self:deleteSelection()
-      else
+      elseif #self.lines > 1 then
         clipboard = self.lines[self.cursor.y] .. '\n'
         table.remove(self.lines, self.cursor.y)
         table.remove(self.lexed, self.cursor.y)
+      else
+        self.lines[1] = ''
+        self.lexed[1] = {}
       end
       self:updateView()
     end,
