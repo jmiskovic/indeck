@@ -28,14 +28,17 @@ Note: *editor never asks to save changes - all unsaved progress is lost*.
 
 Editor has ability to execute a single line of code where cursor is located, triggered with Ctrl+Shift+Enter. The code is executed in context of current editor. The result of execution appears in status line on top of editor. This serves as replacement for REPL, as well as a replacement for GUI layer, as more direct way for developer to interact with environment.
 
-The Ctrl+O shortcut is used to list source files, and each line will contain Lua command that opens that file in current editor. Directories are listed before file, and first directory will be the link to parent directory like the .. directory in standard file browsers.
-
-* `Ctrl+Space` centers the editor to be in front of camera
+* `Ctrl+Shift+Home` centers the editor to be in front of camera
+* `F10` toggles the 'fullscreen' mode for current editor
 * `Ctrl+P` spawns a new editor
 * `Ctrl+Tab` selects next editor
 * `Ctrl+W` closes current editor
-* `Ctrl+S` stores current editors into a session file
-* `Ctrl+L` opens editors loaded from a session file
+* `Ctrl+O` lists files for opening in current editor
+* `Ctrl+S` saves changes to opened file
+* `Ctrl+H` opens LOVR API documentation in a separate editor
+* `Ctrl+Shift+S` stores current editors into a session file
+* `Ctrl+Shift+L` opens editors loaded from a session file
+* `Ctrl+Shift+P` runs code profiler for duration of one second and shows the report in separate editor
 
 There are more keyboard shortcuts to be found (and modified as needed) at beginning of editor's source code.
 
@@ -48,9 +51,9 @@ The other reload method is the partial hotswap. Editor context is preserved whic
 
 Any stored reference to old functions won't be magically replaced with new variants after hotswap. This is especially problematic for callbacks and changes in initialization parts. The hotswap method works best when used for rapidly iterating on rendering or updating code. These are basic Lua mechanisms without any 'magic', more information on effective usage and limitations can be found [here](https://defold.com/manuals/modules/#hot-reloading-modules) and [here](https://defold.com/manuals/hot-reload/#reloading-scripts).
 
-* `Ctrl+Shift+R` restart the application
-* `Ctrl+R` hotswap the user module
-* `Esc` exit the app into OS
+* `Ctrl+Shift+R` restarts the application
+* `Ctrl+R` reloads (hotswap) the user module
+* `Esc` exits the app into OS
 
 
 ## Recovery mode
@@ -64,7 +67,7 @@ If changes to development environment are not desireable, there are instructions
 
 # Additional notes
 
-A working knowledge of LÖVR framework is needed to develop useful applications without taking the headset off constantly to look up documentation. While it's not really easy or fast, the environment does include LÖVR API files that list all functions and explanations of parameters. The API docs are accessible by pressing F1 key.
+A working knowledge of LÖVR framework is needed to develop useful applications without taking the headset off constantly to look up documentation. While it's not really easy or fast, the environment does include LÖVR API files that list all functions and explanations of parameters. The API docs are accessible by pressing `Ctrl+H` key.
 
 All user files can be found in app's save directory. On Oculus Quest it will be in `/sdcard/Android/data/org.indeck.app/files/`, on desktop you can execute `return lovr.filesystem.getSaveDirectory()` to fetch the path.
 
