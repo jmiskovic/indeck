@@ -58,8 +58,7 @@ local keymapping = {
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
-    ['ctrl+space']           = function(self) self.pane:center() end,
-    ['shift+space']          = function(self) self.buffer:insertString(' ') end,
+    ['ctrl+shift+home']      = function(self) self.pane:center() end,
     ['ctrl+shift+p']         = function(self) m.profile() end,
   },
 }
