@@ -70,7 +70,6 @@ function lovr.keypressed(key, scancode, isrepeat)
     modifiers.shift and 'shift+' or '',
     key)
   if combo == 'f5' or combo =='ctrl+shift+r' then
-    editors.active:saveFile()
     lovr.event.push('restart')
   end
   if combo =='escape' then
