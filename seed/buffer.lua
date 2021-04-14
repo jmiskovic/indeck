@@ -22,12 +22,14 @@ local repeatN = function(n, f, ...)
   for i=1,n do f(...) end
 end
 
-function m.new(cols, rows, drawToken, drawRectangle, initialText)
+function m.new(cols, rows, drawToken, drawRectangle, initialText, undoStackSize)
   local buffer = {
     -- all coordinates in text space (integers)
     cols = cols,
     rows = rows,
     name = '',
+    undoStackSize = undoStackSize or 0,
+    undoStack = {},
     cursor    = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
     selection = {x=0, y=1}, -- x is 0-indexed, y is 1-indexed
     -- selected text spans between cursor and selection marker
@@ -178,6 +180,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     -- inserting and removing characters
     insertCharacter = function(self, c)
       self:deleteSelection()
+      self:processUndo('insert character')
       local length
       self.lines[self.cursor.y], length = insertCharAt(self.lines[self.cursor.y], c, self.cursor.x)
       self:lexLine(self.cursor.y)
@@ -192,6 +195,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     breakLine = function(self, withoutIndent)
       self:deleteSelection()
+      self:processUndo('break line')
       local nl = self.lines[self.cursor.y]
       local bef = nl:sub(1,self.cursor.x)
       local aft = nl:sub(self.cursor.x + 1, #nl)
@@ -212,6 +216,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       if self:isSelected() then
         self:deleteSelection()
       else
+        self:processUndo('delete character')
         local length = string.len(self.lines[self.cursor.y])
         if length == self.cursor.x then -- end of line
           if self.cursor.y < #self.lines then
@@ -259,6 +264,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:updateView()
     end,
     copyText = function(self)
+      self:processUndo('copy clipboard')
       if self:isSelected() then
         local selectionFrom, selectionTo = self:selectionSpan()
         local lines = {}
@@ -273,8 +279,37 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       end
     end,
     pasteText = function(self)
+      self:processUndo('paste clipboard')
       self:deleteSelection()
       self:insertString(clipboard)
+    end,
+    -- undo handling
+    processUndo = function(self, action)
+      if self.undoStackSize == 0 then
+        return
+      end
+      if action == self.undoLastAction then
+        if action == 'insert character' or action == 'delete character' then
+          return
+        end
+      end
+      table.insert(self.undoStack, {self:getText(), self.cursor.x, self.cursor.y, self.selection.x, self.selection.y})
+      if #self.undoStack > self.undoStackSize then
+        table.remove(self.undoStack, 1)
+      end
+      print('undo pushed:', action)
+      print('"', self:getText(), '"')
+      self.undoLastAction = action
+    end,
+    undo = function(self)
+      if self.undoStack[#self.undoStack] then
+        local text, cx, cy, sx, sy = unpack(self.undoStack[#self.undoStack])
+        self.cursor.x, self.cursor.y = cx, cy
+        self:setText(text)
+        table.remove(self.undoStack)
+        self.undoLastAction = "undo'ed"
+        print('undo popped')
+      end
     end,
     -- helper functions
     isSelected = function(self)
@@ -289,6 +324,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     end,
     deleteSelection = function(self)
       if not self:isSelected() then return end
+      self:processUndo('delete string')
       local selectionFrom, selectionTo = self:selectionSpan()
       local singleLineChange = selectionFrom.y == selectionTo.y
       local lines = {}
@@ -329,6 +365,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:deselect()
     end,
     insertString = function(self, str)
+      self:processUndo('insert string')
       local singleLineChange = true
       for c in str:gmatch('.') do
         if c == '\n' then

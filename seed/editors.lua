@@ -53,6 +53,7 @@ local keymapping = {
     ['ctrl+o']               = function(self) self:listFiles() end,
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['ctrl+h']               = function(self) m.new(1, 1):listFiles('lovr-api') end,
+    ['ctrl+z']               = function(self) self.buffer:undo() end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
     ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
@@ -111,7 +112,7 @@ function m.new(width, height)
       local color = highlighting[tokenType] or 0xFFFFFF
       lovr.graphics.setColor(color)
       self.pane:drawTextRectangle(col, row, width)
-    end)
+    end, '', 15)
   self.pane:center()
   table.insert(m, self)
   m.active = self
