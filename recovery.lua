@@ -30,6 +30,19 @@ local editors = require'editors'
 local errorpane = require'errorpane'
 lovr.filesystem.mount(lovr.filesystem.getSaveDirectory(), "", false)
 
+local function wrap(str, limit)
+  limit = limit or 60
+  local position = 1
+  local function check(sp, st, word, fi)
+    if fi - position > limit then
+      position = st
+      return "\n" .. word
+    end
+  end
+  return str:gsub("(%s+)()(%S+)()", check)
+end
+
+
 function lovr.load()
   -- parse restart information
   local restartInfo = arg['restart'] or 'User-triggered recovery mode'
@@ -40,7 +53,7 @@ function lovr.load()
   editor.pane.transform:set(0,1.5,-1, 1,1,1, math.pi, 0,1,0)
   editor:refresh()
   lovr.graphics.setBackgroundColor(0x111E13)
-  errorpane.init(1, 0.4, restartInfo .. '\n\nctrl+up/down  scroll up/down\nctrl+enter    jump to source')
+  errorpane.init(0.6, 0.4, wrap(restartInfo) .. '\n\nctrl+up/down  scroll up/down\nctrl+enter    jump to source')
   errorpane.pane.transform:set(0.7, 1.5, -0.4,  1,1,1,  2/3 * math.pi, 0,1,0)
   errorpane.jumpToSource()
 end
