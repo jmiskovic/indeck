@@ -220,6 +220,7 @@ function m.restoreSession(name)
   local ok, session = pcall(require, name)
   if ok then
     for i, e in ipairs(session) do
+      local editor
       editor = m.new(1, 1)
       editor:openFile(e.path)
       editor.pane.transform:set(unpack(e.pose))

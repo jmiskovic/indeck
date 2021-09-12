@@ -20,7 +20,7 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
-function lookupify(src, list)
+local function lookupify(src, list)
   list = list or {}
 
   if type(src) == 'string' then

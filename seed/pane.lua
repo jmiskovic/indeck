@@ -1,4 +1,4 @@
-m = {} -- floating pane as anchor for 2D and 3D graphical content
+local m = {} -- floating pane as anchor for 2D and 3D graphical content
 m.__index = m
 
 m.colors = {

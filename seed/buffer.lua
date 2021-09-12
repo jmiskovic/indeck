@@ -51,7 +51,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self.lines = {}
       self.lexed = lexer(text)
       for i, line in ipairs(self.lexed) do
-        lineStrings = {}
+        local lineStrings = {}
         for l, token in ipairs(line) do
           table.insert(lineStrings, token.data)
         end
