@@ -5,30 +5,32 @@ return {
     less detailed representation, and it is also possible to render a subsection of the Curve.
   ]],
   arguments = {
-    {
-      name = 'n',
+    n = {
       type = 'number',
       default = '32',
       description = 'The number of points to use.'
     },
-    {
-      name = 't1',
+    t1 = {
       type = 'number',
       default = '0',
       description = 'How far along the curve to start rendering.'
     },
-    {
-      name = 't2',
+    t2 = {
       type = 'number',
       default = '1',
       description = 'How far along the curve to stop rendering.'
     }
   },
   returns = {
-    {
-      name = 't',
+    t = {
       type = 'table',
       description = 'A (flat) table of 3D points along the curve.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'n', 't1', 't2' },
+      returns = { 't' }
     }
   },
   notes = [[
@@ -37,7 +39,8 @@ return {
   related = {
     'Curve:evaluate',
     'Curve:slice',
-    'lovr.graphics.points',
-    'lovr.graphics.line'
+    'Pass:points',
+    'Pass:line',
+    'Pass:mesh'
   }
 }

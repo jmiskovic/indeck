@@ -2,43 +2,42 @@ return {
   summary = 'Set the pose of the Collider.',
   description = 'Sets the position and orientation of the Collider.',
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the Collider, in meters.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the Collider, in meters.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the Collider, in meters.'
     },
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The number of radians the Collider is rotated around its axis of rotation.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' },
+      returns = {}
+    }
+  },
   related = {
     'Collider:setPosition',
     'Collider:setOrientation'

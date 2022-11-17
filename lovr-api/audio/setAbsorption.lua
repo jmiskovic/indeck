@@ -9,23 +9,26 @@ return {
     and stuff.
   ]],
   arguments = {
-    {
-      name = 'low',
+    low = {
       type = 'number',
       description = 'The absorption coefficient for the low frequency band.'
     },
-    {
-      name = 'mid',
+    mid = {
       type = 'number',
       description = 'The absorption coefficient for the mid frequency band.'
     },
-    {
-      name = 'high',
+    high = {
       type = 'number',
       description = 'The absorption coefficient for the high frequency band.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'low', 'mid', 'high' },
+      returns = {}
+    }
+  },
   notes = [[
     Absorption is currently only supported by the phonon spatializer.
 

@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'state',
+    state = {
       type = 'string',
       description = 'The serialized state.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'state' }
     }
   },
   notes = [[

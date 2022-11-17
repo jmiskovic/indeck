@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'tightness',
+    tightness = {
       type = 'number',
       description = 'The tightness of the joint.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'tightness' }
     }
   },
   related = {

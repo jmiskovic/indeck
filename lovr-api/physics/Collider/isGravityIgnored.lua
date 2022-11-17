@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the Collider is currently ignoring gravity.',
   arguments = {},
   returns = {
-    {
-      name = 'ignored',
+    ignored = {
       type = 'boolean',
       description = 'Whether gravity is ignored for this Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'ignored' }
     }
   }
 }

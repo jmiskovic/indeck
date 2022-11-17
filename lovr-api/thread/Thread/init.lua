@@ -5,6 +5,8 @@ return {
     isolated from other threads, meaning they have their own Lua context and can't access the
     variables and functions of other threads.  Communication between threads is limited and is
     accomplished by using `Channel` objects.
+
+    To get `require` to work properly, add `require 'lovr.filesystem'` to the thread code.
   ]],
   constructor = 'lovr.thread.newThread',
   related = {

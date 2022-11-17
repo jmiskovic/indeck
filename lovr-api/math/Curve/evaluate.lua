@@ -6,27 +6,29 @@ return {
     Curve, etc.
   ]],
   arguments = {
-    {
-      name = 't',
+    t = {
       type = 'number',
       description = 'The parameter to evaluate the Curve at.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the point.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the point.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the point.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 't' },
+      returns = { 'x', 'y', 'z' }
     }
   },
   notes = [[

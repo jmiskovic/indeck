@@ -3,10 +3,15 @@ return {
   description = 'Returns the absolute path of the user\'s home directory.',
   arguments = {},
   returns = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The absolute path of the user\'s home directory.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'path' }
     }
   }
 }

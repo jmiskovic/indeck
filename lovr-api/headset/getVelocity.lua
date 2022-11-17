@@ -3,28 +3,30 @@ return {
   summary = 'Get the linear velocity of a device.',
   description = 'Returns the current linear velocity of a device, in meters per second.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       default = [['head']],
       description = 'The device to get the velocity of.'
     }
   },
   returns = {
-    {
-      name = 'vx',
+    vx = {
       type = 'number',
       description = 'The x component of the linear velocity.'
     },
-    {
-      name = 'vy',
+    vy = {
       type = 'number',
       description = 'The y component of the linear velocity.'
     },
-    {
-      name = 'vz',
+    vz = {
       type = 'number',
       description = 'The z component of the linear velocity.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device' },
+      returns = { 'vx', 'vy', 'vz' }
     }
   },
   related = {

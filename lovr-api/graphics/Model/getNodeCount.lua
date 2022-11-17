@@ -1,17 +1,17 @@
 return {
-  summary = 'Get the number of nodes in the Model.',
-  description = 'Returns the number of nodes (bones) in the Model.',
+  summary = 'Get the number of nodes in the model.',
+  description = 'Returns the number of nodes in the model.',
   arguments = {},
   returns = {
-    {
-      name = 'count',
+    count = {
       type = 'number',
-      description = 'The number of nodes in the Model.'
+      description = 'The number of nodes in the model.'
     }
   },
-  related = {
-    'Model:getNodeName',
-    'Model:getNodePose',
-    'Model:pose'
+  variants = {
+    {
+      arguments = {},
+      returns = { 'count' }
+    }
   }
 }

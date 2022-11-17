@@ -5,13 +5,18 @@ return {
     This can be used to reliably restore a previous state of the generator.
   ]],
   arguments = {
-    {
-      name = 'state',
+    state = {
       type = 'string',
       description = 'The serialized state.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'state' },
+      returns = {}
+    }
+  },
   notes = [[
     The seed represents the starting state of the RandomGenerator, whereas the state represents the
     current state of the generator.

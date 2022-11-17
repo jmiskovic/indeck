@@ -8,35 +8,35 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'x1',
+    x1 = {
       type = 'number',
       description = 'The x coordinate of the first anchor point, in world coordinates.'
     },
-    {
-      name = 'y1',
+    y1 = {
       type = 'number',
       description = 'The y coordinate of the first anchor point, in world coordinates.'
     },
-    {
-      name = 'z1',
+    z1 = {
       type = 'number',
       description = 'The z coordinate of the first anchor point, in world coordinates.'
     },
-    {
-      name = 'x2',
+    x2 = {
       type = 'number',
       description = 'The x coordinate of the second anchor point, in world coordinates.'
     },
-    {
-      name = 'y2',
+    y2 = {
       type = 'number',
       description = 'The y coordinate of the second anchor point, in world coordinates.'
     },
-    {
-      name = 'z2',
+    z2 = {
       type = 'number',
       description = 'The z coordinate of the second anchor point, in world coordinates.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x1', 'y1', 'z1', 'x2', 'y2', 'z2' }
     }
   }
 }

@@ -9,28 +9,30 @@ return {
     The lookAt() function produces same result as target() after matrix inversion.
   ]],
   arguments = {
-    {
-      name = 'from',
+    from = {
       type = 'Vec3',
       description = 'The position of the viewer.'
     },
-    {
-      name = 'to',
+    to = {
       type = 'Vec3',
       description = 'The position of the target.'
     },
-    {
-      name = 'up',
+    up = {
       type = 'Vec3',
       default = 'Vec3(0, 1, 0)',
       description = 'The up vector of the viewer.'
     }
   },
   returns = {
-    {
-      name = 'm',
+    m = {
       type = 'Mat4',
       description = 'The original matrix.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'from', 'to', 'up' },
+      returns = { 'm' }
     }
   },
   related = {

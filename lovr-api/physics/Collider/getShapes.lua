@@ -3,10 +3,15 @@ return {
   description = 'Returns a list of Shapes attached to the Collider.',
   arguments = {},
   returns = {
-    {
-      name = 'shapes',
+    shapes = {
       type = 'table',
       description = 'A list of Shapes attached to the Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'shapes' }
     }
   },
   related = {

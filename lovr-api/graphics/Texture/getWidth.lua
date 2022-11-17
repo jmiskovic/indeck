@@ -1,19 +1,22 @@
 return {
-  summary = 'Get the width of the Texture.',
-  description = 'Returns the width of the Texture.',
-  arguments = {
-    {
-      name = 'mipmap',
-      type = 'number',
-      default = '1',
-      description = 'The mipmap level to get the width of.'
-    }
-  },
+  summary = 'Get the width of the Texture, in pixels.',
+  description = 'Returns the width of the Texture, in pixels.',
+  arguments = {},
   returns = {
-    {
-      name = 'width',
+    width = {
       type = 'number',
       description = 'The width of the Texture, in pixels.'
     }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'width' }
+    }
+  },
+  related = {
+    'Texture:getHeight',
+    'Texture:getLayerCount',
+    'Texture:getDimensions'
   }
 }

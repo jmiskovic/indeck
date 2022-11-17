@@ -3,10 +3,15 @@ return {
   description = 'Returns the length of the CylinderShape.',
   arguments = {},
   returns = {
-    {
-      name = 'length',
+    length = {
       type = 'number',
       description = 'The length of the cylinder, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'length' }
     }
   }
 }

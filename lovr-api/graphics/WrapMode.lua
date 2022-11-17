@@ -1,20 +1,17 @@
 return {
-  summary = 'How to wrap Textures.',
-  description = [[
-    The method used to render textures when texture coordinates are outside of the 0-1 range.
-  ]],
+  summary = 'Different ways to wrap textures.',
+  description = 'Controls how `Sampler` objects wrap textures.',
   values = {
     {
       name = 'clamp',
-      description = 'The texture will be clamped at its edges.'
+      description = [[
+        Pixels will be clamped to the edge, with pixels outside the 0-1 uv range using colors from
+        the nearest edge.
+      ]]
     },
     {
       name = 'repeat',
-      description = 'The texture repeats.'
-    },
-    {
-      name = 'mirroredrepeat',
-      description = 'The texture will repeat, mirroring its appearance each time it repeats.'
+      description = 'Tiles the texture.'
     }
   }
 }

@@ -8,13 +8,18 @@ return {
     the project directory.
   ]],
   arguments = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       default = 'nil',
       description = 'An optional semicolon separated list of search patterns.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'path' },
+      returns = {}
+    }
+  },
   notes = 'The default reqiure path is \'?.lua;?/init.lua\'.'
 }

@@ -15,5 +15,7 @@ return {
     }
   },
   returns = {},
-  related = {}
+  related = {
+    'lovr.headset.isFocused'
+  }
 }

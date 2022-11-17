@@ -5,15 +5,19 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'colliderA',
+    colliderA = {
       type = 'Collider',
       description = 'The first Collider.'
     },
-    {
-      name = 'colliderB',
+    colliderB = {
       type = 'Collider',
       description = 'The second Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'colliderA', 'colliderB' }
     }
   }
 }

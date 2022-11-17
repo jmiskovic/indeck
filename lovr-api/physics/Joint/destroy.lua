@@ -3,6 +3,12 @@ return {
   description = 'Destroy the Joint, removing it from Colliders it\'s attached to.',
   arguments = {},
   returns = {},
+  variants = {
+    {
+      arguments = {},
+      returns = {}
+    }
+  },
   notes = 'Calling functions on the Joint after destroying it is a bad idea.',
   related = {
     'Collider:destroy',

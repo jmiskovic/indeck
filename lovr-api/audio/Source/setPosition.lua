@@ -1,4 +1,5 @@
 return {
+  tag = 'sourceEffects',
   summary = 'Set the position of the Source.',
   description = [[
     Sets the position of the Source, in meters.  Setting the position will cause the Source to be
@@ -8,21 +9,24 @@ return {
     error.
   ]],
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x coordinate.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y coordinate.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z coordinate.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z' },
+      returns = {}
+    }
+  }
 }

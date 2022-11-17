@@ -3,10 +3,15 @@ return {
   description = 'Returns the type of the Shape.',
   arguments = {},
   returns = {
-    {
-      name = 'type',
+    type = {
       type = 'ShapeType',
       description = 'The type of the Shape.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'type' }
     }
   },
   related = {

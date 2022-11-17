@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the Collider is allowed to sleep.',
   arguments = {},
   returns = {
-    {
-      name = 'allowed',
+    allowed = {
       type = 'boolean',
       description = 'Whether the Collider can go to sleep.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'allowed' }
     }
   },
   notes = [[

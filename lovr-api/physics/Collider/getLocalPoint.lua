@@ -4,37 +4,37 @@ return {
     Converts a point from world coordinates into local coordinates relative to the Collider.
   ]],
   arguments = {
-    {
-      name = 'wx',
+    wx = {
       type = 'number',
       description = 'The x coordinate of the world point.'
     },
-    {
-      name = 'wy',
+    wy = {
       type = 'number',
       description = 'The y coordinate of the world point.'
     },
-    {
-      name = 'wz',
+    wz = {
       type = 'number',
       description = 'The z coordinate of the world point.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the local-space point.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the local-space point.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the local-space point.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'wx', 'wy', 'wz' },
+      returns = { 'x', 'y', 'z' }
     }
   },
   related = {

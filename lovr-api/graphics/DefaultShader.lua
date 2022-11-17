@@ -1,38 +1,35 @@
 return {
-  summary = 'The set of builtin shaders.',
+  summary = 'Built-in shaders.',
   description = [[
-    The following shaders are built in to LÖVR, and can be used as an argument to
-    `lovr.graphics.newShader` instead of providing raw GLSL shader code.  The shaders can be further
-    customized by using the `flags` argument.  If you pass in `nil` to `lovr.graphics.setShader`,
-    LÖVR will automatically pick a DefaultShader to use based on whatever is being drawn.
+    The set of shaders built in to LÖVR.  These can be passed to `Pass:setShader` or
+    `lovr.graphics.newShader` instead of writing GLSL code.  The shaders can be further customized
+    by using the `flags` option to change their behavior.  If the active shader is set to `nil`,
+    LÖVR picks one of these shaders to use.
   ]],
   values = {
     {
       name = 'unlit',
-      description = 'A simple shader without lighting, using only colors and a diffuse texture.'
+      description = 'Basic shader without lighting that uses colors and a texture.'
     },
     {
-      name = 'standard',
-      description = 'A physically-based rendering (PBR) shader, using advanced material properties.'
-    },
-    {
-      name = 'cube',
-      description = 'A shader that renders a cubemap texture.'
-    },
-    {
-      name = 'pano',
-      description = 'A shader that renders a 2D equirectangular texture with spherical coordinates.'
+      name = 'normal',
+      description = 'Shades triangles based on their normal, resulting in a cool rainbow effect.'
     },
     {
       name = 'font',
-      description = 'A shader that renders font glyphs.'
+      description = 'Renders font glyphs.'
+    },
+    {
+      name = 'cubemap',
+      description = 'Renders cubemaps.'
+    },
+    {
+      name = 'equirect',
+      description = 'Renders spherical textures.'
     },
     {
       name = 'fill',
-      description = [[
-        A shader that passes its vertex coordinates unmodified to the fragment shader, used to
-        render view-independent fixed geometry like fullscreen quads.
-      ]]
+      description = 'Renders a fullscreen triangle.'
     }
   }
 }

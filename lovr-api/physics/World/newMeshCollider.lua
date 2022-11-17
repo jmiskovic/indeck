@@ -3,24 +3,38 @@ return {
   summary = 'Add a Collider with a MeshShape to the World.',
   description = 'Adds a new Collider to the World with a MeshShape already attached.',
   arguments = {
-    {
-      name = 'vertices',
+    vertices = {
       type = 'table',
       description = 'The table of vertices in the mesh.  Each vertex is a table with 3 numbers.'
     },
-    {
-      name = 'indices',
+    indices = {
       type = 'table',
       description = [[
         A table of triangle indices representing how the vertices are connected in the Mesh.
       ]]
+    },
+    model = {
+      type = 'Model',
+      description = [[
+        A Model to use for the mesh data.  Similar to calling `Model:getTriangles` and passing it to
+        this function, but has better performance.
+      ]]
     }
   },
   returns = {
-    {
-      name = 'collider',
+    collider = {
       type = 'Collider',
       description = 'The new Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'vertices', 'indices' },
+      returns = { 'collider' }
+    },
+    {
+      arguments = { 'model' },
+      returns = { 'collider' }
     }
   },
   related = {
@@ -29,6 +43,8 @@ return {
     'World:newBoxCollider',
     'World:newCapsuleCollider',
     'World:newCylinderCollider',
-    'World:newSphereCollider'
+    'World:newSphereCollider',
+    'World:newTerrainCollider',
+    'Model:getTriangles'
   }
 }

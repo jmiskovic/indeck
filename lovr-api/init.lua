@@ -26,18 +26,9 @@ return {
       ]]
     },
     {
-      name = 'System',
-      tag = 'system',
-      description = [[
-        The lovr module also exposes some functions for retrieving information about the system.
-      ]]
-    },
-    {
-      name = 'Libraries',
-      tag = 'library',
-      description = [[
-        A few helpful third-party libraries are included with LÖVR for convenience.
-      ]]
+      name = 'Version',
+      tag = 'version',
+      description = 'This function can be used to get the current version of LÖVR.'
     }
   }
 }

@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'error',
+    error = {
       type = 'string',
       description = 'The error message, or `nil` if no error has occurred on the Thread.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'error' }
     }
   },
   related = {

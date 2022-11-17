@@ -3,10 +3,15 @@ return {
   description = 'Returns the Collider\'s tag.',
   arguments = {},
   returns = {
-    {
-      name = 'tag',
+    tag = {
       type = 'string',
       description = 'The Collider\'s collision tag.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'tag' }
     }
   },
   notes = [[

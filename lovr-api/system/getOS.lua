@@ -3,10 +3,15 @@ return {
   description = 'Returns the current operating system.',
   arguments = {},
   returns = {
-    {
-      name = 'os',
+    os = {
       type = 'string',
       description = 'Either "Windows", "macOS", "Linux", "Android" or "Web".'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'os' }
     }
   }
 }

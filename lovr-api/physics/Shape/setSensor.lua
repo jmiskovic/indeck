@@ -5,11 +5,16 @@ return {
     still report collisions in `World:collide`.
   ]],
   arguments = {
-    {
-      name = 'sensor',
+    sensor = {
       type = 'boolean',
       description = 'Whether the Shape should be a sensor.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'sensor' },
+      returns = {}
+    }
+  }
 }

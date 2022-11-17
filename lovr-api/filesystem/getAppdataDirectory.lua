@@ -9,10 +9,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The absolute path to the appdata directory.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'path' }
     }
   }
 }

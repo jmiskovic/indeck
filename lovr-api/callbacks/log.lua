@@ -10,7 +10,8 @@ return {
     indicating how severe the message is.
 
     The `t.graphics.debug` flag in `lovr.conf` can be used to get log messages from the GPU driver
-    (tagged as `GL`).  It is also possible to emit your own log messages using `lovr.event.push`.
+    (tagged as `GPU`).  It is also possible to emit customlog messages using `lovr.event.push`, or
+    by calling the callback.
   ]],
   arguments = {
     {

@@ -21,17 +21,18 @@ return {
     Most LÖVR functions that accept positions, orientations, transforms, velocities, etc. also accept
     vector objects, so they can be used interchangeably with numbers:
 
-        function lovr.draw()
+        function lovr.draw(pass)
           -- position and size are vec3's, rotation is a quat
-          lovr.graphics.box('fill', position, size, rotation)
+          pass:box(position, size, rotation)
         end
 
     ### Temporary vs. Permanent
 
     Vectors can be created in two different ways: **permanent** and **temporary**.
 
-    **Permanent** vectors behave like normal LÖVR objects.  They are individual objects that are garbage
-    collected when no longer needed.  They're created using the usual `lovr.math.new<Type>` syntax:
+    **Permanent** vectors behave like normal Lua values.  They are individual objects that are
+    garbage collected when no longer needed.  They're created using the usual `lovr.math.new<Type>`
+    syntax:
 
         self.position = lovr.math.newVec3(x, y, z)
 

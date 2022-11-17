@@ -4,12 +4,17 @@ return {
   description = 'Returns a table with all of the currently tracked hand devices.',
   arguments = {},
   returns = {
-    {
-      name = 'hands',
+    hands = {
       type = 'table',
       arguments = {},
       returns = {},
       description = 'The currently tracked hand devices.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'hands' }
     }
   },
   notes = 'The hand paths will *always* be either `hand/left` or `hand/right`.',

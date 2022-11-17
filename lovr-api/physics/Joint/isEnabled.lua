@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the Joint is enabled.',
   arguments = {},
   returns = {
-    {
-      name = 'enabled',
+    enabled = {
       type = 'boolean',
       description = 'Whether the Joint is enabled.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'enabled' }
     }
   }
 }

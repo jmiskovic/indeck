@@ -3,10 +3,15 @@ return {
   description = 'Returns the length of the quaternion.',
   arguments = {},
   returns = {
-    {
-      name = 'length',
+    length = {
       type = 'number',
       description = 'The length of the quaternion.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'length' }
     }
   },
   related = {

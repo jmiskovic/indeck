@@ -1,19 +1,28 @@
 return {
   summary = 'Get the ascent of the Font.',
   description = [[
-    Returns the maximum distance that any glyph will extend above the Font's baseline.  Units are
-    generally in meters, see `Font:getPixelDensity`.
+    Returns the ascent of the font.  The ascent is the maximum amount glyphs ascend above the
+    baseline.  The units depend on the font's pixel density.  With the default density, the units
+    correspond to meters.
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'ascent',
+    ascent = {
       type = 'number',
-      description = 'The ascent of the Font.'
+      description = 'The ascent of the font.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'ascent' }
     }
   },
   related = {
+    'Rasterizer:getAscent',
     'Font:getDescent',
-    'Rasterizer:getAscent'
+    'Font:getHeight',
+    'Font:getKerning',
+    'Font:getWidth'
   }
 }

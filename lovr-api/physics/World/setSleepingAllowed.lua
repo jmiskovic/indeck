@@ -3,13 +3,18 @@ return {
   summary = 'Set whether colliders can go to sleep.',
   description = 'Sets whether colliders can go to sleep in the World.',
   arguments = {
-    {
-      name = 'allowed',
+    allowed = {
       type = 'boolean',
       description = 'Whether colliders can sleep.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'allowed' },
+      returns = {}
+    }
+  },
   notes = [[
     If sleeping is enabled, the World will try to detect colliders that haven't moved for a while
     and put them to sleep.  Sleeping colliders don't impact the physics simulation, which makes

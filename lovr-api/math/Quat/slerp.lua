@@ -10,22 +10,25 @@ return {
     value.
   ]],
   arguments = {
-    {
-      name = 'r',
+    r = {
       type = 'Quat',
       description = 'The quaternion to slerp towards.'
     },
-    {
-      name = 't',
+    t = {
       type = 'number',
       description = 'The lerping parameter.'
     }
   },
   returns = {
-    {
-      name = 'q',
+    q = {
       type = 'Quat',
       description = 'The original quaternion, containing the new lerped values.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'r', 't' },
+      returns = { 'q' }
     }
   },
   related = {

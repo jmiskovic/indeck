@@ -3,20 +3,23 @@ return {
   description = 'Returns the angular velocity of the Collider.',
   arguments = {},
   returns = {
-    {
-      name = 'vx',
+    vx = {
       type = 'number',
       description = 'The x component of the angular velocity.'
     },
-    {
-      name = 'vy',
+    vy = {
       type = 'number',
       description = 'The y component of the angular velocity.'
     },
-    {
-      name = 'vz',
+    vz = {
       type = 'number',
       description = 'The z component of the angular velocity.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'vx', 'vy', 'vz' }
     }
   },
   related = {

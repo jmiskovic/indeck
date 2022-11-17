@@ -5,15 +5,19 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'lower',
+    lower = {
       type = 'number',
       description = 'The lower limit, in radians.'
     },
-    {
-      name = 'upper',
+    upper = {
       type = 'number',
       description = 'The upper limit, in radians.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'lower', 'upper' }
     }
   },
   related = {

@@ -3,10 +3,15 @@ return {
   description = 'Returns a binary string containing the Blob\'s data.',
   arguments = {},
   returns = {
-    {
-      name = 'data',
+    data = {
       type = 'string',
       description = 'The Blob\'s data.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'data' }
     }
   },
   example = {

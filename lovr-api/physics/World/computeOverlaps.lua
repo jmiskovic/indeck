@@ -9,6 +9,12 @@ return {
   ]],
   arguments = {},
   returns = {},
+  variants = {
+    {
+      arguments = {},
+      returns = {}
+    }
+  },
   example = [[
     world:computeOverlaps()
     for shapeA, shapeB in world:overlaps() do

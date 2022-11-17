@@ -3,33 +3,34 @@ return {
   summary = 'Get the orientation of a device.',
   description = 'Returns the current orientation of a device, in angle/axis form.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       default = [['head']],
       description = 'The device to get the orientation of.'
     }
   },
   returns = {
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The amount of rotation around the axis of rotation, in radians.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device' },
+      returns = { 'angle', 'ax', 'ay', 'az' }
     }
   },
   notes = ' If the device isn\'t tracked, all zeroes will be returned.',

@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The hinge angle, in radians.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'angle' }
     }
   }
 }

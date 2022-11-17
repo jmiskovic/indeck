@@ -17,6 +17,19 @@ return {
       description = 'The duration of the animation, in seconds.'
     }
   },
+  variants = {
+    {
+      arguments = { 'index' },
+      returns = { 'duration' }
+    },
+    {
+      arguments = { 'name' },
+      returns = { 'duration' }
+    }
+  },
+  notes = [[
+    The duration of an animation is calculated as the largest timestamp of all of its keyframes.
+  ]],
   related = {
     'Model:getAnimationCount',
     'Model:getAnimationName',

@@ -6,17 +6,21 @@ return {
     in column-major order.
   ]],
   arguments = {
-    {
-      name = 'raw',
+    raw = {
       type = 'boolean',
       description = 'Whether to return the 16 raw components.'
     }
   },
   returns = {
-    {
-      name = '...',
+    ['...'] = {
       type = 'number',
       description = 'The requested components of the matrix.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'raw' },
+      returns = { '...' }
     }
   },
   related = {

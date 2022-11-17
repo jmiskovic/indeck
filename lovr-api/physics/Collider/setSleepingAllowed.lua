@@ -2,13 +2,18 @@ return {
   summary = 'Set whether the Collider is allowed to sleep.',
   description = 'Sets whether the Collider is allowed to sleep.',
   arguments = {
-    {
-      name = 'allowed',
+    allowed = {
       type = 'boolean',
       description = 'Whether the Collider can go to sleep.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'allowed' },
+      returns = {}
+    }
+  },
   notes = [[
     If sleeping is enabled, the simulation will put the Collider to sleep if it hasn't moved in a
     while. Sleeping colliders don't impact the physics simulation, which makes updates more

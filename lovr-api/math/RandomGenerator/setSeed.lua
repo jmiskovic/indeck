@@ -19,6 +19,16 @@ return {
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'seed' },
+      returns = {}
+    },
+    {
+      arguments = { 'low', 'high' },
+      returns = {}
+    }
+  },
   notes = [[
     For precise 64 bit seeds, you should specify the lower and upper 32 bits of the seed separately.
     Otherwise, seeds larger than 2^53 will start to lose precision.

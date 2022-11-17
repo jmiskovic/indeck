@@ -3,17 +3,32 @@ return {
   description = 'Subtracts a vector or a number from the vector.',
   arguments = {
     u = {
-      type = 'Vec2',
+      type = 'Vec4',
       description = 'The other vector.'
     },
     x = {
       type = 'number',
-      description = 'A number to subtract from each component.'
+      description = 'A value to subtract from x component.'
+    },
+    y = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to subtract from y component.'
+    },
+    z = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to subtract from z component.'
+    },
+    w = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to subtract from w component.'
     }
   },
   returns = {
     v = {
-      type = 'Vec2',
+      type = 'Vec4',
       description = 'The original vector.'
     }
   },
@@ -23,13 +38,13 @@ return {
       returns = { 'v' }
     },
     {
-      arguments = { 'x' },
+      arguments = { 'x', 'y', 'z', 'w' },
       returns = { 'v' }
     }
   },
   related = {
-    'Vec2:add',
-    'Vec2:mul',
-    'Vec2:div'
+    'Vec4:add',
+    'Vec4:mul',
+    'Vec4:div'
   }
 }

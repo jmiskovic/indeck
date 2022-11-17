@@ -2,15 +2,13 @@ return {
   summary = 'Load a file as Lua code.',
   description = 'Load a file containing Lua code, returning a Lua chunk that can be run.',
   arguments = {
-    {
-      name = 'filename',
+    filename = {
       type = 'string',
       description = 'The file to load.'
     }
   },
   returns = {
-    {
-      name = 'chunk',
+    chunk = {
       type = 'function',
       arguments = {
         {
@@ -25,6 +23,12 @@ return {
         }
       },
       description = 'The runnable chunk.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'filename' },
+      returns = { 'chunk' }
     }
   },
   notes = 'An error is thrown if the file contains syntax errors.',

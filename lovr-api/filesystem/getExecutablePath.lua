@@ -3,10 +3,15 @@ return {
   description = 'Returns the absolute path of the LÖVR executable.',
   arguments = {},
   returns = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The absolute path of the LÖVR executable, or `nil` if it is unknown.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'path' }
     }
   }
 }

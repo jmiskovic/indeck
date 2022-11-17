@@ -4,10 +4,15 @@ return {
   description = 'Returns the depth of the play area, in meters.',
   arguments = {},
   returns = {
-    {
-      name = 'depth',
+    depth = {
       type = 'number',
       description = 'The depth of the play area, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'depth' }
     }
   },
   related = {

@@ -4,18 +4,22 @@ return {
     Sets the upper and lower limits of the hinge angle.  These should be between -π and π.
   ]],
   arguments = {
-    {
-      name = 'lower',
+    lower = {
       type = 'number',
       description = 'The lower limit, in radians.'
     },
-    {
-      name = 'upper',
+    upper = {
       type = 'number',
       description = 'The upper limit, in radians.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'lower', 'upper' },
+      returns = {}
+    }
+  },
   related = {
     'HingeJoint:getAngle',
     'HingeJoint:getLowerLimit',

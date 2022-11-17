@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'q',
+    q = {
       type = 'Quat',
       description = 'The original quaternion.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'q' }
     }
   }
 }

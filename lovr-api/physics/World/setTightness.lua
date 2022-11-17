@@ -11,13 +11,18 @@ return {
     not supported.
   ]],
   arguments = {
-    {
-      name = 'tightness',
+    tightness = {
       type = 'number',
       description = 'The new tightness for the World.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'tightness' },
+      returns = {}
+    }
+  },
   related = {
     'BallJoint:getTightness',
     'BallJoint:setTightness',

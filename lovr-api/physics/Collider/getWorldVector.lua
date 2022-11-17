@@ -4,37 +4,37 @@ return {
     Converts a direction vector from local space to world space.
   ]],
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x coordinate of the local vector.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y coordinate of the local vector.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z coordinate of the local vector.'
     }
   },
   returns = {
-    {
-      name = 'wx',
+    wx = {
       type = 'number',
       description = 'The x component of the world vector.'
     },
-    {
-      name = 'wy',
+    wy = {
       type = 'number',
       description = 'The y component of the world vector.'
     },
-    {
-      name = 'wz',
+    wz = {
       type = 'number',
       description = 'The z component of the world vector.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z' },
+      returns = { 'wx', 'wy', 'wz' }
     }
   },
   related = {

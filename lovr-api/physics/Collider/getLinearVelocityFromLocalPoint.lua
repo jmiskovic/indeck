@@ -4,37 +4,37 @@ return {
     Returns the linear velocity of a point relative to the Collider.
   ]],
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x coordinate.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y coordinate.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z coordinate.'
     }
   },
   returns = {
-    {
-      name = 'vx',
+    vx = {
       type = 'number',
       description = 'The x component of the velocity of the point.'
     },
-    {
-      name = 'vy',
+    vy = {
       type = 'number',
       description = 'The y component of the velocity of the point.'
     },
-    {
-      name = 'vz',
+    vz = {
       type = 'number',
       description = 'The z component of the velocity of the point.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z' },
+      returns = { 'vx', 'vy', 'vz' }
     }
   },
   related = {

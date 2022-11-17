@@ -1,36 +1,43 @@
 return {
-  summary = 'Measure a line of text.',
+  summary = 'Get the width of rendered text.',
   description = [[
-    Returns the width and line count of a string when rendered using the font, taking into account
-    an optional wrap limit.
+    Returns the maximum width of a piece of text.  This function does not perform wrapping but does
+    respect newlines in the text.
   ]],
   arguments = {
-    {
-      name = 'text',
+    string = {
       type = 'string',
-      description = 'The text to get the width of.'
+      description = 'The text to measure.'
     },
-    {
-      name = 'wrap',
-      type = 'number',
-      default = '0',
-      description = 'The width at which to wrap lines, or 0 for no wrap.'
-    }
+    strings = {
+      type = 'table',
+      description = [[
+        A table of colored strings, each given as a `{ color, string }` pair.  The color can be a
+        `Vec3`, `Vec4`, table, or hexcode.
+      ]]
+    },
   },
   returns = {
-    {
-      name = 'width',
+    width = {
       type = 'number',
-      description = 'The maximum width of any line in the text.'
-    },
-    {
-      name = 'lines',
-      type = 'number',
-      description = 'The number of lines in the wrapped text.'
+      description = 'The maximum width of the text.'
     }
   },
-  notes = [[
-     To get the correct units returned, make sure the pixel density is set with
-    `Font:setPixelDensity`.
-  ]]
+  variants = {
+    {
+      arguments = { 'string' },
+      returns = { 'width' }
+    },
+    {
+      arguments = { 'strings' },
+      returns = { 'width' }
+    }
+  },
+  related = {
+    'Font:getAscent',
+    'Font:getDescent',
+    'Font:getHeight',
+    'Font:getKerning',
+    'Font:getLines'
+  }
 }

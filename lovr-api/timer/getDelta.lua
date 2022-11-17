@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'dt',
+    dt = {
       type = 'number',
       description = 'The delta time, in seconds.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'dt' }
     }
   },
   notes = [[

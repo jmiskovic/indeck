@@ -14,5 +14,19 @@ return {
   constructors = {
     'lovr.audio.newSource',
     'Source:clone'
+  },
+  sections = {
+    {
+      name = 'Playback',
+      tag = 'sourcePlayback'
+    },
+    {
+      name = 'Spatial Effects',
+      tag = 'sourceEffects'
+    },
+    {
+      name = 'Utility',
+      tag = 'sourceUtility'
+    }
   }
 }

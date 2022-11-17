@@ -6,23 +6,26 @@ return {
     glitches.
   ]],
   arguments = {
-    {
-      name = 'vx',
+    vx = {
       type = 'number',
       description = 'The x velocity of the Collider, in meters per second.'
     },
-    {
-      name = 'vy',
+    vy = {
       type = 'number',
       description = 'The y velocity of the Collider, in meters per second.'
     },
-    {
-      name = 'vz',
+    vz = {
       type = 'number',
       description = 'The z velocity of the Collider, in meters per second.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'vx', 'vy', 'vz' },
+      returns = {}
+    }
+  },
   related = {
     'Collider:getLinearVelocityFromLocalPoint',
     'Collider:getLinearVelocityFromWorldPoint',

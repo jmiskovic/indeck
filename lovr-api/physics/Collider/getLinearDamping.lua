@@ -6,15 +6,19 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'damping',
+    damping = {
       type = 'number',
       description = 'The linear damping.'
     },
-    {
-      name = 'threshold',
+    threshold = {
       type = 'number',
       description = 'Velocity limit below which the damping is not applied.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'damping', 'threshold' }
     }
   },
   notes = [[

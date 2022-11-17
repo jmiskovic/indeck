@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the current project source is fused to the executable.',
   arguments = {},
   returns = {
-    {
-      name = 'fused',
+    fused = {
       type = 'boolean',
       description = 'Whether or not the project is fused.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'fused' }
     }
   }
 }

@@ -3,36 +3,37 @@ return {
   summary = 'Add a Collider with a SphereShape to the World.',
   description = 'Adds a new Collider to the World with a SphereShape already attached.',
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       default = '0',
       description = 'The x coordinate of the center of the sphere.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       default = '0',
       description = 'The y coordinate of the center of the sphere.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       default = '0',
       description = 'The z coordinate of the center of the sphere.'
     },
-    {
-      name = 'radius',
+    radius = {
       type = 'number',
       default = '1',
       description = 'The radius of the sphere, in meters.'
     }
   },
   returns = {
-    {
-      name = 'collider',
+    collider = {
       type = 'Collider',
       description = 'The new Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z', 'radius' },
+      returns = { 'collider' }
     }
   },
   related = {
@@ -42,6 +43,7 @@ return {
     'World:newBoxCollider',
     'World:newCapsuleCollider',
     'World:newCylinderCollider',
-    'World:newMeshCollider'
+    'World:newMeshCollider',
+    'World:newTerrainCollider'
   }
 }

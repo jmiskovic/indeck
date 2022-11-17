@@ -2,17 +2,21 @@ return {
   summary = 'Unmount a mounted archive.',
   description = 'Unmounts a directory or archive previously mounted with `lovr.filesystem.mount`.',
   arguments = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The path to unmount.'
     }
   },
   returns = {
-    {
-      name = 'success',
+    success = {
       type = 'boolean',
       description = 'Whether the archive was unmounted.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'path' },
+      returns = { 'success' }
     }
   },
   notes = [[

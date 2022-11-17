@@ -7,22 +7,41 @@ return {
     input vector, and a value of `.5` will set the components to be halfway between the two vectors.
   ]],
   arguments = {
-    {
-      name = 'u',
+    u = {
       type = 'Vec3',
       description = 'The vector to lerp towards.'
     },
-    {
-      name = 't',
+    x = {
+      type = 'number',
+      description = 'A value of x component to lerp towards.'
+    },
+    y = {
+      type = 'number',
+      description = 'A value of y component to lerp towards.'
+    },
+    z = {
+      type = 'number',
+      description = 'A value of z component to lerp towards.'
+    },
+    t = {
       type = 'number',
       description = 'The lerping parameter.'
     }
   },
   returns = {
-    {
-      name = 'v',
+    v = {
       type = 'Vec3',
       description = 'The original vector, containing the new lerped values.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'u', 't' },
+      returns = { 'v' }
+    },
+    {
+      arguments = { 'x', 'y', 'z', 't' },
+      returns = { 'v' }
     }
   },
   related = {

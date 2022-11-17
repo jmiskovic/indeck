@@ -1,50 +1,79 @@
 return {
-  tag = 'window',
-  summary = 'Check if certain features are supported.',
-  description = [[
-    Returns whether certain features are supported by the system\'s graphics card.
-  ]],
+  tag = 'graphics-misc',
+  summary = 'Get the supported GPU features.',
+  description = 'Returns a table indicating which features are supported by the GPU.',
   arguments = {},
   returns = {
-    {
-      name = 'features',
+    features = {
       type = 'table',
-      description = 'A table of features and whether or not they are supported.',
+      description = '',
       table = {
         {
-          name = 'astc',
+          name = 'textureBC',
           type = 'boolean',
-          description = 'Whether ASTC textures are supported.'
+          description = [[
+            Whether `TextureFormat`s starting with `bc` are supported. This will almost always be
+            `true` on desktop GPUs and will almost always be `false` on mobile GPUs.
+          ]]
         },
         {
-          name = 'compute',
+          name = 'textureASTC',
           type = 'boolean',
-          description = 'Whether compute shaders are available.'
+          description = [[
+            Whether `TextureFormat`s beginning with `astc` are supported.  This will almost always
+            be `true` on mobile GPUs and will almost always be `false` on desktop GPUs.
+          ]]
         },
         {
-          name = 'dxt',
+          name = 'wireframe',
           type = 'boolean',
-          description = 'Whether DXT (.dds) textures are supported.'
+          description = [[
+            When supported, `Pass:setWireframe` will work, otherwise it will do nothing. This will
+            always be `true` when using Vulkan, and will always be `false` when using WebGPU.
+          ]]
         },
         {
-          name = 'instancedstereo',
+          name = 'depthClamp',
           type = 'boolean',
-          description = 'True if the instanced single-pass stereo rendering method is supported.'
+          description = [[
+            When supported, `Pass:setDepthClamp` will work, otherwise it will do nothing.
+          ]]
         },
         {
-          name = 'multiview',
+          name = 'indirectDrawFirstInstance',
           type = 'boolean',
-          description = 'True if the multiview single-pass stereo rendering method is supported.'
+          description = [[
+            Whether indirect draws can set the firstInstance property of buffer memory to something
+            other than zero.
+          ]]
         },
         {
-          name = 'timers',
+          name = 'float64',
           type = 'boolean',
-          description = 'Whether `lovr.graphics.tick` and `lovr.graphics.tock` are supported.'
+          description = 'Whether shader code can use doubles.'
+        },
+        {
+          name = 'int64',
+          type = 'boolean',
+          description = 'Whether shader code can use signed and unsigned 64-bit integers.'
+        },
+        {
+          name = 'int16',
+          type = 'boolean',
+          description = 'Whether shader code can use signed and unsigned 16-bit integers.'
         }
       }
     }
   },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'features' }
+    }
+  },
   related = {
+    'lovr.graphics.isFormatSupported',
+    'lovr.graphics.getDevice',
     'lovr.graphics.getLimits'
   }
 }

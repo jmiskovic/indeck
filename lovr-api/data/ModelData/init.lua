@@ -3,7 +3,7 @@ return {
   description = [[
     A ModelData is a container object that loads and holds data contained in 3D model files.  This
     can include a variety of things like the node structure of the asset, the vertex data it
-    contains, contains, the `TextureData` and `Material` properties, and any included animations.
+    contains, contains, the `Image` and `Material` properties, and any included animations.
 
     The current supported formats are OBJ, glTF, and STL.
 

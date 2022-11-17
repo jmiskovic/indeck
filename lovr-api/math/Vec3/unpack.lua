@@ -3,20 +3,23 @@ return {
   description = 'Returns the 3 components of the vector as numbers.',
   arguments = {},
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x value.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y value.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z value.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x', 'y', 'z' }
     }
   },
   related = {

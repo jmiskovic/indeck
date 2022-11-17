@@ -3,20 +3,23 @@ return {
   description = 'Returns the axis of the slider.',
   arguments = {},
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x component of the axis.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y component of the axis.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z component of the axis.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x', 'y', 'z' }
     }
   }
 }

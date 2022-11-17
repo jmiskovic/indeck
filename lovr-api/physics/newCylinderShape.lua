@@ -3,24 +3,27 @@ return {
   summary = 'Create a new CylinderShape.',
   description = 'Creates a new CylinderShape.',
   arguments = {
-    {
-      name = 'radius',
+    radius = {
       type = 'number',
       default = '1',
       description = 'The radius of the cylinder, in meters.'
     },
-    {
-      name = 'length',
+    length = {
       type = 'number',
       default = '1',
       description = 'The length of the cylinder, in meters.'
     }
   },
   returns = {
-    {
-      name = 'cylinder',
+    cylinder = {
       type = 'CylinderShape',
       description = 'The new CylinderShape.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'radius', 'length' },
+      returns = { 'cylinder' }
     }
   },
   notes = 'A Shape can be attached to a Collider using `Collider:addShape`.',

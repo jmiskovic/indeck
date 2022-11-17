@@ -7,5 +7,11 @@ return {
     This is called automatically at the end of each frame.
   ]],
   arguments = {},
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = {},
+      returns = {}
+    }
+  }
 }

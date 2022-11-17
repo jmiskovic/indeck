@@ -5,18 +5,22 @@ return {
     Returns whether any active headset driver is currently returning pose information for a device.
   ]],
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       default = [['head']],
       description = 'The device to get the pose of.'
     }
   },
   returns = {
-    {
-      name = 'tracked',
+    tracked = {
       type = 'boolean',
       description = 'Whether the device is currently tracked.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device' },
+      returns = { 'tracked' }
     }
   },
   notes = [[

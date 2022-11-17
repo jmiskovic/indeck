@@ -7,10 +7,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'origin',
+    origin = {
       type = 'HeadsetOrigin',
       description = 'The type of origin.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'origin' }
     }
   },
   related = {

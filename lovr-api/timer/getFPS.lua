@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'fps',
+    fps = {
       type = 'number',
       description = 'The current FPS.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'fps' }
     }
   }
 }

@@ -5,8 +5,7 @@ return {
     used to wait for a message, otherwise `nil` is returned.
   ]],
   arguments = {
-    {
-      name = 'wait',
+    wait = {
       type = 'number',
       default = 'false',
       description = [[
@@ -16,10 +15,15 @@ return {
     }
   },
   returns = {
-    {
-      name = 'message',
+    message = {
       type = '*',
       description = 'The received message, or `nil` if nothing was received.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'wait' },
+      returns = { 'message' }
     }
   },
   notes = 'Threads can get stuck forever waiting on Channel messages, so be careful.',

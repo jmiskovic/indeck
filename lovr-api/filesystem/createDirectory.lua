@@ -5,17 +5,21 @@ return {
     created.
   ]],
   arguments = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The directory to create, recursively.'
     }
   },
   returns = {
-    {
-      name = 'success',
+    success = {
       type = 'boolean',
       description = 'Whether the directory was created.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'path' },
+      returns = { 'success' }
     }
   }
 }

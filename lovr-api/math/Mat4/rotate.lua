@@ -43,8 +43,8 @@ return {
     }
   },
   related = {
-    'mat4:translate',
-    'mat4:scale',
-    'mat4:identity'
+    'Mat4:translate',
+    'Mat4:scale',
+    'Mat4:identity'
   }
 }

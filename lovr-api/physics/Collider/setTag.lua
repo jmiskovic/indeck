@@ -2,13 +2,18 @@ return {
   summary = 'Set the Collider\'s tag.',
   description = 'Sets the Collider\'s tag.',
   arguments = {
-    {
-      name = 'tag',
+    tag = {
       type = 'string',
       description = 'The Collider\'s collision tag.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'tag' },
+      returns = {}
+    }
+  },
   notes = [[
     Collision between tags can be enabled and disabled using `World:enableCollisionBetween` and
     `World:disableCollisionBetween`.

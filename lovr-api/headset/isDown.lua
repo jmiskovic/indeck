@@ -3,20 +3,17 @@ return {
   summary = 'Get the state of a button on a device.',
   description = 'Returns whether a button on a device is pressed.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       description = 'The device.'
     },
-    {
-      name = 'button',
+    button = {
       type = 'DeviceButton',
       description = 'The button.'
     }
   },
   returns = {
-    {
-      name = 'down',
+    down = {
       type = 'boolean',
       description = [[
         Whether the button on the device is currently pressed, or `nil` if the device does not have
@@ -24,6 +21,13 @@ return {
       ]]
     }
   },
+  variants = {
+    {
+      arguments = { 'device', 'button' },
+      returns = { 'down' }
+    }
+  },
+  notes = 'When hand tracking is active, pinching will be mapped to the `trigger` button.',
   related = {
     'DeviceButton',
     'lovr.headset.wasPressed',

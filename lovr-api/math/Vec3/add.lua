@@ -8,7 +8,17 @@ return {
     },
     x = {
       type = 'number',
-      description = 'A number to add to each component.'
+      description = 'A value to add to x component.'
+    },
+    y = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to add to y component.'
+    },
+    z = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to add to z component.'
     }
   },
   returns = {
@@ -23,7 +33,7 @@ return {
       returns = { 'v' }
     },
     {
-      arguments = { 'x' },
+      arguments = { 'x', 'y', 'z' },
       returns = { 'v' }
     }
   },

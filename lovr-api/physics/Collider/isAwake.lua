@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the Collider is currently awake.',
   arguments = {},
   returns = {
-    {
-      name = 'awake',
+    awake = {
       type = 'boolean',
       description = 'Whether the Collider is awake.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'awake' }
     }
   },
   related = {

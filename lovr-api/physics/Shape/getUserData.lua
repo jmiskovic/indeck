@@ -3,10 +3,15 @@ return {
   description = 'Returns the user data associated with the Shape.',
   arguments = {},
   returns = {
-    {
-      name = 'data',
+    data = {
       type = '*',
       description = 'The custom value associated with the Shape.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'data' }
     }
   },
   notes = 'User data can be useful to identify the Shape in callbacks.'

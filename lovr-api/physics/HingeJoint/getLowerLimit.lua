@@ -3,10 +3,15 @@ return {
   description = 'Returns the lower limit of the hinge angle.  This will be greater than -π.',
   arguments = {},
   returns = {
-    {
-      name = 'limit',
+    limit = {
       type = 'number',
       description = 'The lower limit, in radians.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'limit' }
     }
   },
   related = {

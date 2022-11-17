@@ -6,47 +6,46 @@ return {
     This can be used for asymmetric or oblique projections.
   ]],
   arguments = {
-    {
-      name = 'left',
+    left = {
       type = 'number',
       description = 'The left half-angle of the projection, in radians.'
     },
-    {
-      name = 'right',
+    right = {
       type = 'number',
       description = 'The right half-angle of the projection, in radians.'
     },
-    {
-      name = 'up',
+    up = {
       type = 'number',
       description = 'The top half-angle of the projection, in radians.'
     },
-    {
-      name = 'down',
+    down = {
       type = 'number',
       description = 'The bottom half-angle of the projection, in radians.'
     },
-    {
-      name = 'near',
+    near = {
       type = 'number',
       description = 'The near plane of the projection.'
     },
-    {
-      name = 'far',
+    far = {
       type = 'number',
       description = 'The far plane of the projection.'
     }
   },
   returns = {
-    {
-      name = 'm',
+    m = {
       type = 'Mat4',
       description = 'The original matrix.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'left', 'right', 'up', 'down', 'near', 'far' },
+      returns = { 'm' }
     }
   },
   related = {
     'Mat4:orthographic',
     'Mat4:perspective',
-    'lovr.graphics.setProjection'
+    'Pass:setProjection'
   }
 }

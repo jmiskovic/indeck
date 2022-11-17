@@ -8,47 +8,45 @@ return {
     If tracking data is unavailable for the view or the index is invalid, `nil` is returned.
   ]],
   arguments = {
-    {
-      name = 'view',
+    view = {
       type = 'number',
       description = 'The view index.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x coordinate of the view position, in meters.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y coordinate of the view position, in meters.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z coordinate of the view position, in meters.'
     },
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The amount of rotation around the rotation axis, in radians.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'view' },
+      returns = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' }
     }
   },
   related = {

@@ -6,18 +6,22 @@ return {
     this factor.
   ]],
   arguments = {
-    {
-      name = 'units',
+    units = {
       type = 'VolumeUnit',
       default = [['linear']],
       description = 'The units to return (linear or db).'
     }
   },
   returns = {
-    {
-      name = 'volume',
+    volume = {
       type = 'number',
       description = 'The master volume.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'units' },
+      returns = { 'volume' }
     }
   },
   notes = 'The default volume is 1.0 (0 dB).'

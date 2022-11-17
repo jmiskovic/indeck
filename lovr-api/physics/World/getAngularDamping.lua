@@ -7,15 +7,19 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'damping',
+    damping = {
       type = 'number',
       description = 'The angular damping.'
     },
-    {
-      name = 'threshold',
+    threshold = {
       type = 'number',
       description = 'Velocity limit below which the damping is not applied.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'damping', 'threshold' }
     }
   },
   notes = 'Angular damping can also be set on individual colliders.',

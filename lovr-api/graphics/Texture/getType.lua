@@ -1,16 +1,17 @@
 return {
   summary = 'Get the type of the Texture.',
-  description = 'Returns the type of the Texture.',
+  description = 'Returns the type of the texture.',
   arguments = {},
   returns = {
-    {
-      name = 'type',
+    type = {
       type = 'TextureType',
       description = 'The type of the Texture.'
     }
   },
-  related = {
-    'TextureType',
-    'lovr.graphics.newTexture'
+  variants = {
+    {
+      arguments = {},
+      returns = { 'type' }
+    }
   }
 }

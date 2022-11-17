@@ -3,20 +3,23 @@ return {
   description = 'Get the position of the Shape relative to its Collider.',
   arguments = {},
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x offset.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y offset.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z offset.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x', 'y', 'z' }
     }
   },
   related = {

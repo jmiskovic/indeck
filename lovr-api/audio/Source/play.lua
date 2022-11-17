@@ -1,12 +1,18 @@
 return {
+  tag = 'sourcePlayback',
   summary = 'Play the Source.',
   description = 'Plays the Source.  This doesn\'t do anything if the Source is already playing.',
   arguments = {},
   returns = {
-    {
-      name = 'success',
+    success = {
       type = 'boolean',
       description = 'Whether the Source successfully started playing.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'success' }
     }
   },
   notes = [[

@@ -3,20 +3,23 @@ return {
   description = 'Returns the width, height, and depth of the BoxShape.',
   arguments = {},
   returns = {
-    {
-      name = 'width',
+    width = {
       type = 'number',
       description = 'The width of the box, in meters.'
     },
-    {
-      name = 'height',
+    height = {
       type = 'number',
       description = 'The height of the box, in meters.'
     },
-    {
-      name = 'depth',
+    depth = {
       type = 'number',
       description = 'The depth of the box, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'width', 'height', 'depth' }
     }
   }
 }

@@ -1,16 +1,21 @@
 return {
-  summary = 'Different winding directions.',
+  summary = 'Different triangle windings.',
   description = [[
-    Whether the points on triangles are specified in a clockwise or counterclockwise order.
+    Indicates whether the front face of a triangle uses the clockwise or counterclockwise vertex
+    order.
   ]],
   values = {
     {
       name = 'clockwise',
-      description = 'Triangle vertices are specified in a clockwise order.',
+      description = 'Clockwise winding.'
     },
     {
       name = 'counterclockwise',
-      description = 'Triangle vertices are specified in a counterclockwise order.',
+      description = 'Counterclockwise winding.'
     }
+  },
+  related = {
+    'Pass:setWinding',
+    'Pass:setCullMode'
   }
 }

@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'responseTime',
+    responseTime = {
       type = 'number',
       description = 'The response time setting for the joint.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'responseTime' }
     }
   },
   related = {

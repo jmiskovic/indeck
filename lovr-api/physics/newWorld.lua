@@ -6,42 +6,42 @@ return {
     objects, and resolves collisions between them.
   ]],
   arguments = {
-    {
-      name = 'xg',
+    xg = {
       type = 'number',
       default = '0',
       description = 'The x component of the gravity force.'
     },
-    {
-      name = 'yg',
+    yg = {
       type = 'number',
       default = '-9.81',
       description = 'The y component of the gravity force.'
     },
-    {
-      name = 'zg',
+    zg = {
       type = 'number',
       default = '0',
       description = 'The z component of the gravity force.'
     },
-    {
-      name = 'allowSleep',
+    allowSleep = {
       type = 'boolean',
       default = 'true',
       description = 'Whether or not colliders will automatically be put to sleep.'
     },
-    {
-      name = 'tags',
+    tags = {
       type = 'table',
       default = '{}',
       description = 'A list of collision tags colliders can be assigned to.'
     }
   },
   returns = {
-    {
-      name = 'world',
+    world = {
       type = 'World',
       description = 'A whole new World.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'xg', 'yg', 'zg', 'allowSleep', 'tags' },
+      returns = { 'world' }
     }
   },
   notes = [[

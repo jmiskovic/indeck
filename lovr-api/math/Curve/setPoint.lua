@@ -2,28 +2,30 @@ return {
   summary = 'Set a control point of the Curve.',
   description = 'Changes the position of a control point on the Curve.',
   arguments = {
-    {
-      name = 'index',
+    index = {
       type = 'number',
       description = 'The index to modify.'
     },
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The new x coordinate.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The new y coordinate.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The new z coordinate.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'index', 'x', 'y', 'z' },
+      returns = {}
+    }
+  },
   notes = [[
     An error will be thrown if the index is less than one or more than the number of control points.
   ]],

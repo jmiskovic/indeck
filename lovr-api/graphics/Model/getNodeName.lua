@@ -1,18 +1,22 @@
 return {
   summary = 'Get the name of a node in the Model.',
-  description = 'Returns the name of one of the nodes (bones) in the Model.',
+  description = 'Returns the name of a node.',
   arguments = {
-    {
-      name = 'index',
+    index = {
       type = 'number',
-      description = 'The index of the node to get the name of.'
+      description = 'The index of the node.'
     }
   },
   returns = {
-    {
-      name = 'name',
+    name = {
       type = 'string',
       description = 'The name of the node.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'index' },
+      returns = { 'name' }
     }
   },
   related = {

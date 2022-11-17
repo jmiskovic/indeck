@@ -1,50 +1,41 @@
 return {
-  summary = 'Different blend modes.',
-  description = [[
-    Blend modes control how overlapping pixels are blended together, similar to layers in Photoshop.
-  ]],
+  summary = 'Blend modes.',
+  description = 'Different ways pixels can blend with the pixels behind them.',
   values = {
     {
       name = 'alpha',
-      description = 'Normal blending where the alpha value controls how the colors are blended.'
+      description = 'Colors will be mixed based on alpha.'
     },
     {
       name = 'add',
-      description = 'The incoming pixel color is added to the destination pixel color.'
+      description = 'Colors will be added to the existing color, alpha will not be changed.'
     },
     {
       name = 'subtract',
-      description = 'The incoming pixel color is subtracted from the destination pixel color.'
+      description = 'Colors will be subtracted from the existing color, alpha will not be changed.'
     },
     {
       name = 'multiply',
-      description = [[
-        The color channels from the two pixel values are multiplied together to produce a result.
-      ]]
+      description = 'All color channels will be multiplied together, producing a darkening effect.'
     },
     {
       name = 'lighten',
-      description = [[
-        The maximum value from each color channel is used, resulting in a lightening effect.
-      ]]
+      description = 'The maximum value of each color channel will be used.'
     },
     {
       name = 'darken',
-      description = [[
-        The minimum value from each color channel is used, resulting in a darkening effect.
-      ]]
+      description = 'The minimum value of each color channel will be used.'
     },
     {
       name = 'screen',
       description = [[
-        The opposite of multiply: The pixel values are inverted, multiplied, and inverted again,
-        resulting in a lightening effect.
+        The opposite of multiply: the pixel colors are inverted, multiplied, and inverted again,
+        producing a lightening effect.
       ]]
     }
   },
   related = {
     'BlendAlphaMode',
-    'lovr.graphics.getBlendMode',
-    'lovr.graphics.setBlendMode'
+    'Pass:setBlendMode'
   }
 }

@@ -1,21 +1,20 @@
 return {
-  summary = 'Get the pose of a single node.',
-  description = 'Returns the pose of a single node in the Model in a given `CoordinateSpace`.',
+  summary = 'Get the pose of a node.',
+  description = 'Returns the pose (position and orientation) of a node.',
   arguments = {
-    name = {
-      type = 'string',
-      description = 'The name of the node.'
-    },
     index = {
       type = 'number',
-      description = 'The node index.'
+      description = 'The index of a node.'
     },
-    space = {
-      type = 'CoordinateSpace',
-      default = [['global']],
+    name = {
+      type = 'string',
+      description = 'The name of a node.'
+    },
+    origin = {
+      type = 'OriginType',
+      default = [['root']],
       description = [[
-        Whether the pose should be returned relative to the node's parent or relative to the root
-        node of the Model.
+        Whether the pose should be returned relative to the root node or the node's parent.
       ]]
     }
   },
@@ -34,7 +33,7 @@ return {
     },
     angle = {
       type = 'number',
-      description = 'The number of radians the node is rotated around its rotational axis.'
+      description = 'The number of radians the node is rotated around its axis of rotation.'
     },
     ax = {
       type = 'number',
@@ -51,22 +50,23 @@ return {
   },
   variants = {
     {
-      arguments = { 'name', 'space' },
+      arguments = { 'index', 'origin' },
       returns = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' }
     },
     {
-      arguments = { 'index', 'space' },
+      arguments = { 'name', 'origin' },
       returns = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' }
     }
   },
-  notes = [[
-    For skinned nodes to render correctly, use a Shader created with the `animated` flag set to
-    `true`.  See `lovr.graphics.newShader` for more.
-  ]],
   related = {
-    'Model:pose',
-    'Model:animate',
-    'Model:getNodeName',
-    'Model:getNodeCount'
+    'Model:getNodePosition',
+    'Model:setNodePosition',
+    'Model:getNodeOrientation',
+    'Model:setNodeOrientation',
+    'Model:getNodeScale',
+    'Model:setNodeScale',
+    'Model:getNodeTransform',
+    'Model:setNodeTransform',
+    'Model:animate'
   }
 }

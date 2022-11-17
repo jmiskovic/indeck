@@ -24,36 +24,37 @@ return {
     try the device in exclusive mode, switching to shared if it doesn't work.
   ]],
   arguments = {
-    {
-      name = 'type',
+    type = {
       type = 'AudioType',
       default = [['playback']],
       description = 'The device to switch.'
     },
-    {
-      name = 'id',
+    id = {
       type = 'userdata',
       default = 'nil',
       description = 'The id of the device to use, or `nil` to use the default device.'
     },
-    {
-      name = 'sink',
+    sink = {
       type = 'Sound',
       default = 'nil',
       description = 'An optional audio stream to use as a sink for the device.'
     },
-    {
-      name = 'mode',
+    mode = {
       type = 'AudioShareMode',
       default = 'shared',
       description = 'The sharing mode for the device.'
     }
   },
   returns = {
-    {
-      name = 'success',
+    success = {
       type = 'boolean',
       description = 'Whether creating the audio device succeeded.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'type', 'id', 'sink', 'mode' },
+      returns = { 'success' }
     }
   },
   related = {

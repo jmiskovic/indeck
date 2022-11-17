@@ -4,20 +4,23 @@ return {
   description = 'Returns the position of the virtual audio listener, in meters.',
   arguments = {},
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the listener.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the listener.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the listener.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x', 'y', 'z' }
     }
   }
 }

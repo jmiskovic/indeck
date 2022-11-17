@@ -7,6 +7,7 @@ return {
   },
   related = {
     'Vec3',
-    'Quat'
+    'Quat',
+    'Vectors'
   }
 }

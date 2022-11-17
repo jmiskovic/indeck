@@ -1,9 +1,12 @@
 return {
-  summary = 'An image that can be applied to Materials.',
+  summary = 'A multidimensional block of memory on the GPU.',
   description = [[
-    A Texture is an image that can be applied to `Material`s.  The supported file formats are
-    `.png`, `.jpg`, `.hdr`, `.dds`, `.ktx`, and `.astc`.  DDS and ASTC are compressed formats, which
-    are recommended because they're smaller and faster.
+    Textures are multidimensional blocks of memory on the GPU, contrasted with `Buffer` objects
+    which are one-dimensional.  Textures are used as the destination for rendering operations, and
+    textures loaded from images provide surface data to `Material` objects.
   ]],
-  constructor = 'lovr.graphics.newTexture'
+  constructors = {
+    'lovr.graphics.newTexture',
+    'Texture:newView'
+  }
 }

@@ -3,15 +3,19 @@ return {
   description = 'Returns the upper and lower limits of the slider position.',
   arguments = {},
   returns = {
-    {
-      name = 'lower',
+    lower = {
       type = 'number',
       description = 'The lower limit.'
     },
-    {
-      name = 'upper',
+    upper = {
       type = 'number',
       description = 'The upper limit.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'lower', 'upper' }
     }
   },
   related = {

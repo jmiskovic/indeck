@@ -1,22 +1,23 @@
 return {
   summary = 'Different ways to vertically align text.',
-  description = 'Different ways to vertically align text when using `lovr.graphics.print`.',
+  description = 'Different ways to vertically align text with `Pass:text`.',
   values = {
     {
       name = 'top',
-      description = 'Align the top of the text to the origin.'
+      description = 'Top-aligned text.'
     },
     {
       name = 'middle',
-      description = 'Vertically center the text.'
+      description = 'Centered text.'
     },
     {
       name = 'bottom',
-      description = 'Align the bottom of the text to the origin.'
+      description = 'Bottom-aligned text.'
     }
   },
   related = {
     'HorizontalAlign',
-    'lovr.graphics.print'
+    'Pass:text',
+    'Font:getVertices'
   }
 }

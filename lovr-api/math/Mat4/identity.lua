@@ -6,13 +6,18 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'm',
+    m = {
       type = 'Mat4',
       description = 'The original matrix.'
     }
   },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'm' }
+    }
+  },
   related = {
-    'lovr.graphics.origin'
+    'Pass:origin'
   }
 }

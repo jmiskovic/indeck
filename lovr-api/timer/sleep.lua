@@ -5,11 +5,16 @@ return {
     will be run, no graphics will be drawn, and the window will be unresponsive.
   ]],
   arguments = {
-    {
-      name = 'duration',
+    duration = {
       type = 'number',
       description = 'The number of seconds to sleep for.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'duration' },
+      returns = {}
+    }
+  }
 }

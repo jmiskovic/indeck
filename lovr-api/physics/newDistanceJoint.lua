@@ -3,52 +3,49 @@ return {
   summary = 'Create a new DistanceJoint.',
   description = 'Creates a new DistanceJoint.',
   arguments = {
-    {
-      name = 'colliderA',
+    colliderA = {
       type = 'Collider',
       description = 'The first collider to attach the Joint to.'
     },
-    {
-      name = 'colliderB',
+    colliderB = {
       type = 'Collider',
       description = 'The second collider to attach the Joint to.'
     },
-    {
-      name = 'x1',
+    x1 = {
       type = 'number',
       description = 'The x position of the first anchor point, in world coordinates.'
     },
-    {
-      name = 'y1',
+    y1 = {
       type = 'number',
       description = 'The y position of the first anchor point, in world coordinates.'
     },
-    {
-      name = 'z1',
+    z1 = {
       type = 'number',
       description = 'The z position of the first anchor point, in world coordinates.'
     },
-    {
-      name = 'x2',
+    x2 = {
       type = 'number',
       description = 'The x position of the second anchor point, in world coordinates.'
     },
-    {
-      name = 'y2',
+    y2 = {
       type = 'number',
       description = 'The y position of the second anchor point, in world coordinates.'
     },
-    {
-      name = 'z2',
+    z2 = {
       type = 'number',
       description = 'The z position of the second anchor point, in world coordinates.'
     }
   },
   returns = {
-    {
-      name = 'joint',
+    joint = {
       type = 'DistanceJoint',
       description = 'The new DistanceJoint.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'colliderA', 'colliderB', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2' },
+      returns = { 'joint' }
     }
   },
   notes = [[

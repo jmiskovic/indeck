@@ -6,8 +6,7 @@ return {
     center of the bell curve (the mean value) and the overall width (sigma, or standard deviation).
   ]],
   arguments = {
-    {
-      name = 'sigma',
+    sigma = {
       type = 'number',
       default = '1',
       description = [[
@@ -15,18 +14,22 @@ return {
         numbers is or how much variability there is.
       ]]
     },
-    {
-      name = 'mu',
+    mu = {
       type = 'number',
       default = '0',
       description = 'The average value returned.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'A normally distributed pseudo-random number.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'sigma', 'mu' },
+      returns = { 'x' }
     }
   },
   related = {

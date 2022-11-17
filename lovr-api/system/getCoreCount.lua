@@ -3,10 +3,15 @@ return {
   description = 'Returns the number of logical cores on the system.',
   arguments = {},
   returns = {
-    {
-      name = 'cores',
+    cores = {
       type = 'number',
       description = 'The number of logical cores on the system.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'cores' }
     }
   },
   related = {

@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'name',
+    name = {
       type = 'string',
       description = 'The name of the Blob.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'name' }
     }
   }
 }

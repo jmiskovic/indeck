@@ -3,6 +3,12 @@ return {
   description = 'Pushes an event to restart the framework.',
   arguments = {},
   returns = {},
+  variants = {
+    {
+      arguments = {},
+      returns = {}
+    }
+  },
   notes = [[
     The event won't be processed until the next time `lovr.event.poll` is called.
 

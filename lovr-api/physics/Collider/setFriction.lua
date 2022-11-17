@@ -5,13 +5,18 @@ return {
     (multiplied) when they collide to generate a friction force.  The initial friction is 0.
   ]],
   arguments = {
-    {
-      name = 'friction',
+    friction = {
       type = 'number',
       description = 'The new friction.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'friction' },
+      returns = {}
+    }
+  },
   related = {
     'Collider:getRestitution',
     'Collider:setRestitution',

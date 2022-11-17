@@ -4,10 +4,15 @@ return {
   description = 'Returns whether colliders can go to sleep in the World.',
   arguments = {},
   returns = {
-    {
-      name = 'allowed',
+    allowed = {
       type = 'boolean',
       description = 'Whether colliders can sleep.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'allowed' }
     }
   },
   notes = [[

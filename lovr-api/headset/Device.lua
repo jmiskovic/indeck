@@ -63,7 +63,7 @@ return {
     },
     {
       name = 'camera',
-      description = 'A device used as a camera in the scene.'
+      description = 'A camera device, often used for recording "mixed reality" footage.'
     },
     {
       name = 'keyboard',
@@ -76,22 +76,24 @@ return {
     {
       name = 'eye/right',
       description = 'The right eye.'
-    },
-    {
-      name = 'beacon/1',
-      description = 'The first tracking device (i.e. lighthouse).'
-    },
-    {
-      name = 'beacon/2',
-      description = 'The second tracking device (i.e. lighthouse).'
-    },
-    {
-      name = 'beacon/3',
-      description = 'The third tracking device (i.e. lighthouse).'
-    },
-    {
-      name = 'beacon/4',
-      description = 'The fourth tracking device (i.e. lighthouse).'
     }
+  },
+  related = {
+    'DeviceAxis',
+    'DeviceButton',
+    'lovr.headset.getPose',
+    'lovr.headset.getPosition',
+    'lovr.headset.getOrientation',
+    'lovr.headset.getVelocity',
+    'lovr.headset.getAngularVelocity',
+    'lovr.headset.getSkeleton',
+    'lovr.headset.isTracked',
+    'lovr.headset.isDown',
+    'lovr.headset.isTouched',
+    'lovr.headset.wasPressed',
+    'lovr.headset.wasReleased',
+    'lovr.headset.getAxis',
+    'lovr.headset.vibrate',
+    'lovr.headset.animate'
   }
 }

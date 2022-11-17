@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the Shape is enabled.',
   arguments = {},
   returns = {
-    {
-      name = 'enabled',
+    enabled = {
       type = 'boolean',
       description = 'Whether the Shape is enabled.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'enabled' }
     }
   },
   notes = 'Disabled shapes won\'t collide with anything.'

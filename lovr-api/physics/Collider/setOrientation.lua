@@ -2,28 +2,30 @@ return {
   summary = 'Set the orientation of the Collider.',
   description = 'Sets the orientation of the Collider in angle/axis representation.',
   arguments = {
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The number of radians the Collider is rotated around its axis of rotation.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'angle', 'ax', 'ay', 'az' },
+      returns = {}
+    }
+  },
   related = {
     'Collider:applyTorque',
     'Collider:getAngularVelocity',

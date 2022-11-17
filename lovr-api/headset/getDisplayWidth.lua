@@ -4,10 +4,15 @@ return {
   description = 'Returns the width of the headset display (for one eye), in pixels.',
   arguments = {},
   returns = {
-    {
-      name = 'width',
+    width = {
       type = 'number',
       description = 'The width of the display.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'width' }
     }
   },
   related = {

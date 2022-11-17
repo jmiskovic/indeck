@@ -3,15 +3,19 @@ return {
   description = 'Returns the seed used to initialize the RandomGenerator.',
   arguments = {},
   returns = {
-    {
-      name = 'low',
+    low = {
       type = 'number',
       description = 'The lower 32 bits of the seed.'
     },
-    {
-      name = 'high',
+    high = {
       type = 'number',
       description = 'The upper 32 bits of the seed.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'low', 'high' }
     }
   },
   notes = [[

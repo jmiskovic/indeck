@@ -5,13 +5,18 @@ return {
     won't be touched for a while or if you need to it be active.
   ]],
   arguments = {
-    {
-      name = 'awake',
+    awake = {
       type = 'boolean',
       description = 'Whether the Collider should be awake.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'awake' },
+      returns = {}
+    }
+  },
   related = {
     'World:isSleepingAllowed',
     'World:setSleepingAllowed',

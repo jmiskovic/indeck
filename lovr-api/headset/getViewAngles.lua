@@ -9,32 +9,33 @@ return {
     If tracking data is unavailable for the view or the index is invalid, `nil` is returned.
   ]],
   arguments = {
-    {
-      name = 'view',
+    view = {
       type = 'number',
       description = 'The view index.'
     }
   },
   returns = {
-    {
-      name = 'left',
+    left = {
       type = 'number',
       description = 'The left view angle, in radians.'
     },
-    {
-      name = 'right',
+    right = {
       type = 'number',
       description = 'The right view angle, in radians.'
     },
-    {
-      name = 'top',
+    top = {
       type = 'number',
       description = 'The top view angle, in radians.'
     },
-    {
-      name = 'bottom',
+    bottom = {
       type = 'number',
       description = 'The bottom view angle, in radians.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'view' },
+      returns = { 'left', 'right', 'top', 'bottom' }
     }
   },
   related = {

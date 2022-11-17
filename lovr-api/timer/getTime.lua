@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'time',
+    time = {
       type = 'number',
       description = 'The current time, in seconds.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'time' }
     }
   },
   related = {

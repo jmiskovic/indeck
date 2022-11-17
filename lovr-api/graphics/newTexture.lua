@@ -1,124 +1,157 @@
 return {
-  tag = 'graphicsObjects',
+  tag = 'graphics-objects',
   summary = 'Create a new Texture.',
-  description = 'Creates a new Texture from an image file.',
+  description = [[
+    Creates a new Texture.  Image filenames or `Image` objects can be used to provide the initial
+    pixel data and the dimensions, format, and type.  Alternatively, dimensions can be provided,
+    which will create an empty texture.
+  ]],
   arguments = {
-    width = {
-      type = 'number',
-      description = 'The width of the Texture.'
-    },
-    height = {
-      type = 'number',
-      description = 'The height of the Texture.'
-    },
-    depth = {
-      type = 'number',
-      description = 'The depth of the Texture.'
-    },
     filename = {
       type = 'string',
-      description = 'The filename of the image to load.'
+      description = 'The filename of an image to load.'
+    },
+    image = {
+      type = 'string',
+      description = 'An Image object holding pixel data to load into the Texture.'
     },
     blob = {
       type = 'Blob',
-      description = 'The Blob containing encoded image data used to create the Texture.'
+      description = 'A Blob object holding pixel data to load into the Texture.'
     },
-    textureData = {
-      type = 'TextureData',
-      description = 'The TextureData to create the Texture from.'
+    width = {
+      type = 'number',
+      description = 'The width of the Texture, in pixels.'
+    },
+    height = {
+      type = 'number',
+      description = 'The height of the Texture, in pixels.'
+    },
+    layers = {
+      type = 'number',
+      description = 'The number of layers in the Texture.'
     },
     images = {
       type = 'table',
-      description = 'A table of image filenames to load.'
+      description = 'A table of filenames or Images to load into the Texture.'
     },
-    flags = {
+    options = {
       type = 'table',
-      default = '{}',
-      description = 'Optional settings for the texture.',
+      description = 'Texture options.',
       table = {
-        {
-          name = 'linear',
-          type = 'boolean',
-          default = 'false',
-          description = 'Whether the texture is in linear color space instead of the usual sRGB.'
-        },
-        {
-          name = 'mipmaps',
-          type = 'boolean',
-          default = 'true',
-          description = 'Whether mipmaps will be generated for the texture.'
-        },
         {
           name = 'type',
           type = 'TextureType',
-          default = 'nil',
-          description = [[
-            The type of Texture to load the images into.  If nil, the type will be `2d` for a
-            single image, `array` for a table of images with numeric keys, or `cube` for a table
-            of images with string keys.
-          ]]
+          description = 'The type of the texture.'
         },
         {
           name = 'format',
           type = 'TextureFormat',
-          default = [['rgba']],
-          description = 'The format used for the Texture (when creating a blank texture).'
+          default = [['rgba8']],
+          description = 'The format of the texture (ignored when images are provided).'
         },
         {
-          name = 'msaa',
+          name = 'linear',
+          type = 'boolean',
+          default = 'false',
+          description = [[
+            Whether the texture is in linear color space instead of sRGB.  Linear textures should be
+            used for non-color data, like normal maps.
+          ]]
+        },
+        {
+          name = 'samples',
           type = 'number',
-          default = '0',
-          description = 'The antialiasing level to use (when attaching the Texture to a Canvas).'
+          default = '1',
+          description = [[
+            The number of samples in the texture, used for multisample antialiasing.  Currently must be 1 or 4.  Ignored when images are provided.
+          ]]
+        },
+        {
+          name = 'mipmaps',
+          type = '*',
+          default = 'true',
+          description = [[
+            The number of mipmap levels in the texture, or a boolean.  If true, a full mipmap chain
+            will be created.  If false, the texture will only have a single mipmap.
+          ]]
+        },
+        {
+          name = 'usage',
+          type = 'table',
+          description = 'A list of `TextureUsage` indicating how the texture will be used.'
+        },
+        {
+          name = 'label',
+          type = 'string',
+          description = 'A label for the Texture that will show up in debugging tools.'
         }
       }
     }
   },
   returns = {
     texture = {
-      name = 'texture',
       type = 'Texture',
       description = 'The new Texture.'
     }
   },
   variants = {
     {
-      arguments = { 'filename', 'flags' },
+      arguments = { 'filename', 'options' },
       returns = { 'texture' }
     },
     {
-      description = [[
-        Create a Texture from a table of filenames, Blobs, or TextureData.  For cube textures, the
-        individual faces can be specified using the string keys "right", "left", "top", "bottom",
-        "back", "front".
-      ]],
-      arguments = { 'images', 'flags' },
+      arguments = { 'width', 'height', 'options' },
       returns = { 'texture' }
     },
     {
-      description = [[
-        Creates a blank Texture with specified dimensions.  This saves memory if you're planning on
-        rendering to the Texture using a Canvas or a compute shader, but the contents of the Texture
-        will be initialized to random data.
-      ]],
-      arguments = { 'width', 'height', 'depth', 'flags' },
+      arguments = { 'width', 'height', 'layers', 'options' },
       returns = { 'texture' }
     },
     {
-      description = 'Create a texture from a single Blob.',
-      arguments = { 'blob', 'flags' },
+      arguments = { 'image', 'options' },
       returns = { 'texture' }
     },
     {
-      description = 'Create a texture from a single TextureData.',
-      arguments = { 'textureData', 'flags' },
+      arguments = { 'images', 'options' },
+      returns = { 'texture' }
+    },
+    {
+      arguments = { 'blob', 'options' },
       returns = { 'texture' }
     }
   },
   notes = [[
-    The "linear" flag should be set to true for textures that don't contain color information, such
-    as normal maps.
+    If no `type` is provided in the options table, LÖVR will guess the `TextureType` of the Texture
+    based on the number of layers:
 
-    Right now the supported image file formats are png, jpg, hdr, dds (DXT1, DXT3, DXT5), ktx, and
-    astc.
-  ]]
+    - If there's 1 layer, the type will be `2d`.
+    - If there are 6 layers, the type will be `cube`.
+    - Otherwise, the type will be `array`.
+
+    Note that an Image can contain multiple layers and mipmaps.  When a single Image is provided,
+    its layer count will be used as the Texture's layer count.
+
+    If multiple Images are used to initialize the Texture, they must all have a single layer, and
+    their dimensions, format, and mipmap counts must match.
+
+    When providing cubemap images in a table, they can be in one of the following forms:
+
+        { 'px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png' }
+        { right = 'px.png', left = 'nx.png', top = 'py.png', bottom = 'ny.png', back = 'pz.png', front = 'nz.png' }
+        { px = 'px.png', nx = 'nx.png', py = 'py.png', ny = 'ny.png', pz = 'pz.png', nz = 'nz.png' }
+
+    (Where 'p' stands for positive and 'n' stands for negative).
+
+    If no `usage` is provided in the options table, LÖVR will guess the `TextureUsage` of the
+    Texture.  The `sample` usage is always included, but if the texture was created without any
+    images then the texture will have the `render` usage as well.
+
+    The supported image formats are png, jpg, hdr, dds, ktx1, ktx2, and astc.
+
+    If image data is provided, mipmaps will be generated for any missing mipmap levels.
+  ]],
+  related = {
+    'Texture:newView'
+  }
 }

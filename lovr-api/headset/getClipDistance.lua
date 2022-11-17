@@ -7,20 +7,25 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'near',
+    near = {
       type = 'number',
       description = 'The distance to the near clipping plane, in meters.'
     },
-    {
-      name = 'far',
+    far = {
       type = 'number',
-      description = 'The distance to the far clipping plane, in meters.'
+      description = [[
+        The distance to the far clipping plane, in meters, or 0 for an infinite far clipping plane
+        with a reversed Z range.
+      ]]
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'near', 'far' }
     }
   },
   notes = [[
-    The default near and far clipping planes are 0.1 meters and 100.0 meters.
-
-    This is not currently supported by the `vrapi` headset driver.
+    The default near and far clipping planes are 0.01 meters and 0.0 meters.
   ]]
 }

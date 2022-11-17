@@ -3,10 +3,15 @@ return {
   description = 'Returns the length of the vector.',
   arguments = {},
   returns = {
-    {
-      name = 'length',
+    length = {
       type = 'number',
       description = 'The length of the vector.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'length' }
     }
   },
   notes = [[

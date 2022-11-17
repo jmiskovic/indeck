@@ -7,6 +7,7 @@ return {
   },
   related = {
     'Vec2',
-    'Vec4'
+    'Vec4',
+    'Vectors'
   }
 }

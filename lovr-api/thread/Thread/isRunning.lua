@@ -3,10 +3,15 @@ return {
   description = 'Returns whether or not the Thread is currently running.',
   arguments = {},
   returns = {
-    {
-      name = 'running',
+    running = {
       type = 'boolean',
       description = 'Whether or not the Thread is running.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'running' }
     }
   },
   related = {

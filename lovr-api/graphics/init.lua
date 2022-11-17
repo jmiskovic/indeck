@@ -1,52 +1,33 @@
 return {
   tag = 'modules',
-  summary = 'Renders graphics.',
+  summary = 'Renders graphics using the GPU.',
   description = [[
-    The `lovr.graphics` module renders graphics to displays.  Anything rendered using this module
-    will automatically show up in the VR headset if one is connected, otherwise it will just show up
-    in a window on the desktop.
+    The graphics module renders graphics and performs computation using the GPU.
+
+    Most of the graphics functions are on the `Pass` object.
   ]],
   sections = {
     {
-      name = 'Drawing',
-      tag = 'graphicsPrimitives',
-      description = 'Simple functions for drawing simple shapes.'
-    },
-    {
       name = 'Objects',
-      tag = 'graphicsObjects',
+      tag = 'graphics-objects'
+    },
+    {
+      name = 'Global State',
+      tag = 'graphics-global'
+    },
+    {
+      name = 'Work Submission',
+      tag = 'work-submission',
       description = [[
-        Several graphics-related objects can be created with the graphics module.  Try to avoid
-        calling these functions in `lovr.update` or `lovr.draw`, because then the objects will be
-        loaded every frame, which can really slow things down!
+        The only way to get the GPU to do anything is to submit `Pass` objects to it.  LÖVR submits
+        the default pass automatically at the end of `lovr.draw`, but work can also be submitted
+        manually.
       ]]
     },
     {
-      name = 'Transforms',
-      tag = 'graphicsTransforms',
-      description = [[
-        These functions manipulate the 3D coordinate system.  By default the negative z axis points
-        forwards and the positive y axis points up.  Manipulating the coordinate system can be used
-        to create a hierarchy of rendered objects.  Thinking in many different coordinate systems
-        can be challenging though, so be sure to brush up on 3D math first!
-      ]]
-    },
-    {
-      name = 'State',
-      tag = 'graphicsState',
-      description = [[
-        These functions get or set graphics state.  Graphics state is is a collection of small
-        settings like the background color of the scene or the active shader.  Keep in mind that all
-        this state is **global**, so if you change a setting, the change will persist until that
-        piece of state is changed again.
-      ]]
-    },
-    {
-      name = 'Window',
-      tag = 'window',
-      description = [[
-        Get info about the desktop window or operate on the underlying graphics context.
-      ]]
+      name = 'System Info',
+      tag = 'graphics-misc',
+      description = 'Information about the GPU hardware and the features it supports.'
     }
   }
 }

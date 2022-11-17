@@ -3,20 +3,23 @@ return {
   description = 'Returns the position of the Collider.',
   arguments = {},
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the Collider, in meters.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the Collider, in meters.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the Collider, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x', 'y', 'z' }
     }
   },
   related = {

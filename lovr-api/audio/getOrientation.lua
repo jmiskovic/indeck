@@ -6,25 +6,27 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The number of radians the listener is rotated around its axis of rotation.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'angle', 'ax', 'ay', 'az' }
     }
   },
   related = {

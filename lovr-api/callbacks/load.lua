@@ -7,17 +7,16 @@ return {
   ]],
   arguments = {
     {
-      name = 'args',
+      name = 'arg',
       type = 'table',
       description = 'The command line arguments provided to the program.'
     }
   },
   returns = {},
   example = [[
-    function lovr.load(args)
-      model = lovr.graphics.newModel('cena.gltf')
+    function lovr.load(arg)
+      model = lovr.graphics.newModel('sponza.gltf')
       texture = lovr.graphics.newTexture('cena.png')
-      levelGeometry = lovr.graphics.newMesh(1000)
       effects = lovr.graphics.newShader('vert.glsl', 'frag.glsl')
       loadLevel(1)
     end
@@ -25,9 +24,9 @@ return {
   notes = [[
     If the project was loaded from a restart using `lovr.event.restart`, the return value from the
     previously-run `lovr.restart` callback will be made available to this callback as the `restart`
-    key in the `args` table.
+    key in the `arg` table.
 
-    The `args` table follows the [Lua
+    The `arg` table follows the [Lua
     standard](https://en.wikibooks.org/wiki/Lua_Programming/command_line_parameter).  The arguments
     passed in from the shell are put into a global table named `arg` and passed to `lovr.load`, but
     with indices offset such that the "script" (the project path) is at index 0.  So all arguments

@@ -14,7 +14,7 @@ return {
       description = 'The id of the key (ignores keyboard layout, may vary between keyboards).'
     },
     {
-      name = 'repeat',
+      name = 'repeating',
       type = 'boolean',
       description = 'Whether the event is the result of a key repeat instead of an actual press.'
     }

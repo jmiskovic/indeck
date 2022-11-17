@@ -12,13 +12,18 @@ return {
     `DistanceJoint` and `BallJoint` objects.
   ]],
   arguments = {
-    {
-      name = 'responseTime',
+    responseTime = {
       type = 'number',
       description = 'The new response time setting for the World.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'responseTime' },
+      returns = {}
+    }
+  },
   related = {
     'BallJoint:getResponseTime',
     'BallJoint:setResponseTime',

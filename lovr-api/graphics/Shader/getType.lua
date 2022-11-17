@@ -1,21 +1,21 @@
 return {
   summary = 'Get the type of the Shader.',
-  description = [[
-    Returns the type of the Shader, which will be "graphics" or "compute".
-
-    Graphics shaders are created with `lovr.graphics.newShader` and can be used for rendering with
-    `lovr.graphics.setShader`.  Compute shaders are created with `lovr.graphics.newComputeShader`
-    and can be run using `lovr.graphics.compute`.
-  ]],
+  description = 'Returns whether the shader is a graphics or compute shader.',
   arguments = {},
   returns = {
-    {
-      name = 'type',
+    type = {
       type = 'ShaderType',
       description = 'The type of the Shader.'
     }
   },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'type' }
+    }
+  },
   related = {
-    'ShaderType'
+    'Shader:hasStage',
+    'lovr.graphics.newShader'
   }
 }

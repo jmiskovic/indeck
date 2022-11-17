@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'bytes',
+    bytes = {
       type = 'number',
       description = 'The size of the Blob, in bytes.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'bytes' }
     }
   }
 }

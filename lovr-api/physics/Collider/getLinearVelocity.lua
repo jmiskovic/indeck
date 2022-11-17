@@ -6,20 +6,23 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'vx',
+    vx = {
       type = 'number',
       description = 'The x velocity of the Collider, in meters per second.'
     },
-    {
-      name = 'vy',
+    vy = {
       type = 'number',
       description = 'The y velocity of the Collider, in meters per second.'
     },
-    {
-      name = 'vz',
+    vz = {
       type = 'number',
       description = 'The z velocity of the Collider, in meters per second.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'vx', 'vy', 'vz' }
     }
   },
   related = {

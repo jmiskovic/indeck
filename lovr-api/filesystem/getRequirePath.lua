@@ -8,10 +8,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The semicolon separated list of search patterns.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'path' }
     }
   },
   notes = ' The default reqiure path is \'?.lua;?/init.lua\'.'

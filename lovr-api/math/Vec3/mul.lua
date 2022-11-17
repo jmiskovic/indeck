@@ -8,7 +8,17 @@ return {
     },
     x = {
       type = 'number',
-      description = 'The number to multiply each component by.'
+      description = 'A value to multiply x component by.'
+    },
+    y = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to multiply y component by.'
+    },
+    z = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to multiply z component by.'
     }
   },
   returns = {
@@ -23,7 +33,7 @@ return {
       returns = { 'v' }
     },
     {
-      arguments = { 'x' },
+      arguments = { 'x', 'y', 'z' },
       returns = { 'v' }
     }
   },

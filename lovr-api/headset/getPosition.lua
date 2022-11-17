@@ -3,28 +3,30 @@ return {
   summary = 'Get the position of a device.',
   description = 'Returns the current position of a device, in meters, relative to the play area.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       default = [['head']],
       description = 'The device to get the position of.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the device.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the device.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the device.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device' },
+      returns = { 'x', 'y', 'z' }
     }
   },
   notes = ' If the device isn\'t tracked, all zeroes will be returned.',

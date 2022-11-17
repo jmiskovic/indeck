@@ -5,27 +5,23 @@ return {
     allows you to read files from it.
   ]],
   arguments = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The path to mount.'
     },
-    {
-      name = 'mountpoint',
+    mountpoint = {
       type = 'string',
       default = [['/']],
       description = 'The path in the virtual filesystem to mount to.'
     },
-    {
-      name = 'append',
+    append = {
       type = 'boolean',
       default = 'false',
       description = [[
         Whether the archive will be added to the end or the beginning of the search path.
       ]]
     },
-    {
-      name = 'root',
+    root = {
       type = 'string',
       default = 'nil',
       description = [[
@@ -35,10 +31,15 @@ return {
     }
   },
   returns = {
-    {
-      name = 'success',
+    success = {
       type = 'boolean',
       description = 'Whether the archive was successfully mounted.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'path', 'mountpoint', 'append', 'root' },
+      returns = { 'success' }
     }
   },
   notes = [[

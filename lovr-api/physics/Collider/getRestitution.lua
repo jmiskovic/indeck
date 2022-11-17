@@ -7,10 +7,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'restitution',
+    restitution = {
       type = 'number',
       description = 'The restitution of the Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'restitution' }
     }
   },
   related = {

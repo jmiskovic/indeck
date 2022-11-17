@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'pointer',
+    pointer = {
       type = 'userdata',
       description = 'A pointer to the data.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'pointer' }
     }
   }
 }

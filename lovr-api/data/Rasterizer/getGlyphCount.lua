@@ -3,10 +3,15 @@ return {
   description = 'Returns the number of glyphs stored in the font file.',
   arguments = {},
   returns = {
-    {
-      name = 'count',
+    count = {
       type = 'number',
       description = 'The number of glyphs stored in the font file.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'count' }
     }
   },
   related = {

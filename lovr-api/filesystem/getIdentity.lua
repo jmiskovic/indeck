@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'identity',
+    identity = {
       type = 'string',
       description = 'The name of the save directory, or `nil` if it isn\'t set.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'identity' }
     }
   },
   notes = [[

@@ -3,10 +3,15 @@ return {
   description = 'Returns the type of the Joint.',
   arguments = {},
   returns = {
-    {
-      name = 'type',
+    type = {
       type = 'JointType',
       description = 'The type of the Joint.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'type' }
     }
   },
   related = {

@@ -5,11 +5,16 @@ return {
     apart.
   ]],
   arguments = {
-    {
-      name = 'distance',
+    distance = {
       type = 'number',
       description = 'The new target distance.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'distance' },
+      returns = {}
+    }
+  }
 }

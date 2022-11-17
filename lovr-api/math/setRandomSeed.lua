@@ -7,11 +7,16 @@ return {
     automatically at startup by `lovr.run`.
   ]],
   arguments = {
-    {
-      name = 'seed',
+    seed = {
       type = 'number',
       description = 'The new seed.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'seed' },
+      returns = {}
+    }
+  }
 }

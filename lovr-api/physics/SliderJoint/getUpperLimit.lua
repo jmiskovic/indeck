@@ -3,10 +3,15 @@ return {
   description = 'Returns the upper limit of the slider position.',
   arguments = {},
   returns = {
-    {
-      name = 'limit',
+    limit = {
       type = 'number',
       description = 'The upper limit.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'limit' }
     }
   },
   related = {

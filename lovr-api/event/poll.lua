@@ -8,12 +8,17 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'iterator',
+    iterator = {
       type = 'function',
       arguments = {},
       returns = {},
       description = 'The iterator function, usable in a for loop.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'iterator' }
     }
   }
 }

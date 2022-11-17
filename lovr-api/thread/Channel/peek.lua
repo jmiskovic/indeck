@@ -6,15 +6,19 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'message',
+    message = {
       type = '*',
       description = 'The message, or `nil` if there is no message.'
     },
-    {
-      name = 'present',
+    present = {
       type = 'boolean',
       description = 'Whether a message was returned (use to detect nil).'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'message', 'present' }
     }
   },
   notes = [[

@@ -1,4 +1,5 @@
 return {
+  tag = 'sourceUtility',
   summary = 'Create an identical copy of the Source.',
   description = [[
     Creates a copy of the Source, referencing the same `Sound` object and inheriting all of the
@@ -7,10 +8,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'source',
+    source = {
       type = 'Source',
       description = 'A genetically identical copy of the Source.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'source' }
     }
   },
   notes = [[

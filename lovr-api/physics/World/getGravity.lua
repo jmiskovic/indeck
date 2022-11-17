@@ -4,20 +4,23 @@ return {
   description = 'Returns the gravity of the World.',
   arguments = {},
   returns = {
-    {
-      name = 'xg',
+    xg = {
       type = 'number',
       description = 'The x component of the gravity force.'
     },
-    {
-      name = 'yg',
+    yg = {
       type = 'number',
       description = 'The y component of the gravity force.'
     },
-    {
-      name = 'zg',
+    zg = {
       type = 'number',
       description = 'The z component of the gravity force.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'xg', 'yg', 'zg' }
     }
   }
 }

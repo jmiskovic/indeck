@@ -7,19 +7,23 @@ return {
     is over the threshold value.
   ]],
   arguments = {
-    {
-      name = 'damping',
+    damping = {
       type = 'number',
       description = 'The linear damping.'
     },
-    {
-      name = 'threshold',
+    threshold = {
       type = 'number',
       default = '0',
       description = 'Velocity limit below which the damping is not applied.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'damping', 'threshold' },
+      returns = {}
+    }
+  },
   notes = [[
     A linear damping of 0 means colliders won't slow down over time.  This is the default.
 

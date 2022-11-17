@@ -6,14 +6,19 @@ return {
     indicates that an error occurred.
   ]],
   arguments = {
-    {
-      name = 'code',
+    code = {
       type = 'number',
       default = '0',
       description = 'The exit code of the program.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'code' },
+      returns = {}
+    }
+  },
   notes = [[
     This function is equivalent to calling `lovr.event.push('quit', <args>)`.
 

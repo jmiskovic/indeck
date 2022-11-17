@@ -1,24 +1,19 @@
 return {
-  summary = 'Different types of shaders.',
-  description = [[
-    Shaders can be used for either rendering operations or generic compute tasks.  Graphics shaders
-    are created with `lovr.graphics.newShader` and compute shaders are created with
-    `lovr.graphics.newComputeShader`.  `Shader:getType` can be used on an existing Shader to figure
-    out what type it is.
-  ]],
+  summary = 'Different types of Shaders.',
+  description = 'The two types of shaders that can be created.',
   values = {
     {
       name = 'graphics',
-      description = 'A graphics shader.'
+      description = 'A graphics shader with a vertex and pixel stage.'
     },
     {
       name = 'compute',
-      description = 'A compute shader.'
+      description = 'A compute shader with a single compute stage.'
     }
   },
   related = {
-    'Shader',
     'lovr.graphics.newShader',
-    'lovr.graphics.newComputeShader'
+    'Shader:getType',
+    'ShaderStage'
   }
 }

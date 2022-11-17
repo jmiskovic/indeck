@@ -6,18 +6,22 @@ return {
     headset driver does not expose this information.
   ]],
   arguments = {
-    {
-      name = 't',
+    t = {
       type = 'table',
       default = 'nil',
       description = 'A table to fill with the points.  If `nil`, a new table will be created.'
     }
   },
   returns = {
-    {
-      name = 'points',
+    points = {
       type = 'table',
       description = 'A flat table of 3D points representing the play area boundaries.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 't' },
+      returns = { 'points' }
     }
   },
   related = {

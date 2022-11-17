@@ -5,38 +5,31 @@ return {
     Casts a ray through the World, calling a function every time the ray intersects with a Shape.
   ]],
   arguments = {
-    {
-      name = 'x1',
+    x1 = {
       type = 'number',
       description = 'The x coordinate of the starting position of the ray.',
     },
-    {
-      name = 'y1',
+    y1 = {
       type = 'number',
       description = 'The y coordinate of the starting position of the ray.',
     },
-    {
-      name = 'z1',
+    z1 = {
       type = 'number',
       description = 'The z coordinate of the starting position of the ray.',
     },
-    {
-      name = 'x2',
+    x2 = {
       type = 'number',
       description = 'The x coordinate of the ending position of the ray.',
     },
-    {
-      name = 'y2',
+    y2 = {
       type = 'number',
       description = 'The y coordinate of the ending position of the ray.',
     },
-    {
-      name = 'z2',
+    z2 = {
       type = 'number',
       description = 'The z coordinate of the ending position of the ray.',
     },
-    {
-      name = 'callback',
+    callback = {
       type = 'function',
       arguments = {
         {
@@ -69,10 +62,22 @@ return {
         }
       },
       returns = {},
+  variants = {
+    {
+      arguments = { 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'callback' },
+      returns = {}
+    }
+  },
       description = 'The function to call when an intersection is detected.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'callback' },
+      returns = {}
+    }
+  },
   notes = [[
     The callback is passed the shape that was hit, the hit position (in world coordinates), and the
     normal vector of the hit.

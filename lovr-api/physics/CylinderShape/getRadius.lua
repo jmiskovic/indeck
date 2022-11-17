@@ -3,10 +3,15 @@ return {
   description = 'Returns the radius of the CylinderShape.',
   arguments = {},
   returns = {
-    {
-      name = 'radius',
+    radius = {
       type = 'number',
       description = 'The radius of the cylinder, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'radius' }
     }
   }
 }

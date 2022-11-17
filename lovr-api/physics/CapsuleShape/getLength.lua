@@ -3,10 +3,15 @@ return {
   description = 'Returns the length of the CapsuleShape, not including the caps.',
   arguments = {},
   returns = {
-    {
-      name = 'length',
+    length = {
       type = 'number',
       description = 'The length of the capsule, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'length' }
     }
   }
 }

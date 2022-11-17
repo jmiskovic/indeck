@@ -2,8 +2,8 @@ return {
   tag = 'callbacks',
   summary = 'The main entry point.',
   description = [[
-    This callback is the main entry point for a LÖVR program.  It is responsible for calling
-    `lovr.load` and returning the main loop function.
+    This callback is the main entry point for a LÖVR program.  It calls `lovr.load` and returns a
+    function that will be called every frame.
   ]],
   arguments = {},
   returns = {
@@ -17,57 +17,63 @@ return {
           type = '*'
         }
       },
-      description = [[
-        The main loop function.  It should return nil to continue running, "restart" to restart the
-        app, or a number representing an exit status.
-
-        Most users should overload lovr.load, lovr.update and lovr.draw instead, since if a custom
-        lovr.run does not do everything it is expected that some features may not work. For example,
-        if lovr.run does not respond to "quit" events the program will not be able to quit, and if
-        it does not call "present" then no graphics will be drawn.
-      ]]
+      description = 'The main loop function.'
     }
   },
+  notes = [[
+    The main loop function can return one of the following values:
+
+    - Returning `nil` will keep the main loop running.
+    - Returning the string 'restart' plus an optional value will restart LÖVR.  The value can be
+      accessed in the `restart` key of the `arg` global.
+    - Returning a number will exit LÖVR using the number as the exit code (0 means success).
+
+    Care should be taken when overriding this callback.  For example, if the main loop does not call
+    `lovr.event.pump` then the OS will think LÖVR is unresponsive, and if the quit event is not
+    handled then closing the window won't work.
+  ]],
   example = {
     description = 'The default `lovr.run`:',
     code = [[
       function lovr.run()
-        lovr.timer.step()
-        if lovr.load then lovr.load() end
+        if lovr.timer then lovr.timer.step() end
+        if lovr.load then lovr.load(arg) end
         return function()
-          lovr.event.pump()
-          for name, a, b, c, d in lovr.event.poll() do
-            if name == 'quit' and (not lovr.quit or not lovr.quit()) then
-              return a or 0
-            end
-            if lovr.handlers[name] then lovr.handlers[name](a, b, c, d) end
-          end
-          local dt = lovr.timer.step()
-          if lovr.headset then
-            lovr.headset.update(dt)
-          end
-          if lovr.audio then
-            lovr.audio.update()
-            if lovr.headset then
-              lovr.audio.setOrientation(lovr.headset.getOrientation())
-              lovr.audio.setPosition(lovr.headset.getPosition())
-              lovr.audio.setVelocity(lovr.headset.getVelocity())
+          if lovr.event then
+            lovr.event.pump()
+            for name, a, b, c, d in lovr.event.poll() do
+              if name == 'restart' then
+                local cookie = lovr.restart and lovr.restart()
+                return 'restart', cookie
+              elseif name == 'quit' and (not lovr.quit or not lovr.quit(a)) then
+                return a or 0
+              end
+              if lovr.handlers[name] then lovr.handlers[name](a, b, c, d) end
             end
           end
+          local dt = 0
+          if lovr.timer then dt = lovr.timer.step() end
+          if lovr.headset then dt = lovr.headset.update() end
           if lovr.update then lovr.update(dt) end
           if lovr.graphics then
-            lovr.graphics.origin()
-            if lovr.draw then
-              if lovr.headset then
-                lovr.headset.renderTo(lovr.draw)
-              end
-              if lovr.graphics.hasWindow() then
-                lovr.mirror()
+            if lovr.headset then
+              local pass = lovr.headset.getPass()
+              if pass then
+                local skip = lovr.draw and lovr.draw(pass)
+                if not skip then lovr.graphics.submit(pass) end
               end
             end
-            lovr.graphics.present()
+            if lovr.system.isWindowOpen() then
+              if lovr.mirror then
+                local pass = lovr.graphics.getWindowPass()
+                local skip = lovr.mirror(pass)
+                if not skip then lovr.graphics.submit(pass) end
+              end
+              lovr.graphics.present()
+            end
           end
-          lovr.math.drain()
+          if lovr.headset then lovr.headset.submit() end
+          if lovr.math then lovr.math.drain() end
         end
       end
     ]],

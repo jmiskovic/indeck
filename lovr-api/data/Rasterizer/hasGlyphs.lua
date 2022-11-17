@@ -1,20 +1,24 @@
 return {
   summary = 'Get whether the Rasterizer can rasterize a set of glyphs.',
-  description = 'Check if the Rasterizer can rasterize a set of glyphs.',
+  description = 'Returns whether the Rasterizer can rasterize a set of glyphs.',
   arguments = {
-    {
-      name = '...',
+    ['...'] = {
       type = '*',
       description = 'Strings (sets of characters) or numbers (character codes) to check for.'
     }
   },
   returns = {
-    {
-      name = 'hasGlyphs',
+    hasGlyphs = {
       type = 'boolean',
       description = [[
         true if the Rasterizer can rasterize all of the supplied characters, false otherwise.
       ]]
+    }
+  },
+  variants = {
+    {
+      arguments = { '...' },
+      returns = { 'hasGlyphs' }
     }
   },
   related = {

@@ -2,27 +2,29 @@ return {
   summary = 'Get a control point of the Curve.',
   description = 'Returns a control point of the Curve.',
   arguments = {
-    {
-      name = 'index',
+    index = {
       type = 'number',
       description = 'The index to retrieve.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x coordinate of the control point.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y coordinate of the control point.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z coordinate of the control point.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'index' },
+      returns = { 'x', 'y', 'z' }
     }
   },
   notes = [[

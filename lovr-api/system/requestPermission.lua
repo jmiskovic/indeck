@@ -7,13 +7,18 @@ return {
     on Android devices.
   ]],
   arguments = {
-    {
-      name = 'permission',
+    permission = {
       type = 'Permission',
       description = 'The permission to request.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'permission' },
+      returns = {}
+    }
+  },
   related = {
     'lovr.permission'
   }

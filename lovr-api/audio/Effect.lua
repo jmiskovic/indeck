@@ -31,6 +31,6 @@ return {
     The active spatializer will determine which effects are supported.  If an unsupported effect is
     enabled on a Source, no error will be reported.  Instead, it will be silently ignored.
 
-    TODO: expose a table of supported effects for spatializers in docs or from Lua.
+    See `lovr.audio.getSpatializer` for a table of the supported effects for each spatializer.
   ]]
 }

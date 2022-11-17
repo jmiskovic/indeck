@@ -4,15 +4,19 @@ return {
   description = 'Returns the size of the play area, in meters.',
   arguments = {},
   returns = {
-    {
-      name = 'width',
+    width = {
       type = 'number',
       description = 'The width of the play area, in meters.'
     },
-    {
-      name = 'depth',
+    depth = {
       type = 'number',
       description = 'The depth of the play area, in meters.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'width', 'depth' }
     }
   },
   notes = [[

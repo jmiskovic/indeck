@@ -3,22 +3,25 @@ return {
   summary = 'Check if a button was just released.',
   description = 'Returns whether a button on a device was released this frame.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       description = 'The device.'
     },
-    {
-      name = 'button',
+    button = {
       type = 'DeviceButton',
       description = 'The button to check.'
     }
   },
   returns = {
-    {
-      name = 'released',
+    released = {
       type = 'boolean',
       description = 'Whether the button on the device was released this frame.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device', 'button' },
+      returns = { 'released' }
     }
   },
   notes = [[

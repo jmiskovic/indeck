@@ -6,13 +6,11 @@ return {
     between colliders in the World.
   ]],
   arguments = {
-    {
-      name = 'dt',
+    dt = {
       type = 'number',
       description = 'The amount of time to advance the simulation forward.'
     },
-    {
-      name = 'resolver',
+    resolver = {
       type = 'function',
       arguments = {
         {
@@ -21,6 +19,12 @@ return {
         }
       },
       returns = {},
+  variants = {
+    {
+      arguments = { 'dt', 'resolver' },
+      returns = {}
+    }
+  },
       default = 'nil',
       description = [[
         The collision resolver function to use.  This will be called before updating to allow for
@@ -29,6 +33,12 @@ return {
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'dt', 'resolver' },
+      returns = {}
+    }
+  },
   notes = [[
     It is common to pass the `dt` variable from `lovr.update` into this function.
 

@@ -10,5 +10,9 @@ return {
       name = 'i16',
       description = '16 bit integer samples (between -32768 and 32767).'
     }
+  },
+  related = {
+    'lovr.data.newSound',
+    'Sound:getFormat'
   }
 }

@@ -1,17 +1,32 @@
 return {
-  summary = 'Get the height of a line of text.',
+  summary = 'Get the height of the Font.',
   description = [[
-    Returns the height of a line of text.  Units are in meters, see `Font:setPixelDensity`.
+    Returns the height of the font, sometimes also called the leading.  This is the full height of a
+    line of text, including the space between lines.  Each line of a multiline string is separated
+    on the y axis by this height, multiplied by the font's line spacing.  The units depend on the
+    font's pixel density.  With the default density, the units correspond to meters.
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'height',
+    height = {
       type = 'number',
-      description = 'The height of a rendered line of text.'
+      description = 'The height of the font.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'height' }
     }
   },
   related = {
-    'Rasterizer:getHeight'
+    'Rasterizer:getLeading',
+    'Font:getLineSpacing',
+    'Font:setLineSpacing',
+    'Font:getAscent',
+    'Font:getDescent',
+    'Font:getKerning',
+    'Font:getWidth',
+    'Font:getLines'
   }
 }

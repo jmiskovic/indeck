@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'v',
+    v = {
       type = 'Vec4',
       description = 'The original vector.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'v' }
     }
   },
   related = {

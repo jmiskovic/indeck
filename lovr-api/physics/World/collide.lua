@@ -8,34 +8,35 @@ return {
     friction and restitution parameters.  Usually this is called automatically by `World:update`.
   ]],
   arguments = {
-    {
-      name = 'shapeA',
+    shapeA = {
       type = 'Shape',
       description = 'The first shape.'
     },
-    {
-      name = 'shapeB',
+    shapeB = {
       type = 'Shape',
       description = 'The second shape.'
     },
-    {
-      name = 'friction',
+    friction = {
       type = 'number',
       default = 'nil',
       description = 'The friction parameter for the collision.'
     },
-    {
-      name = 'restitution',
+    restitution = {
       type = 'number',
       default = 'nil',
       description = 'The restitution (bounciness) parameter for the collision.'
     },
   },
   returns = {
-    {
-      name = 'collided',
+    collided = {
       type = 'boolean',
       description = 'Whether the shapes collided.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'shapeA', 'shapeB', 'friction', 'restitution' },
+      returns = { 'collided' }
     }
   },
   notes = [[

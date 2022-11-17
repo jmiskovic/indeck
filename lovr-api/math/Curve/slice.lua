@@ -4,22 +4,25 @@ return {
     Returns a new Curve created by slicing the Curve at the specified start and end points.
   ]],
   arguments = {
-    {
-      name = 't1',
+    t1 = {
       type = 'number',
       description = 'The starting point to slice at.'
     },
-    {
-      name = 't2',
+    t2 = {
       type = 'number',
       description = 'The ending point to slice at.'
     }
   },
   returns = {
-    {
-      name = 'curve',
+    curve = {
       type = 'Curve',
       description = 'A new Curve.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 't1', 't2' },
+      returns = { 'curve' }
     }
   },
   notes = [[

@@ -3,48 +3,46 @@ return {
   summary = 'Get the pose of a device.',
   description = 'Returns the current position and orientation of a device.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       default = [['head']],
       description = 'The device to get the pose of.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position.'
     },
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The amount of rotation around the axis of rotation, in radians.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device' },
+      returns = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' }
     }
   },
   notes = [[

@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'friction',
+    friction = {
       type = 'number',
       description = 'The friction of the Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'friction' }
     }
   },
   related = {

@@ -1,5 +1,5 @@
 return {
-  tag = 'system',
+  tag = 'version',
   summary = 'Get the current version.',
   description = 'Get the current major, minor, and patch version of LÖVR.',
   arguments = {},

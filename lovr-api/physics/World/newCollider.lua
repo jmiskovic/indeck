@@ -3,30 +3,32 @@ return {
   summary = 'Add a Collider to the World.',
   description = 'Adds a new Collider to the World.',
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       default = '0',
       description = 'The x position of the Collider.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       default = '0',
       description = 'The y position of the Collider.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       default = '0',
       description = 'The z position of the Collider.'
     }
   },
   returns = {
-    {
-      name = 'collider',
+    collider = {
       type = 'Collider',
       description = 'The new Collider.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z' },
+      returns = { 'collider' }
     }
   },
   notes = [[
@@ -62,6 +64,7 @@ return {
     'World:newCylinderCollider',
     'World:newMeshCollider',
     'World:newSphereCollider',
+    'World:newTerrainCollider',
     'Collider',
     'Shape'
   }

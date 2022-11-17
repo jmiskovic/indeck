@@ -3,22 +3,25 @@ return {
   summary = 'Check if two tags can collide.',
   description = 'Returns whether collisions are currently enabled between two tags.',
   arguments = {
-    {
-      name = 'tag1',
+    tag1 = {
       type = 'string',
       description = 'The first tag.'
     },
-    {
-      name = 'tag2',
+    tag2 = {
       type = 'string',
       description = 'The second tag.'
     }
   },
   returns = {
-    {
-      name = 'enabled',
+    enabled = {
       type = 'boolean',
       description = 'Whether or not two colliders with the specified tags will collide.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'tag1', 'tag2' },
+      returns = { 'enabled' }
     }
   },
   notes = [[

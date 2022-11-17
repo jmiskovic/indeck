@@ -3,10 +3,15 @@ return {
   description = 'Returns the average delta over the last second.',
   arguments = {},
   returns = {
-    {
-      name = 'delta',
+    delta = {
       type = 'number',
       description = 'The average delta, in seconds.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'delta' }
     }
   },
   related = {

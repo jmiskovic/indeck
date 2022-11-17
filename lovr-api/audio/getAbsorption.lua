@@ -10,20 +10,23 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'low',
+    low = {
       type = 'number',
       description = 'The absorption coefficient for the low frequency band.'
     },
-    {
-      name = 'mid',
+    mid = {
       type = 'number',
       description = 'The absorption coefficient for the mid frequency band.'
     },
-    {
-      name = 'high',
+    high = {
       type = 'number',
       description = 'The absorption coefficient for the high frequency band.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'low', 'mid', 'high' }
     }
   },
   notes = [[

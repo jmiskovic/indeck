@@ -8,7 +8,12 @@ return {
     },
     x = {
       type = 'number',
-      description = 'The number to divide each component by.'
+      description = 'A value to divide x component by.'
+    },
+    y = {
+      type = 'number',
+      default = 'x',
+      description = 'A value to divide y component by.'
     }
   },
   returns = {
@@ -23,7 +28,7 @@ return {
       returns = { 'v' }
     },
     {
-      arguments = { 'x' },
+      arguments = { 'x', 'y' },
       returns = { 'v' }
     }
   },

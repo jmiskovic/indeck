@@ -3,10 +3,15 @@ return {
   description = 'Returns whether the Collider is kinematic.',
   arguments = {},
   returns = {
-    {
-      name = 'kinematic',
+    kinematic = {
       type = 'boolean',
       description = 'Whether the Collider is kinematic.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'kinematic' }
     }
   },
   notes = [[

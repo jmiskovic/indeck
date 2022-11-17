@@ -5,10 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'mass',
+    mass = {
       type = 'number',
       description = 'The mass of the Collider, in kilograms.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'mass' }
     }
   },
   related = {

@@ -3,10 +3,15 @@ return {
   description = 'Returns the World the Collider is in.',
   arguments = {},
   returns = {
-    {
-      name = 'world',
+    world = {
       type = 'World',
       description = 'The World the Collider is in.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'world' }
     }
   },
   notes = [[

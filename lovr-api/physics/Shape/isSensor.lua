@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'sensor',
+    sensor = {
       type = 'boolean',
       description = 'Whether the Shape is a sensor.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'sensor' }
     }
   }
 }

@@ -3,51 +3,62 @@ return {
   description = [[
     Sets this matrix to represent an orthographic projection, useful for 2D/isometric rendering.
 
-    This can be used with `lovr.graphics.setProjection`, or it can be sent to a `Shader` for use in
+    This can be used with `Pass:setProjection`, or it can be sent to a `Shader` for use in
     GLSL.
   ]],
   arguments = {
-    {
-      name = 'left',
+    left = {
       type = 'number',
       description = 'The left edge of the projection.'
     },
-    {
-      name = 'right',
+    right = {
       type = 'number',
       description = 'The right edge of the projection.'
     },
-    {
-      name = 'top',
-      type = 'number',
-      description = 'The top edge of the projection.'
-    },
-    {
-      name = 'bottom',
+    bottom = {
       type = 'number',
       description = 'The bottom edge of the projection.'
     },
-    {
-      name = 'near',
+    top = {
+      type = 'number',
+      description = 'The top edge of the projection.'
+    },
+    width = {
+      type = 'number',
+      description = 'The width of the projection.'
+    },
+    height = {
+      type = 'number',
+      description = 'The height of the projection.'
+    },
+    near = {
       type = 'number',
       description = 'The position of the near clipping plane.'
     },
-    {
-      name = 'far',
+    far = {
       type = 'number',
       description = 'The position of the far clipping plane.'
     }
   },
   returns = {
-    {
-      name = 'm',
+    m = {
       type = 'Mat4',
       description = 'The original matrix.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'left', 'right', 'bottom', 'top', 'near', 'far' },
+      returns = { 'm' }
+    },
+    {
+      arguments = { 'width', 'height', 'near', 'far' },
+      returns = { 'm' }
     }
   },
   related = {
     'Mat4:perspective',
     'Mat4:fov',
-    'lovr.graphics.setProjection'
+    'Pass:setProjection'
   }
 }

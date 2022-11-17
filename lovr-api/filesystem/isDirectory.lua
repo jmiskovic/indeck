@@ -2,17 +2,21 @@ return {
   summary = 'Check whether a path is a directory.',
   description = 'Check if a path exists and is a directory.',
   arguments = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The path to check.'
     }
   },
   returns = {
-    {
-      name = 'isDirectory',
+    isDirectory = {
       type = 'boolean',
       description = 'Whether or not the path is a directory.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'path' },
+      returns = { 'isDirectory' }
     }
   },
   related = {

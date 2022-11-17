@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'ascent',
+    ascent = {
       type = 'number',
       description = 'The ascent of the font, in pixels.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'ascent' }
     }
   },
   related = {

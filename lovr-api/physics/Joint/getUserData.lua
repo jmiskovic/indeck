@@ -3,10 +3,15 @@ return {
   description = 'Returns the user data associated with the Joint.',
   arguments = {},
   returns = {
-    {
-      name = 'data',
+    data = {
       type = '*',
       description = 'The custom value associated with the Joint.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'data' }
     }
   }
 }

@@ -3,18 +3,22 @@ return {
   summary = 'Disable collision between two tags.',
   description = 'Disables collision between two collision tags.',
   arguments = {
-    {
-      name = 'tag1',
+    tag1 = {
       type = 'string',
       description = 'The first tag.'
     },
-    {
-      name = 'tag2',
+    tag2 = {
       type = 'string',
       description = 'The second tag.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'tag1', 'tag2' },
+      returns = {}
+    }
+  },
   notes = [[
     Tags must be set up when creating the World, see `lovr.physics.newWorld`.
 

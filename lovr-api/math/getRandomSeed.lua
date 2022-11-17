@@ -4,10 +4,15 @@ return {
   description = 'Get the seed used to initialize the random generator.',
   arguments = {},
   returns = {
-    {
-      name = 'seed',
+    seed = {
       type = 'number',
       description = 'The new seed.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'seed' }
     }
   }
 }

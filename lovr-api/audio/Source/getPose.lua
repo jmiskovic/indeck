@@ -1,48 +1,47 @@
 return {
+  tag = 'sourceEffects',
   summary = 'Get the pose of the Source.',
   description = 'Returns the position and orientation of the Source.',
   arguments = {},
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the Source, in meters.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the Source, in meters.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the Source, in meters.'
     },
-    {
-      name = 'angle',
+    angle = {
       type = 'number',
       description = 'The number of radians the Source is rotated around its axis of rotation.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the axis of rotation.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the axis of rotation.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' }
     }
   },
   related = {
     'Source:getPosition',
     'Source:getOrientation',
-    'Source:getCone',
     'lovr.audio.getPose'
   }
 }

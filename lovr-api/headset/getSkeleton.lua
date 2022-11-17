@@ -1,9 +1,9 @@
 return {
   tag = 'input',
-  summary = 'Get skeletal joint poses tracked by a device.',
+  summary = 'Get skeletal joint transforms tracked by a device.',
   description = [[
-    Returns a list of joint poses tracked by a device.  Currently, only hand devices are able to
-    track joints.
+    Returns a list of joint transforms tracked by a device.  Currently, only hand devices are able
+    to track joints.
   ]],
   arguments = {
     device = {
@@ -12,30 +12,32 @@ return {
     },
     t = {
       type = 'table',
-      description = 'A table to fill with the joint poses, instead of allocating a new one.'
+      description = 'A table to fill with the joint transforms, instead of allocating a new one.'
     }
   },
   returns = {
-    poses = {
+    transforms = {
       type = 'table',
       description = [[
-        A list of joint poses for the device.  Each pose is a table with 3 numbers for the position
-        of the joint followed by 4 numbers for the angle/axis orientation of the joint.
+        A list of joint transforms for the device.  Each transform is a table with 3 numbers for the
+        position of the joint, 1 number for the joint radius (in meters), and 4 numbers for the
+        angle/axis orientation of the joint.
       ]]
     }
   },
   variants = {
     {
       arguments = { 'device' },
-      returns = { 'poses' }
+      returns = { 'transforms' }
     },
     {
       arguments = { 'device', 't' },
-      returns = { 'poses' }
+      returns = { 'transforms' }
     }
   },
   notes = [[
-    If the Device does not support tracking joints or the poses are unavailable, `nil` is returned.
+    If the Device does not support tracking joints or the transforms are unavailable, `nil` is
+    returned.
 
     The joint orientation is similar to the graphics coordinate system: -Z is the forwards
     direction, pointing towards the fingertips.  The +Y direction is "up", pointing out of the back
@@ -164,10 +166,10 @@ return {
     </table>
   ]],
   example = [[
-    function lovr.draw()
+    function lovr.draw(pass)
       for _, hand in ipairs({ 'left', 'right' }) do
         for _, joint in ipairs(lovr.headset.getSkeleton(hand) or {}) do
-          lovr.graphics.points(unpack(joint, 1, 3))
+          pass:points(unpack(joint, 1, 3))
         end
       end
     end

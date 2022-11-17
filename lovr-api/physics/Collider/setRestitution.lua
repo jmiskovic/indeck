@@ -6,13 +6,18 @@ return {
     The initial restitution is 0.
   ]],
   arguments = {
-    {
-      name = 'restitution',
+    restitution = {
       type = 'number',
       description = 'The new restitution.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'restitution' },
+      returns = {}
+    }
+  },
   related = {
     'Collider:getFriction',
     'Collider:setFriction',

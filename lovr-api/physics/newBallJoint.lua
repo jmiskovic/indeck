@@ -3,37 +3,37 @@ return {
   summary = 'Create a new BallJoint.',
   description = 'Creates a new BallJoint.',
   arguments = {
-    {
-      name = 'colliderA',
+    colliderA = {
       type = 'Collider',
       description = 'The first collider to attach the Joint to.'
     },
-    {
-      name = 'colliderB',
+    colliderB = {
       type = 'Collider',
       description = 'The second collider to attach the Joint to.'
     },
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the joint anchor point, in world coordinates.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the joint anchor point, in world coordinates.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the joint anchor point, in world coordinates.'
     }
   },
   returns = {
-    {
-      name = 'ball',
+    ball = {
       type = 'BallJoint',
       description = 'The new BallJoint.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'colliderA', 'colliderB', 'x', 'y', 'z' },
+      returns = { 'ball' }
     }
   },
   notes = [[

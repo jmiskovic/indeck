@@ -5,13 +5,11 @@ return {
     number, string, and userdata.  Tables should be serialized to strings.
   ]],
   arguments = {
-    {
-      name = 'message',
+    message = {
       type = '*',
       description = 'The message to push.'
     },
-    {
-      name = 'wait',
+    wait = {
       type = 'number',
       default = 'false',
       description = [[
@@ -21,15 +19,19 @@ return {
     }
   },
   returns = {
-    {
-      name = 'id',
+    id = {
       type = 'number',
       description = 'The ID of the pushed message.'
     },
-    {
-      name = 'read',
+    read = {
       type = 'boolean',
       description = 'Whether the message was read by another thread before the wait timeout.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'message', 'wait' },
+      returns = { 'id', 'read' }
     }
   },
   notes = 'Threads can get stuck forever waiting on Channel messages, so be careful.',

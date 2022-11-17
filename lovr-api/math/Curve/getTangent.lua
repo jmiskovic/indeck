@@ -6,27 +6,29 @@ return {
     return the direction at the "middle" of the Curve, etc.
   ]],
   arguments = {
-    {
-      name = 't',
+    t = {
       type = 'number',
       description = 'Where on the Curve to compute the direction.'
     }
   },
   returns = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the point.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the point.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the point.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 't' },
+      returns = { 'x', 'y', 'z' }
     }
   },
   notes = 'The direction vector returned by this function will have a length of one.',

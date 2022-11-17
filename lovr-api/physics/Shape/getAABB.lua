@@ -3,35 +3,35 @@ return {
   description = 'Returns the bounding box for the Shape.',
   arguments = {},
   returns = {
-    {
-      name = 'minx',
+    minx = {
       type = 'number',
       description = 'The minimum x coordinate of the box.'
     },
-    {
-      name = 'maxx',
+    maxx = {
       type = 'number',
       description = 'The maximum x coordinate of the box.'
     },
-    {
-      name = 'miny',
+    miny = {
       type = 'number',
       description = 'The minimum y coordinate of the box.'
     },
-    {
-      name = 'maxy',
+    maxy = {
       type = 'number',
       description = 'The maximum y coordinate of the box.'
     },
-    {
-      name = 'minz',
+    minz = {
       type = 'number',
       description = 'The minimum z coordinate of the box.'
     },
-    {
-      name = 'maxz',
+    maxz = {
       type = 'number',
       description = 'The maximum z coordinate of the box.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'minx', 'maxx', 'miny', 'maxy', 'minz', 'maxz' }
     }
   },
   related = {

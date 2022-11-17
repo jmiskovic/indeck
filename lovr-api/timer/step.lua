@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'delta',
+    delta = {
       type = 'number',
       description = 'The amount of time since the last call to this function, in seconds.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'delta' }
     }
   }
 }

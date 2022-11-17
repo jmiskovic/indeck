@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'v',
+    v = {
       type = 'Vec3',
       description = 'The direction vector.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'v' }
     }
   },
   related = {

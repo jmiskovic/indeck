@@ -6,18 +6,22 @@ return {
     `lovr.handlers` table with a key that's the same as the event name.
   ]],
   arguments = {
-    {
-      name = 'name',
+    name = {
       type = 'string',
       description = 'The name of the event.'
     },
-    {
-      name = '...',
+    ['...'] = {
       type = '*',
       description = 'The arguments for the event.  Currently, up to 4 are supported.'
     }
   },
   returns = {},
+  variants = {
+    {
+      arguments = { 'name', '...' },
+      returns = {}
+    }
+  },
   notes = [[
     Only nil, booleans, numbers, strings, and LÖVR objects are supported types for event data.
   ]],

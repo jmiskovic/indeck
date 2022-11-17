@@ -1,16 +1,20 @@
 return {
-  summary = 'Different ways graphics primitives can be drawn.',
-  description = [[
-    Most graphics primitives can be drawn in one of two modes: a filled mode and a wireframe mode.
-  ]],
+  summary = 'Different styles to draw shapes.',
+  description = 'Whether a shape should be drawn filled or outlined.',
   values = {
     {
       name = 'fill',
-      description = 'The shape is drawn as a filled object.'
+      description = 'The shape will be filled in (the default).'
     },
     {
       name = 'line',
-      description = 'The shape is drawn as a wireframe object.'
+      description = 'The shape will be outlined.'
     }
+  },
+  related = {
+    'Pass:plane',
+    'Pass:cube',
+    'Pass:box',
+    'Pass:circle'
   }
 }

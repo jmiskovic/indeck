@@ -1,15 +1,33 @@
 return {
-  summary = 'Get the advance of the font.',
+  summary = 'Get the advance of a glyph.',
   description = [[
-    Returns the advance metric of the font, in pixels.  The advance is how many pixels the font
-    advances horizontally after each glyph is rendered.  This does not include kerning.
+    Returns the advance metric for a glyph, in pixels.  The advance is the horizontal distance to
+    advance the cursor after rendering the glyph.
   ]],
-  arguments = {},
-  returns = {
-    {
-      name = 'advance',
+  arguments = {
+    character = {
+      type = 'string',
+      description = 'A character.'
+    },
+    codepoint = {
       type = 'number',
-      description = 'The advance of the font, in pixels.'
+      description = 'A codepoint.'
+    }
+  },
+  returns = {
+    advance = {
+      type = 'number',
+      description = 'The advance of the glyph, in pixels.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'character' },
+      returns = { 'advance' }
+    },
+    {
+      arguments = { 'codepoint' },
+      returns = { 'advance' }
     }
   }
 }

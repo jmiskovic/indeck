@@ -3,22 +3,25 @@ return {
   summary = 'Check if a button was just pressed.',
   description = 'Returns whether a button on a device was pressed this frame.',
   arguments = {
-    {
-      name = 'device',
+    device = {
       type = 'Device',
       description = 'The device.'
     },
-    {
-      name = 'button',
+    button = {
       type = 'DeviceButton',
       description = 'The button to check.'
     }
   },
   returns = {
-    {
-      name = 'pressed',
+    pressed = {
       type = 'boolean',
       description = 'Whether the button on the device was pressed this frame.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'device', 'button' },
+      returns = { 'pressed' }
     }
   },
   notes = [[

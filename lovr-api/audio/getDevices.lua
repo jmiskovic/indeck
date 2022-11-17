@@ -8,16 +8,14 @@ return {
     To use a specific device id for playback or capture, pass it to `lovr.audio.setDevice`.
   ]],
   arguments = {
-    {
-      name = 'type',
+    type = {
       type = 'AudioType',
       default = [['playback']],
       description = 'The type of devices to query (playback or capture).'
     }
   },
   returns = {
-    {
-      name = 'devices',
+    devices = {
       type = 'table',
       description = 'The list of devices.',
       table = {
@@ -37,6 +35,12 @@ return {
           description = 'Whether the device is the default audio device.'
         }
       }
+    }
+  },
+  variants = {
+    {
+      arguments = { 'type' },
+      returns = { 'devices' }
     }
   },
   related = {

@@ -1,4 +1,5 @@
 return {
+  tag = 'sourceEffects',
   summary = 'Set the radius of the Source.',
   description = [[
     Sets the radius of the Source, in meters.
@@ -9,11 +10,16 @@ return {
     a smooth transition between audible and occluded, improving realism.
   ]],
   arguments = {
-    {
-      name = 'radius',
+    radius = {
       type = 'number',
       description = 'The new radius of the Source, in meters.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'radius' },
+      returns = {}
+    }
+  }
 }

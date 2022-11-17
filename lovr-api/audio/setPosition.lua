@@ -3,21 +3,24 @@ return {
   summary = 'Set the position of the listener.',
   description = 'Sets the position of the virtual audio listener, in meters.',
   arguments = {
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the listener.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the listener.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the listener.'
     }
   },
-  returns = {}
+  returns = {},
+  variants = {
+    {
+      arguments = { 'x', 'y', 'z' },
+      returns = {}
+    }
+  }
 }

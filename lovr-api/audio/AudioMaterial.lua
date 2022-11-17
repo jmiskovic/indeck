@@ -24,27 +24,27 @@ return {
     },
     {
       name = 'glass',
-      descripion = 'Glass.'
+      description = 'Glass.'
     },
     {
       name = 'gravel',
-      descripion = 'Gravel.'
+      description = 'Gravel.'
     },
     {
       name = 'metal',
-      descripion = 'Metal.'
+      description = 'Metal.'
     },
     {
       name = 'plaster',
-      descripion = 'Plaster.'
+      description = 'Plaster.'
     },
     {
       name = 'rock',
-      descripion = 'Rock.'
+      description = 'Rock.'
     },
     {
       name = 'wood',
-      descripion = 'Wood.'
+      description = 'Wood.'
     }
   }
 }

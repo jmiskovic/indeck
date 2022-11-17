@@ -7,6 +7,12 @@ return {
   ]],
   arguments = {},
   returns = {},
+  variants = {
+    {
+      arguments = {},
+      returns = {}
+    }
+  },
   related = {
     'lovr.event.poll'
   }

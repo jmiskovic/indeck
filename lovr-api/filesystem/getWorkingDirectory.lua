@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'path',
+    path = {
       type = 'string',
       description = 'The current working directory, or `nil` if it\'s unknown.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'path' }
     }
   }
 }

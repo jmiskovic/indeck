@@ -3,52 +3,49 @@ return {
   summary = 'Create a new HingeJoint.',
   description = 'Creates a new HingeJoint.',
   arguments = {
-    {
-      name = 'colliderA',
+    colliderA = {
       type = 'Collider',
       description = 'The first collider to attach the Joint to.'
     },
-    {
-      name = 'colliderB',
+    colliderB = {
       type = 'Collider',
       description = 'The second collider to attach the Joint to.'
     },
-    {
-      name = 'x',
+    x = {
       type = 'number',
       description = 'The x position of the hinge anchor, in world coordinates.'
     },
-    {
-      name = 'y',
+    y = {
       type = 'number',
       description = 'The y position of the hinge anchor, in world coordinates.'
     },
-    {
-      name = 'z',
+    z = {
       type = 'number',
       description = 'The z position of the hinge anchor, in world coordinates.'
     },
-    {
-      name = 'ax',
+    ax = {
       type = 'number',
       description = 'The x component of the hinge axis.'
     },
-    {
-      name = 'ay',
+    ay = {
       type = 'number',
       description = 'The y component of the hinge axis.'
     },
-    {
-      name = 'az',
+    az = {
       type = 'number',
       description = 'The z component of the hinge axis.'
     }
   },
   returns = {
-    {
-      name = 'hinge',
+    hinge = {
       type = 'HingeJoint',
       description = 'The new HingeJoint.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'colliderA', 'colliderB', 'x', 'y', 'z', 'ax', 'ay', 'az' },
+      returns = { 'hinge' }
     }
   },
   notes = [[

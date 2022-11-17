@@ -62,6 +62,8 @@ return {
     - `transmission`
 
     If an existing geometry has been set, this function will replace it.
+
+    The triangles must use counterclockwise winding.
   ]],
   related = {
     'lovr.audio.getSpatializer',

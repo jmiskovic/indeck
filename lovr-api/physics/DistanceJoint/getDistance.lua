@@ -6,10 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    {
-      name = 'distance',
+    distance = {
       type = 'number',
       description = 'The target distance.'
+    }
+  },
+  variants = {
+    {
+      arguments = {},
+      returns = { 'distance' }
     }
   }
 }

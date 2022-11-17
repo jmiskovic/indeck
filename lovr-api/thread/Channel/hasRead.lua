@@ -5,17 +5,21 @@ return {
     `Channel:push` returns a message ID.
   ]],
   arguments = {
-    {
-      name = 'id',
+    id = {
       type = 'number',
       description = 'The ID of the message to check.'
     }
   },
   returns = {
-    {
-      name = 'read',
+    read = {
       type = 'boolean',
       description = 'Whether the message has been read.'
+    }
+  },
+  variants = {
+    {
+      arguments = { 'id' },
+      returns = { 'read' }
     }
   },
   related = {
