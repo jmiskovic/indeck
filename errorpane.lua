@@ -32,26 +32,35 @@ local highlighting =
 function m.init(width, height, content)
   height = height * 1.5
   m.pane = panes.new(width, height)
-  m.cols = math.floor(width  * m.pane.canvasSize / m.pane.fontWidth)
-  m.rows = math.floor(height * m.pane.canvasSize / m.pane.fontHeight)
+  m.cols = math.floor(width  * m.pane.texture_size / m.pane.fontWidth)
+  m.rows = math.floor(height * m.pane.texture_size / m.pane.fontHeight)
   m.buffer = buffer.new(m.cols, m.rows,
-    function(text, col, row, tokenType) -- draw single token
+    function(pass, text, col, row, tokenType) -- draw single token
       local color = highlighting[tokenType] or 0xFFFFFF
-      lovr.graphics.setColor(color)
-      m.pane:drawText(text, col, row)
+      pass:setColor(color)
+      m.pane:drawText(pass, text, col, row)
     end,
-    function (col, row, width, tokenType) --draw rectangle
+    function (pass, col, row, width, tokenType) --draw rectangle
       local color = highlighting[tokenType] or 0xFFFFFF
-      lovr.graphics.setColor(color)
-      m.pane:drawTextRectangle(col, row, width)
+      pass:setColor(color)
+      m.pane:drawTextRectangle(pass, col, row, width)
     end)
   m.buffer:setName('-Error pane-')
   if content then m.setContent(content) end
 end
 
 
-function m.draw()
-  m.pane:draw()
+function m.draw(pass)
+  local editor_pass
+  if m.is_dirty then
+    m.is_dirty = false
+    editor_pass = m.pane:drawToTexture(
+      function(pass)
+        m.buffer:drawCode(pass)
+    end)
+  end
+  m.pane:draw(pass)
+  return editor_pass
 end
 
 
@@ -60,12 +69,11 @@ function m.setContent(content)
   m.refresh()
 end
 
+
 function m.refresh()
-  m.pane:drawCanvas(function()
-      lovr.graphics.clear(highlighting.background)
-      m.buffer:drawCode()
-    end)
+  m.is_dirty = true
 end
+
 
 function m.jumpToSource()
   local line = m.buffer.lines[m.buffer.cursor.y]

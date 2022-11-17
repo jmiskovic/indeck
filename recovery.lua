@@ -3,6 +3,7 @@
 -- note that doing so can easily break the development environment
 
 if not arg['restart'] then
+  local forceRecovery = false
   lovr.errhand = function(message, traceback)
     traceback = traceback or debug.traceback('', 3)
     local restartInfo = message .. '\n' .. traceback
@@ -13,8 +14,10 @@ if not arg['restart'] then
     end
   end
   lovr.event.pump()
-  lovr.headset.update(0.1)
-  local forceRecovery = lovr.headset.isDown('hand/right', 'grip')
+  if lovr.headset then
+    lovr.headset.update(0.1)
+    forceRecovery = lovr.headset.isDown('hand/right', 'grip')
+  end
   if not forceRecovery then
     return false -- resume booting user project
   end
@@ -58,11 +61,16 @@ function lovr.load()
 end
 
 
-function lovr.draw()
+function lovr.draw(pass)
+  local passes = {}
   for _, editor in ipairs(editors) do
-    editor:draw()
+    local editor_pass = editor:draw(pass)
+    table.insert(passes, editor_pass)
   end
-  errorpane.draw()
+  local errorpane_pass = errorpane.draw(pass)
+  table.insert(passes, errorpane_pass)
+  table.insert(passes, pass)
+  return lovr.graphics.submit(passes)
 end
 
 function lovr.keypressed(key, scancode, isrepeat)

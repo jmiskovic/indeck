@@ -30,12 +30,15 @@ function lovr.update(dt)
 end
 
 
-function lovr.draw()
-  lovr.graphics.setShader()
+function lovr.draw(pass)
+  local passes = {}
   for _, editor in ipairs(editors) do
-    editor:draw()
+    local editor_pass = editor:draw(pass)
+    table.insert(passes, editor_pass)
   end
-  callbacks.draw()
+  table.insert(passes, pass)
+  callbacks.draw(pass)
+  return lovr.graphics.submit(passes)
 end
 
 

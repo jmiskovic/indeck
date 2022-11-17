@@ -54,7 +54,7 @@ local keymapping = {
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['ctrl+h']               = function(self) m.new(1, 1):listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
-    ['f10']                  = function(self) self:setFullscreen(not self.fullscreen) end,
+    ['f10']                  = function(self) self:setImmediate(not self.immediate) end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
@@ -93,24 +93,27 @@ local highlighting =
 function m.new(width, height)
   local self = setmetatable({}, m)
   self.path = ''
+  self.is_dirty = true
+  self.immediate = false
   self.pane = panes.new(width, height)
-  self.cols = math.floor(width  * self.pane.canvasSize / self.pane.fontWidth)
-  self.rows = math.floor(height * self.pane.canvasSize / self.pane.fontHeight) - 1
+  self.cols = math.floor(width  * self.pane.texture_size / self.pane.fontWidth)
+  self.rows = math.floor(height * self.pane.texture_size / self.pane.fontHeight) - 1
+  print(string.format('editor dimensions %dx%d', self.cols, self.rows))
   self.buffer = buffer.new(self.cols, self.rows,
-    function(text, col, row, tokenType) -- draw single token
+    function(pass, text, col, row, tokenType) -- draw single token
       local color = highlighting[tokenType] or 0xFFFFFF
       -- in-editor preview of colors in hex format 0xRRGGBBAA
       if tokenType == 'number' and text:match('0x%x+') then
-        lovr.graphics.setColor(tonumber(text))
-        self.pane:drawTextRectangle(col, row, 1)
+        pass:setColor(tonumber(text))
+        self.pane:drawTextRectangle(pass, col, row, 1)
       end
-      lovr.graphics.setColor(color)
-      self.pane:drawText(text, col, row)
+      pass:setColor(color)
+      self.pane:drawText(pass, text, col, row)
     end,
-    function (col, row, width, tokenType) --draw rectangle
+    function (pass, col, row, width, tokenType) --draw rectangle
       local color = highlighting[tokenType] or 0xFFFFFF
-      lovr.graphics.setColor(color)
-      self.pane:drawTextRectangle(col, row, width)
+      pass:setColor(color)
+      self.pane:drawTextRectangle(pass, col, row, width)
     end)
   self.pane:center()
   table.insert(m, self)
@@ -231,33 +234,39 @@ function m.restoreSession(name)
 end
 
 
-function m:draw()
-  if not self.fullscreen then
-    self.pane:draw(self == m.active)
+function m:draw(pass)
+  local editor_pass
+  if not self.immediate then
+    if self.is_dirty then
+      self.is_dirty = false
+      editor_pass = self.pane:drawToTexture(
+        function(pass)
+          self.buffer:drawCode(pass)
+        end)
+    end
+    self.pane:draw(pass, self == m.active)
   else
-    lovr.graphics.clear(highlighting.background)
-    lovr.graphics.push()
-    lovr.graphics.translate(-50,100,-100)
-    lovr.graphics.scale(0.1)
-    self.buffer:drawCode()
-    lovr.graphics.pop()
+    pass:setColor(highlighting.background)
+    local font_width = self.pane.fontWidth
+    local font_height = self.pane.fontHeight
+    pass:plane(0, 0, -1050, (self.cols + 8) * font_width, (self.rows + 8) * font_height)
+    pass:push()
+    pass:translate(-font_width * self.cols / 2, font_height * self.rows / 2, -1000)
+    self.buffer:drawCode(pass)
+    pass:pop()
   end
+  return editor_pass
 end
 
 
 function m:refresh()
-  if not self.fullscreen then
-    self.pane:drawCanvas(function()
-      lovr.graphics.clear(highlighting.background)
-      self.buffer:drawCode()
-    end)
-  end
+  self.is_dirty = true
 end
 
 
-function m:setFullscreen(isFullscreen)
-  self.fullscreen = isFullscreen
-  if self.fullscreen then
+function m:setImmediate(isImmediate)
+  self.immediate = isImmediate
+  if self.immediate then
     --lovr.graphics.setDepthTest('gequal', false)
     self.buffer.cols = 100
     self.buffer.rows = 100

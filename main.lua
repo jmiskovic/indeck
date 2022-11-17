@@ -2,7 +2,7 @@
 if require('recovery') then return end
 
 -- on first time create project directory and copy seed files
-if not lovr.filesystem.isFile('init.lua') then
+if true or not lovr.filesystem.isFile('init.lua') then
   print('seeding user project for first time')
   for _, item in ipairs(lovr.filesystem.getDirectoryItems('seed')) do
     if lovr.filesystem.isFile('/seed/' .. item) then

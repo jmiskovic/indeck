@@ -60,41 +60,40 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:updateView()
       self:deselect()
     end,
-    drawCode = function(self)
-      local linesToDraw = math.min(self.rows, #(self.lexed)-self.scroll.y) 
+    drawCode = function(self, pass)
+      local linesToDraw = math.min(self.rows, #(self.lexed)-self.scroll.y)
       local selectionFrom, selectionTo = self:selectionSpan()
       local selectionWidth = (selectionTo.x + selectionTo.y * self.cols) - (selectionFrom.x + selectionFrom.y * self.cols)
       -- highlight cursor line
       if selectionWidth == 0 then
-        self.drawRectangle(-1, self.cursor.y - self.scroll.y, self.cols + 2, 'cursorline')
+        self.drawRectangle(pass, -1, self.cursor.y - self.scroll.y, self.cols + 2, 'cursorline')
       end
       -- selection
       local x, y = selectionFrom.x, selectionFrom.y
-      self.drawRectangle(x - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
+      self.drawRectangle(pass, x - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
       selectionWidth = selectionWidth - (self.cols - selectionFrom.x)
       while selectionWidth > 0 do
         y = y + 1
-        self.drawRectangle(0 - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
+        self.drawRectangle(pass, 0 - self.scroll.x, y - self.scroll.y, selectionWidth, 'selection')
         selectionWidth = selectionWidth - self.cols
       end
       -- file content
       for y = 1, linesToDraw do
-        local x = -self.scroll.x 
+        local x = -self.scroll.x
         local currentLine = y + self.scroll.y
          -- draw cursor line and caret
         if currentLine == self.cursor.y then
-          self.drawToken('|', self.cursor.x - self.scroll.x - 0.5, y, 'caret')
+          self.drawToken(pass, '|', self.cursor.x - self.scroll.x - 0.5, y, 'caret')
         end
         -- draw single line of text
         local lineTokens = self.lexed[currentLine]
         for j, token in ipairs(lineTokens) do
-          self.drawToken(token.data, x, y, token.type)
-          --print('token',x,y)
+          self.drawToken(pass, token.data, x, y, token.type)
           x = x + #token.data
         end
       end
       -- status line
-      self.drawToken(self.statusLine, self.cols - #self.statusLine, 0, 'comment')
+      self.drawToken(pass, self.statusLine, self.cols - #self.statusLine, 0, 'comment')
     end,
     -- cursor movement
     cursorUp = function(self)
@@ -116,7 +115,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         if self.cursor.y > 1 then
           self:cursorUp()
           self:cursorEnd()
-        else 
+        else
           return false;
         end
       else
@@ -317,11 +316,11 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       self:updateView()
     end,
     deselect = function(self)
-      self.selection.x, self.selection.y = self.cursor.x, self.cursor.y    
+      self.selection.x, self.selection.y = self.cursor.x, self.cursor.y
     end,
     jumpToLine = function(self, lineNumber, columnNumber)
       lineNumber = math.min(lineNumber or 1, #self.lines)
-      columnNumber = math.min(columnNumber or 0, #self.lines[lineNumber] - 1) 
+      columnNumber = math.min(columnNumber or 0, #self.lines[lineNumber] - 1)
       self.cursor.x = columnNumber
       self.cursor.y = lineNumber
       self.scroll.y = math.max(lineNumber - math.floor(self.rows / 2), 0)
@@ -373,12 +372,12 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       -- keep cursor on screen
       if self.cursor.y <= self.scroll.y then
         self.scroll.y = self.cursor.y - 1
-      elseif self.cursor.y > self.scroll.y + self.rows then 
+      elseif self.cursor.y > self.scroll.y + self.rows then
         self.scroll.y = self.cursor.y - self.rows
       end
-      if self.cursor.x < self.scroll.x then 
+      if self.cursor.x < self.scroll.x then
         self.scroll.x = math.max(self.cursor.x - 10, 0)
-      elseif self.cursor.x > self.scroll.x + self.cols then 
+      elseif self.cursor.x > self.scroll.x + self.cols then
         self.scroll.x = self.cursor.x + 10 - self.cols
       end
       -- update status line
@@ -435,7 +434,7 @@ X  represents the character X itself as long as it is not a magic character
 
 +       one or more repetitions
 * or -  zero or more repetitions
-?       optional (zero or one occurrence)         
+?       optional (zero or one occurrence)
 %Y      represents the character Y if it is any non-alphanumeric character
         This is the standard way to get a magic character to match itself
         Any punctuation character (even a non magic one) preceded by a % represents itself
