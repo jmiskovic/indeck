@@ -51,12 +51,21 @@ function lovr.load()
   local restartInfo = arg['restart'] or 'User-triggered recovery mode'
   -- editor
   local editor = editors.new(0.8, 1)
-  editor.pane.transform:set(0,1.5,-1, 1,1,1, math.pi, 0,1,0)
+  editor.pane:center()
   editor:refresh()
   lovr.graphics.setBackgroundColor(0x111E13)
   --error pane
   errorpane.init(0.6, 0.4, wrap(restartInfo) .. '\n\nctrl+up/down  scroll up/down\nctrl+enter    jump to source')
-  errorpane.pane.transform:set(0.7, 1.5, -0.4,  1,1,1,  2/3 * math.pi, 0,1,0)
+
+  local x,y,z, angle, ax,ay,az = 0,0,0, 0, 1,0,0
+  if lovr.headset then
+    x,y,z, angle, ax,ay,az = lovr.headset.getPose('head')
+  end
+  local headTransform = mat4(x,y,z, angle, ax,ay,az)
+  local headPosition = vec3(headTransform)
+  local panePosition = vec3(headTransform:rotate(-0.6, 0,1,0):mul(0,0,-1.3))
+  errorpane.pane.transform:target(panePosition, headPosition)
+
   errorpane.jumpToSource()
 end
 
