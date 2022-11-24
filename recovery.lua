@@ -51,7 +51,7 @@ function lovr.load()
   local restartInfo = arg['restart'] or 'User-triggered recovery mode'
   -- editor
   local editor = editors.new(0.8, 1)
-  editor.pane:center()
+  editor:center()
   editor:refresh()
   lovr.graphics.setBackgroundColor(0x111E13)
   --error pane

@@ -1,11 +1,15 @@
 -- editor is a floating pane of editable code that accepts keyboard input
 local m
-m = {}  -- this table stores functions under keys and also all editors in a list
-
+m = {}  -- stores functions under keys and also all editors in a list
 m.__index = m
-m.active = nil  -- the one editor which receives text input
+
+m.active = nil  -- reference to the editor that receives text input
+m.font = lovr.graphics.newFont('ubuntu-mono.ttf', 24)
+m.font:setPixelDensity(1)
+m.font_width = m.font:getWidth(' ')
+m.font_height = m.font:getHeight()
+
 local buffer = require'buffer'
-local panes = require'pane'
 
 local keymapping = {
   buffer = {
@@ -54,17 +58,16 @@ local keymapping = {
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
     ['ctrl+h']               = function(self) m.new(1, 1):listFiles('lovr-api') end,
     ['f5']                   = function(self) lovr.event.push('restart') end,
-    ['f10']                  = function(self) self:setImmediate(not self.immediate) end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
-    ['ctrl+shift+home']      = function(self) self.pane:center() end,
+    ['ctrl+shift+home']      = function(self) self:center() end,
     ['ctrl+shift+p']         = function(self) m.profile() end,
   },
 }
 
 
-local highlighting =
+local palette =
 { -- taken from base16-woodland
   background   = 0x231e18, --editor background
   cursorline   = 0x433b2f, --cursor background
@@ -87,35 +90,53 @@ local highlighting =
   label        = 0xc6bcb1, --basically an ident between a label_start and label_end.
   unidentified = 0xd35c5c, --anything that isn't one of the above tokens. Consider them errors. Invalid escapes are also unidentified.
   selection    = 0x353937,
+  active_bar   = 0xd35c5c, -- editor sidebar
+  disabled_bar = 0x242424,
 }
+
+
+local function drawRectangle(pass, col, row, width, tokenType)
+  local color = palette[tokenType] or tonumber(tokenType)
+  pass:setColor(color)
+  -- rectangle in text-coordinates
+  width = width * m.font_width
+  local x =  col * m.font_width
+  local y = -row * m.font_height
+  local height = m.font_height
+  pass:plane(x + width/2, y - height/2, -2,  width, height)
+end
+
+
+local function drawToken(pass, text, col, row, tokenType)
+  local color = palette[tokenType] or 0xFFFFFF
+  -- in-editor preview of colors in hex format 0xRRGGBBAA
+  if tokenType == 'number' and text:match('0x%x+') then
+    drawRectangle(pass, col, row, 1, text)
+  end
+  pass:setColor(color)
+  pass:setFont(m.font)
+  local x =  col * m.font_width
+  local y = -row * m.font_height
+  pass:text(text, x,y,0, 1, 0, 1,0,0, 0, 'left','top')
+end
 
 
 function m.new(width, height, switchToProjectFn)
   local self = setmetatable({}, m)
+  self.width = width     -- meters
+  self.height = height
+  self.texture_size = 1024
+  self.texture = nil     -- lazily created in drawToTexture
+  self.transform = lovr.math.newMat4(.1,1.6,-1.3, 1,1,1, 0, 0,1,0)
+  self.ortho = lovr.math.newMat4():orthographic(0, self.texture_size, 0, -self.texture_size, -10000, 10000)
+  self.font:setPixelDensity(1)
   self.path = ''
   self.is_dirty = true
-  self.immediate = false
   self.switchToProject = switchToProjectFn or function() end
-  self.pane = panes.new(width, height)
-  self.cols = math.floor(width  * self.pane.texture_size / self.pane.fontWidth)
-  self.rows = math.floor(height * self.pane.texture_size / self.pane.fontHeight) - 1
-  self.buffer = buffer.new(self.cols, self.rows,
-    function(pass, text, col, row, tokenType) -- draw single token
-      local color = highlighting[tokenType] or 0xFFFFFF
-      -- in-editor preview of colors in hex format 0xRRGGBBAA
-      if tokenType == 'number' and text:match('0x%x+') then
-        pass:setColor(tonumber(text))
-        self.pane:drawTextRectangle(pass, col, row, 1)
-      end
-      pass:setColor(color)
-      self.pane:drawText(pass, text, col, row)
-    end,
-    function (pass, col, row, width, tokenType) --draw rectangle
-      local color = highlighting[tokenType] or 0xFFFFFF
-      pass:setColor(color)
-      self.pane:drawTextRectangle(pass, col, row, width)
-    end)
-  self.pane:center()
+  self.cols = math.floor(width  * self.texture_size / m.font_width)
+  self.rows = math.floor(height * self.texture_size / m.font_height) - 1
+  self.buffer = buffer.new(self.cols, self.rows, drawToken, drawRectangle)
+  self:center()
   table.insert(m, self)
   m.active = self
   return self
@@ -129,6 +150,18 @@ function m:close()
       return
     end
   end
+end
+
+
+function m:center()
+  local x,y,z, angle, ax,ay,az = 0,0,0, 0, 1,0,0
+  if lovr.headset then
+    x,y,z, angle, ax,ay,az = lovr.headset.getPose('head')
+  end
+  local headTransform = mat4(x,y,z, angle, ax,ay,az)
+  local headPosition = vec3(headTransform)
+  local panePosition = vec3(headTransform:mul(0,0,-1.3))
+  self.transform:target(panePosition, headPosition)
 end
 
 
@@ -212,7 +245,7 @@ function m.storeSession(name)
     if editor.path then
       table.insert(scriptList, '  {')
       table.insert(scriptList,  string.format("    path = '%s:%d',", tostring(editor.path), editor.buffer.cursor.y))
-      table.insert(scriptList,  string.format('    pose = {%s}', table.concat({editor.pane.transform:unpack()}, ', ')))
+      table.insert(scriptList,  string.format('    pose = {%s}', table.concat({editor.transform:unpack()}, ', ')))
       table.insert(scriptList, '  },\n')
     end
   end
@@ -233,7 +266,7 @@ function m.restoreSession(name)
       local editor
       editor = m.new(1, 1)
       editor:openFile(e.path)
-      editor.pane.transform:set(unpack(e.pose))
+      editor.transform:set(unpack(e.pose))
     end
   else
     print(session)
@@ -242,46 +275,44 @@ end
 
 
 function m:draw(pass)
-  local editor_pass
-  if not self.immediate then
-    if self.is_dirty then
-      self.is_dirty = false
-      editor_pass = self.pane:drawToTexture(
-        function(pass)
-          self.buffer:drawCode(pass)
-        end)
-    end
-    self.pane:draw(pass, self == m.active)
-  else
-    pass:setColor(highlighting.background)
-    local font_width = self.pane.fontWidth
-    local font_height = self.pane.fontHeight
-    pass:plane(0, 0, -1050, (self.cols + 8) * font_width, (self.rows + 8) * font_height)
-    pass:push()
-    pass:translate(-font_width * self.cols / 2, font_height * self.rows / 2, -1000)
-    self.buffer:drawCode(pass)
-    pass:pop()
+  -- oriented towards -z so that mat4.target() works as expected
+  pass:push()
+  pass:transform(self.transform)
+  pass:setColor(palette.background)
+  local margin = 0.02
+  pass:plane(0,0, margin / 4, self.width + margin, self.height + margin, math.pi, 0,1,0)
+  pass:setColor(1,1,1)
+  if self.texture then
+    pass:setMaterial(self.texture)
+    pass:plane(0,0,0, -self.width, self.height)
+    pass:setMaterial()
   end
-  return editor_pass
+  pass:setColor(self == m.active and palette.active_bar or palette.disabled_bar)
+  local thickness = 0.02
+  local handleX = self.width/2 + thickness / 2 + margin
+  local handleY = 0
+  pass:box(handleX, handleY, 0,  thickness, self.height * 0.8, thickness)
+  pass:pop()
+end
+
+
+function m:drawToTexture()
+  if not self.texture then
+    self.texture = lovr.graphics.newTexture(self.texture_size, self.texture_size, {mipmaps=false})
+  end
+  local texture_pass = lovr.graphics.getPass('render', {self.texture})
+  texture_pass:setDepthWrite(false)
+  texture_pass:setViewPose(1, mat4())
+  texture_pass:setProjection(1, self.ortho)
+  texture_pass:setColor(palette.background)
+  texture_pass:fill()
+  self.buffer:drawCode(texture_pass)
+  return texture_pass
 end
 
 
 function m:refresh()
   self.is_dirty = true
-end
-
-
-function m:setImmediate(isImmediate)
-  self.immediate = isImmediate
-  if self.immediate then
-    --lovr.graphics.setDepthTest('gequal', false)
-    self.buffer.cols = 100
-    self.buffer.rows = 100
-  else
-    --lovr.graphics.setDepthTest('lequal', true)
-    self.buffer.cols, self.buffer.rows = self.cols, self.rows
-    self.buffer:updateView()
-  end
 end
 
 
@@ -300,7 +331,7 @@ function m.keypressed(k)
     m.active:refresh()
   end
   if k == 'ctrl+p' then           -- spawn new editor
-    m.active = m.new(1, 1)
+    m.active = m.new(1, 1, m.active.switchToProject)
     m.active:listFiles()
   elseif k == 'ctrl+tab' then     -- select next editor
     local lastEditor = m[#m]
@@ -333,6 +364,7 @@ function m.textinput(k)
     m.active:refresh()
   end
 end
+
 
 function m.profile()
   local profiler = require('profiler')
@@ -387,7 +419,12 @@ function m:execLine()
     line = line:sub(1, commentPos - 1)
   end
   local success, result = self:execUnsafely(line)
-  self.buffer.statusLine = (success and 'ok' or 'fail') .. ' > ' .. (result or "")
+  if success then
+    self.buffer.statusLine = 'ok' .. ' > ' .. (result or "")
+  else
+    print('! line exec error:', result)
+    self.buffer.statusLine = 'fail' .. ' > ' .. (result or "")
+  end
 end
 
 
