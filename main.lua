@@ -4,6 +4,7 @@ local project_name = 'vheadset'
 -- recovery mode has own environment, stop executing if activated
 if require('recovery') then return end
 local editors = require'editors'
+local modifiers = {ctrl = false, alt = false, shift = false}
 local reloadCode
 
 -- copy example project to save dir if it doesn't exist
@@ -78,19 +79,24 @@ end
 
 
 function lovr.draw(pass)
-  local passes = {}
+  -- main pass rendering
   for _, editor in ipairs(editors) do
-    local editor_pass = editor:draw(pass)
-    table.insert(passes, editor_pass)
+    editor:draw(pass)
   end
   pass:setColor(1,1,1)
-  callbacks.draw(pass)
-  table.insert(passes, pass)
+  local skip = callbacks.draw(pass)
+  -- drawing to texture in temp passes
+  local passes = {}
+  for _, editor in ipairs(editors) do
+    local editor_pass = editor:drawToTexture()
+    table.insert(passes, editor_pass)
+  end
+  if not skip then
+    table.insert(passes, pass)
+  end
   return lovr.graphics.submit(passes)
 end
 
-
-local modifiers = {ctrl = false, alt = false, shift = false}
 
 function lovr.keypressed(key, scancode, isrepeat)
   if key == 'lctrl' or key == 'rctrl' then
