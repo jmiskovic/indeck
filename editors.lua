@@ -140,13 +140,8 @@ function m.new(width, height, switchToProjectFn)
 end
 
 
-function m:close()
-  for i,editor in ipairs(m) do
-    if self == editor then
-      table.remove(m, i)
-      return
-    end
-  end
+function m:setText(content)
+  self.buffer:setText(content)
 end
 
 
@@ -162,16 +157,10 @@ function m:center()
 end
 
 
-function m:setText(content)
-  self.buffer:setText(content)
-end
-
-
 function m:openFile(filename_line)
   -- file path can optionally include line number to jump to, like 'main.lua:50'
   local filename, linenumber = filename_line:match('([^:]+):([%d]+)')
   filename = filename or filename_line
-  linenumber = linenumber or 1
   local content = ' '
   if lovr.filesystem.isFile(filename) then
     content = lovr.filesystem.read(filename)
@@ -181,14 +170,13 @@ function m:openFile(filename_line)
   local coreFile = lovr.filesystem.getRealDirectory(filename) == lovr.filesystem.getSource()
   self.buffer:setName((coreFile and 'core! ' or '').. filename)
   self.path = filename
-  self.buffer:jumpToLine(linenumber)
   self:refresh()
 end
 
 
 function m:removeFile(file_path)
   if lovr.filesystem.isFile(file_path) then
-    print(deleting, file_path)
+    print('deleting', file_path)
     lovr.filesystem.remove(file_path)
   else
     local err =  file_path .. ' does not exist'
@@ -218,6 +206,7 @@ function m:listFiles(path)
     previous = subpath
     parent = parent .. previous
   end
+  self.buffer:insertString('-- directory listing\n')
   parent = parent:sub(1, #parent - 1)
   self.buffer:insertString(string.format('self:listFiles(\'%s\') -- parent dir\n', parent))
   --list directory items, first subdirectories then files
@@ -232,19 +221,19 @@ function m:listFiles(path)
     end
     lines = lines + 1
   end
-  for _, fullpath in ipairs(files) do
-    self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
-  end
 
-  self.buffer:insertString('\n-- useful commands\n')
-  self.buffer:insertString('self:openFile(\'new_source.lua\') -- new file\n')
-  self.buffer:insertString('self:removeFile(\''..path..'/'..'unwanted.ext\') -- remove file\n')
-
-  if path == '' then
+  if path == '' then -- root dir should only list directories and project-switching
     self.buffer:insertString('\n-- switch to project\n')
     for _,projname in ipairs(lovr.filesystem.getDirectoryItems('projects')) do
       self.buffer:insertString(string.format("self.switchToProject('%s')\n", projname))
     end
+  else -- non-root dir shall list source/asset files and helpful commands
+    for _, fullpath in ipairs(files) do
+      self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
+    end
+    self.buffer:insertString('\n-- useful commands\n')
+    self.buffer:insertString('self:openFile(\'new_source.lua\') -- new file\n')
+    self.buffer:insertString('self:removeFile(\''..path..'/'..'unwanted.ext\') -- remove file\n')
   end
   self.buffer:insertString('\nctrl+shift+enter   confirm selection')
   self.buffer:jumpToLine(lines, 0)
@@ -282,13 +271,16 @@ end
 
 
 function m.restoreSession(name)
-  for _, editor in ipairs(m) do
-    editor:close() -- discarding potentially unsaved changes!
+  -- close editors, discarding potentially unsaved changes!
+  for i = #m, 1, -1 do
+    table.remove(m, i)
   end
+  -- load in the stored session
+  m.active = nil
   package.loaded[name] = nil
   local ok, session = pcall(require, name)
   if ok then
-    for i, e in ipairs(session) do
+    for _, e in ipairs(session) do
       local editor
       editor = m.new(1, 1)
       editor:openFile(e.path)
@@ -358,24 +350,24 @@ function m.keypressed(k)
   end
   if k == 'ctrl+tab' then     -- select next editor
     local lastEditor = m[#m]
-    for i, editor in ipairs(m) do
+    for _, editor in ipairs(m) do
       if editor == m.active then break end
       lastEditor = editor
     end
     m.active = lastEditor
   elseif k == 'ctrl+w' then       -- close current editor
     local lastEditor
-    for i, editor in ipairs(m) do
-      if editor == m.active then
+    for i = #m, 1, -1 do
+      if m[i] == m.active then
         table.remove(m, i)
       else
-        lastEditor = editor
+        lastEditor = lastEditor or m[i]
       end
     end
     m.active = lastEditor
-  elseif k == 'ctrl+shift+s' then -- store session
+  elseif k == 'ctrl+shift+s' then
     m.storeSession('indeck-session')
-  elseif k == 'ctrl+shift+l' then -- store session
+  elseif k == 'ctrl+shift+l' then
     m.restoreSession('indeck-session')
   end
 end
@@ -393,7 +385,6 @@ end
 
 function m:execLine()
   local line = self.buffer:getCursorLine()
-  local lineNum = self.buffer.cursor.y
   local commentPos = line:find("%s+%-%-")
   if commentPos then
     line = line:sub(1, commentPos - 1)
@@ -410,7 +401,6 @@ end
 
 function m:execUnsafely(code)
   local userCode, err = loadstring(code)
-  local result = ""
   if not userCode then
     print('code error:', err)
     return false, err

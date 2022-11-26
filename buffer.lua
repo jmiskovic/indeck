@@ -50,9 +50,9 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       text = sanitize(text)
       self.lines = {}
       self.lexed = lexer(text)
-      for i, line in ipairs(self.lexed) do
+      for _, line in ipairs(self.lexed) do
         local lineStrings = {}
-        for l, token in ipairs(line) do
+        for _, token in ipairs(line) do
           table.insert(lineStrings, token.data)
         end
         table.insert(self.lines, table.concat(lineStrings, ''))
@@ -87,7 +87,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
         end
         -- draw single line of text
         local lineTokens = self.lexed[currentLine]
-        for j, token in ipairs(lineTokens) do
+        for _, token in ipairs(lineTokens) do
           self.drawToken(pass, token.data, x, y, token.type)
           x = x + #token.data
         end
@@ -290,10 +290,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
       if not self:isSelected() then return end
       local selectionFrom, selectionTo = self:selectionSpan()
       local singleLineChange = selectionFrom.y == selectionTo.y
-      local lines = {}
       for y = selectionTo.y, selectionFrom.y, -1 do
-        local fromX = y == selectionFrom.y and selectionFrom.x  or 0
-        local   toX = y == selectionTo.y   and selectionTo.x    or self.lines[y]:len()
         if y > selectionFrom.y and y < selectionTo.y then
           table.remove(self.lines, y)
           table.remove(self.lexed, y)
