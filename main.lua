@@ -1,11 +1,6 @@
--- project directory; expected to have main.lua inside
-local project_name = 'vheadset'
-
--- recovery mode has own environment, stop executing if activated
-if require('recovery') then return end
 local editors = require'editors'
 local modifiers = {ctrl = false, alt = false, shift = false}
-local reloadCode
+local mounted_project
 
 -- copy example project to save dir if it doesn't exist
 if not lovr.filesystem.isDirectory('projects') then
@@ -31,7 +26,7 @@ local callbacks = {
 }
 
 
-local function switchToProject(project_dir)
+local function runProject()
   local stored = {
     load = lovr.load,
     draw = lovr.draw,
@@ -39,18 +34,9 @@ local function switchToProject(project_dir)
     keypressed = lovr.keypressed,
     keyreleased = lovr.keyreleased,
     textinput = lovr.textinput,
+    errhand = lovr.errhand,
   }
-  -- unloading the current project
   package.loaded['main'] = nil
-  -- reloading the user project
-  local pathsep = package.config:sub(1, 1)
-  local full_path = lovr.filesystem.getSaveDirectory() .. pathsep .. 'projects' .. pathsep .. project_dir
-  print('loading user project', full_path)
-  local success = lovr.filesystem.mount(full_path, '/', false)
-  if not success then
-    print('! unsucessful; does project dir exist?')
-    return
-  end
   require('main')
   -- loading user project will overwrite some of indeck's callbacks
   -- here indeck's callbacks are reinstated and user project callbacks are stored for event forwarding
@@ -63,11 +49,44 @@ local function switchToProject(project_dir)
 end
 
 
+local function pauseProject()
+  callbacks = {
+    draw = function (pass) end,
+    update = function (dt) end,
+    keypressed = function (key, scancode, isrepeat) end,
+    keyreleased = function (key, scancode) end,
+    textinput = function (k) end,
+  }
+end
+
+
+local function switchToProject(project_dir)
+  if mounted_project then
+    lovr.filesystem.unmount(mounted_project)
+  end
+  -- reloading the user project
+  local pathsep = package.config:sub(1, 1)
+  local full_path = lovr.filesystem.getSaveDirectory() .. pathsep .. 'projects' .. pathsep .. project_dir
+  print('loading user project', full_path)
+  local success = lovr.filesystem.mount(full_path, '', false)
+  if not success then
+    print('! unsucessful; does project dir exist?')
+    return
+  end
+  mounted_project = full_path
+  runProject()
+  -- open project's main.lua in active editor
+  local path_to_main = 'projects' .. pathsep .. project_dir .. pathsep .. 'main.lua'
+  if lovr.filesystem.isFile(path_to_main) and editors.active then
+    editors.active:openFile(path_to_main)
+  end
+end
+
+
 function lovr.load()
-  -- remove traces of loaded modules and jump into user code
-  package.loaded['main'] = nil
-  package.loaded['recovery'] = nil
+  if lovr.headset then lovr.headset.update() end
   lovr.filesystem.unmount(lovr.filesystem.getSource())
+  lovr.filesystem.mount('lovr-api', 'help')
   local editor = editors.new(1, 1, switchToProject)
   editor:listFiles()
 end
@@ -114,14 +133,15 @@ function lovr.keypressed(key, scancode, isrepeat)
     modifiers.alt   and 'alt+'   or '',
     modifiers.shift and 'shift+' or '',
     key)
-  if combo =='ctrl+r' then
-    --if editors.active then editors.active:saveFile() end
-    reloadCode(project_name)
-  end
-  if combo =='ctrl+shift+r' then
+  if combo == 'ctrl+p' then -- spawn new editor
+    local editor = editors.new(1, 1, switchToProject)
+    editor:listFiles()
+  elseif combo =='ctrl+r' then -- restart project
+    if editors.active then editors.active:saveFile() end
+    runProject()
+  elseif combo =='ctrl+shift+r' then
     lovr.event.push('restart')
-  end
-  if combo =='escape' then
+  elseif combo =='escape' then
     lovr.event.push('quit')
   end
   editors.keypressed(combo)
@@ -149,4 +169,34 @@ function lovr.textinput(k)
     editors.textinput(k)
   end
   callbacks.textinput(k)
+end
+
+
+local function wrap(str, limit)
+  limit = limit or 60
+  local position = 1
+  local function check(sp, st, word, fi)
+    if fi - position > limit then
+      position = st
+      return "\n" .. word
+    end
+  end
+  return str:gsub("(%s+)()(%S+)()", check)
+end
+
+
+lovr.errhand = function(message, traceback)
+  traceback = traceback or debug.traceback('', 3)
+  local restartInfo = message .. '\n' .. traceback
+  print('! runtime error')
+  print(restartInfo)
+  pauseProject()
+
+  local prev_active = editors.active
+  local traceback_editor = editors.new(1.0, 0.6)
+  editors.active = prev_active or editors.active
+  traceback_editor:setText(wrap(restartInfo))
+  traceback_editor.transform:translate(-1,0,0)
+  traceback_editor.transform:rotate(-math.rad(40), 0,1,0)
+  return lovr.run()
 end

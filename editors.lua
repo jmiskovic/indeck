@@ -56,8 +56,7 @@ local keymapping = {
   macros = {
     ['ctrl+o']               = function(self) self:listFiles() end,
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
-    ['ctrl+h']               = function(self) m.new(1, 1):listFiles('lovr-api') end,
-    ['f5']                   = function(self) lovr.event.push('restart') end,
+    ['ctrl+h']               = function(self) m.new(1, 1):openHelp() end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
@@ -95,11 +94,11 @@ local palette =
 }
 
 
-local function drawRectangle(pass, col, row, width, tokenType)
+local function drawRectangle(pass, col, row, columns, tokenType)
   local color = palette[tokenType] or tonumber(tokenType)
   pass:setColor(color)
   -- rectangle in text-coordinates
-  width = width * m.font_width
+  local width = columns * m.font_width
   local x =  col * m.font_width
   local y = -row * m.font_height
   local height = m.font_height
@@ -128,7 +127,7 @@ function m.new(width, height, switchToProjectFn)
   self.texture_size = 1024
   self.texture = nil     -- lazily created in drawToTexture
   self.transform = lovr.math.newMat4(.1,1.6,-1.3, 1,1,1, 0, 0,1,0)
-  self.ortho = lovr.math.newMat4():orthographic(0, self.texture_size, 0, -self.texture_size, -10000, 10000)
+  self.ortho = lovr.math.newMat4():orthographic(0, self.texture_size, 0, -self.texture_size, -10, 10)
   self.font:setPixelDensity(1)
   self.path = ''
   self.is_dirty = true
@@ -165,15 +164,20 @@ function m:center()
 end
 
 
+function m:setText(content)
+  self.buffer:setText(content)
+end
+
+
 function m:openFile(filename_line)
   -- file path can optionally include line number to jump to, like 'main.lua:50'
   local filename, linenumber = filename_line:match('([^:]+):([%d]+)')
   filename = filename or filename_line
   linenumber = linenumber or 1
-  if not lovr.filesystem.isFile(filename) then
-    return false, "no such file"
+  local content = ' '
+  if lovr.filesystem.isFile(filename) then
+    content = lovr.filesystem.read(filename)
   end
-  local content = lovr.filesystem.read(filename)
   print('file open', filename, 'size', #content)
   self.buffer:setText(content)
   local coreFile = lovr.filesystem.getRealDirectory(filename) == lovr.filesystem.getSource()
@@ -184,7 +188,25 @@ function m:openFile(filename_line)
 end
 
 
+function m:removeFile(file_path)
+  if lovr.filesystem.isFile(file_path) then
+    print(deleting, file_path)
+    lovr.filesystem.remove(file_path)
+  else
+    local err =  file_path .. ' does not exist'
+    print('! ' .. err)
+    error(err)
+  end
+end
+
+
+function m:openHelp(path)
+  self:listFiles('help')
+end
+
+
 function m:listFiles(path)
+  print('listing', path)
   if not path then -- try to use directory path of currently open file
     path = m.active and m.active.path:sub(1, (m.active.path:find('/[^/]+$') or 1) - 1) or ''
   end
@@ -201,8 +223,8 @@ function m:listFiles(path)
   parent = parent:sub(1, #parent - 1)
   self.buffer:insertString(string.format('self:listFiles(\'%s\') -- parent dir\n', parent))
   --list directory items, first subdirectories then files
+  local lines = 1
   local files = {}
-  local lines = 0
   for _,filename in ipairs(lovr.filesystem.getDirectoryItems(path)) do
     local fullpath = path .. '/' .. filename
     if lovr.filesystem.isDirectory(fullpath) then
@@ -215,11 +237,17 @@ function m:listFiles(path)
   for _, fullpath in ipairs(files) do
     self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
   end
-  self.buffer:insertString('\n')
-  for _,projname in ipairs(lovr.filesystem.getDirectoryItems('projects')) do
-    self.buffer:insertString(string.format("self.switchToProject('%s')\n", projname))
-  end
 
+  self.buffer:insertString('\n-- useful commands\n')
+  self.buffer:insertString('self:openFile(\'new_source.lua\') -- new file\n')
+  self.buffer:insertString('self:removeFile(\''..path..'/'..'unwanted.ext\') -- remove file\n')
+
+  if path == '' then
+    self.buffer:insertString('\n-- switch to project\n')
+    for _,projname in ipairs(lovr.filesystem.getDirectoryItems('projects')) do
+      self.buffer:insertString(string.format("self.switchToProject('%s')\n", projname))
+    end
+  end
   self.buffer:insertString('\nctrl+shift+enter   confirm selection')
   self.buffer:jumpToLine(lines, 0)
   self:refresh()
@@ -330,10 +358,7 @@ function m.keypressed(k)
     end
     m.active:refresh()
   end
-  if k == 'ctrl+p' then           -- spawn new editor
-    m.active = m.new(1, 1, m.active.switchToProject)
-    m.active:listFiles()
-  elseif k == 'ctrl+tab' then     -- select next editor
+  if k == 'ctrl+tab' then     -- select next editor
     local lastEditor = m[#m]
     for i, editor in ipairs(m) do
       if editor == m.active then break end
