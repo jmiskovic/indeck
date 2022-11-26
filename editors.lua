@@ -18,8 +18,8 @@ local keymapping = {
     ['volume_down']         = 'moveLeft',
     ['volume_up']           = 'moveRight',
     ['left']                = 'moveLeft',
-    ['ctrl+up']              = 'moveJumpUp',
-    ['ctrl+down']            = 'moveJumpDown',
+    ['ctrl+up']             = 'moveJumpUp',
+    ['ctrl+down']           = 'moveJumpDown',
     ['ctrl+left']           = 'moveJumpLeft',
     ['ctrl+right']          = 'moveJumpRight',
     ['right']               = 'moveRight',
@@ -59,9 +59,7 @@ local keymapping = {
     ['ctrl+h']               = function(self) m.new(1, 1):openHelp() end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
-    ['alt+l']                = function(self) self.buffer:insertString('lovr.graphics.') end,
     ['ctrl+shift+home']      = function(self) self:center() end,
-    ['ctrl+shift+p']         = function(self) m.profile() end,
   },
 }
 
@@ -390,49 +388,6 @@ function m.textinput(k)
   end
 end
 
-
-function m.profile()
-  local profiler = require('profiler')
-  profiler.start('p=-s')
-  local editor = m.new(0.5, 0.8)
-  editor.buffer:setName('performance')
-  editor.buffer:setText(' Profiling the execution \n')
-  local drawTime, drawStats
-  local t = lovr.timer.getTime()
-  while lovr.timer.getTime() < t + 1 do
-    lovr.graphics.tick('profile')
-    -- execute the reduced LOVR main loop
-    local dt = lovr.timer.step()
-    lovr.headset.update(dt)
-    lovr.audio.update()
-    lovr.update(dt)
-    lovr.graphics.origin()
-    lovr.headset.renderTo(lovr.draw)
-    drawStats = lovr.graphics.getStats()  -- stats are cleared on start of frame
-    lovr.mirror()
-    lovr.graphics.present()
-    lovr.math.drain()
-    -- end of LOVR main loop
-    drawTime = lovr.graphics.tock('profile')
-  end
-  local report = profiler.stop()
-  editor.buffer:setText('')
-  editor.buffer:insertString('-- LOVR statistics --\n')
-  for stat, value in pairs(drawStats) do
-    editor.buffer:insertString(string.format('%s: %d\n', stat, value))
-  end
-  m.active.buffer:insertString(string.format('averagedelta: %2.1f ms\n', lovr.timer.getAverageDelta() * 1000))
-  m.active.buffer:insertString(string.format('drawingtime:  %2.1f ms\n', drawTime * 1000))
-  editor.buffer:insertString(string.format('framespersecond: %d\n', lovr.timer.getFPS()))
-  editor.buffer:insertString('-- LOVR graphics features --\n')
-  for k, v in pairs(lovr.graphics.getFeatures()) do
-    editor.buffer:insertString(k .. ': ' .. tostring(v) .. '\n')
-  end
-  editor.buffer:insertString(string.format('\n-- LuaJIT profiler report --\n'))
-  editor.buffer:insertString(report)
-  editor.buffer:moveJumpEnd()
-  profiler = nil
-end
 
 -- code execution environment
 
