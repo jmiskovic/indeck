@@ -274,6 +274,7 @@ function m.new(cols, rows, drawToken, drawRectangle, initialText)
     pasteText = function(self)
       self:deleteSelection()
       self:insertString(clipboard)
+      self:updateView()
     end,
     -- helper functions
     isSelected = function(self)
