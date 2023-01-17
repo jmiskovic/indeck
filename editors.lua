@@ -64,31 +64,30 @@ local keymapping = {
 }
 
 
-local palette =
-{ -- taken from base16-woodland
-  background   = 0x231e18, --editor background
-  cursorline   = 0x433b2f, --cursor background
-  caret        = 0xc6bcb1, --cursor
+local palette = { -- mariana color palette
+  background   = 0x1f212b, --editor background
+  cursorline   = 0x4c5863, --cursor background
+  caret        = 0xeda550, --cursor
   whitespace   = 0x111111, --spaces, newlines, tabs, and carriage returns
-  comment      = 0x9d8b70, --either multi-line or single-line comments
-  string_start = 0x9d8b70, --starts and ends of a string. There will be no non-string tokens between these two.
-  string_end   = 0x9d8b70,
-  string       = 0xb7ba53, --part of a string that isn't an escape
-  escape       = 0x6eb958, --a string escape, like \n, only found inside strings
-  keyword      = 0xb690e2, --keywords. Like "while", "end", "do", etc
-  value        = 0xca7f32, --special values. Only true, false, and nil
-  ident        = 0xd35c5c, --identifier. Variables, function names, etc
-  number       = 0xca7f32, --numbers, including both base 10 (and scientific notation) and hexadecimal
-  symbol       = 0xc6bcb1, --symbols, like brackets, parenthesis, ., .., etc
-  vararg       = 0xca7f32, --...
-  operator     = 0xcabcb1, --operators, like +, -, %, =, ==, >=, <=, ~=, etc
-  label_start  = 0x9d8b70, --the starts and ends of labels. Always equal to '::'. Between them there can only be whitespace and label tokens.
-  label_end    = 0x9d8b70,
-  label        = 0xc6bcb1, --basically an ident between a label_start and label_end.
-  unidentified = 0xd35c5c, --anything that isn't one of the above tokens. Consider them errors. Invalid escapes are also unidentified.
-  selection    = 0x353937,
-  active_bar   = 0xd35c5c, -- editor sidebar
-  disabled_bar = 0x242424,
+  comment      = 0xa6acb9, --either multi-line or single-line comments
+  string_start = 0x5fb4b4, --starts and ends of a string. There will be no non-string tokens between these two.
+  string_end   = 0x5fb4b4,
+  string       = 0x99c794, --part of a string that isn't an escape
+  escape       = 0xc695c6, --a string escape, like \n, only found inside strings
+  keyword      = 0xc695c6, --keywords. Like "while", "end", "do", etc
+  value        = 0xec5f66, --special values. Only true, false, and nil
+  ident        = 0x6699cc, --identifier. Variables, function names, etc
+  number       = 0xf9ae58, --numbers, including both base 10 (and scientific notation) and hexadecimal
+  symbol       = 0xa6acb9, --symbols, like brackets, parenthesis, ., .., etc
+  vararg       = 0xec5f66, --...
+  operator     = 0xf97b58, --operators, like +, -, %, =, ==, >=, <=, ~=, etc
+  label_start  = 0x5fb4b4, --the starts and ends of labels. Always equal to '::'. Between them there can only be whitespace and label tokens.
+  label_end    = 0x5fb4b4,
+  label        = 0xc695c6, --basically an ident between a label_start and label_end.
+  unidentified = 0xec5f66, --anything that isn't one of the above tokens. Consider them errors. Invalid escapes are also unidentified.
+  selection    = 0x4c5863,
+  active_bar   = 0xf97b58, -- editor sidebar
+  disabled_bar = 0x4c5863,
 }
 
 
