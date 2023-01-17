@@ -4,7 +4,7 @@ m = {}  -- stores functions under keys and also all editors in a list
 m.__index = m
 
 m.active = nil  -- reference to the editor that receives text input
-m.font = lovr.graphics.newFont('ubuntu-mono.ttf', 24)
+m.font = lovr.graphics.newFont('ubuntu-mono.ttf', 20)
 m.font:setPixelDensity(1)
 m.font_width = m.font:getWidth(' ')
 m.font_height = m.font:getHeight()
@@ -56,7 +56,7 @@ local keymapping = {
   macros = {
     ['ctrl+o']               = function(self) self:listFiles() end,
     ['ctrl+s']               = function(self) self:saveFile(self.path) end,
-    ['ctrl+h']               = function(self) m.new(1, 1):openHelp() end,
+    ['ctrl+h']               = function(self) m.new(120, 60):openHelp() end,
     ['ctrl+shift+enter']     = function(self) self:execLine() end,
     ['ctrl+shift+return']    = function(self) self:execLine() end,
     ['ctrl+shift+home']      = function(self) self:center() end,
@@ -97,10 +97,10 @@ local function drawRectangle(pass, col, row, columns, tokenType)
   pass:setColor(color)
   -- rectangle in text-coordinates
   local width = columns * m.font_width
+  local height = m.font_height
   local x =  col * m.font_width
   local y = -row * m.font_height
-  local height = m.font_height
-  pass:plane(x + width/2, y - height/2, -2,  width, height)
+  pass:plane(x + width / 2, y - height / 2, -2,  width, height)
 end
 
 
@@ -108,7 +108,7 @@ local function drawToken(pass, text, col, row, tokenType)
   local color = palette[tokenType] or 0xFFFFFF
   -- in-editor preview of colors in hex format 0xRRGGBBAA
   if tokenType == 'number' and text:match('0x%x+') then
-    drawRectangle(pass, col, row, 1, text)
+    drawRectangle(pass, col, row, 2, text)
   end
   pass:setColor(color)
   pass:setFont(m.font)
@@ -118,25 +118,38 @@ local function drawToken(pass, text, col, row, tokenType)
 end
 
 
-function m.new(width, height, switchToProjectFn)
+function m.new(cols, rows, switchToProjectFn)
   local self = setmetatable({}, m)
-  self.width = width     -- meters
-  self.height = height
+  cols, rows = math.floor(cols), math.floor(rows)
+  self.width = 1
+  self.height = 1
   self.texture_size = 1024
-  self.texture = nil     -- lazily created in drawToTexture
-  self.transform = lovr.math.newMat4(.1,1.6,-1.3, 1,1,1, 0, 0,1,0)
-  self.ortho = lovr.math.newMat4():orthographic(0, self.texture_size, 0, -self.texture_size, -10, 10)
+  self.transform = lovr.math.newMat4(0, 1, -1, 1,1,1, 0, 0,1,0)
+  self.ortho = lovr.math.newMat4()
   self.font:setPixelDensity(1)
   self.path = ''
   self.is_dirty = true
   self.switchToProject = switchToProjectFn or function() end
-  self.cols = math.floor(width  * self.texture_size / m.font_width)
-  self.rows = math.floor(height * self.texture_size / m.font_height) - 1
-  self.buffer = buffer.new(self.cols, self.rows, drawToken, drawRectangle)
+  self.buffer = buffer.new(cols, rows, drawToken, drawRectangle)
+  self:resize(cols, rows)
   self:center()
   table.insert(m, self)
   m.active = self
   return self
+end
+
+
+function m:resize(cols, rows)
+  self.buffer.cols = cols
+  self.buffer.rows = rows
+  local status_lines = 1
+  local texture_width  = self.buffer.cols * m.font_width
+  local texture_height = (self.buffer.rows + status_lines) * m.font_height
+  self.width  = texture_width  / 1000
+  self.height = texture_height / 1000
+  self.ortho:orthographic(0, texture_width, 0, -texture_height, -10, 10)
+  self.texture = lovr.graphics.newTexture(texture_width, texture_height, {mipmaps=false})
+  self:refresh()
 end
 
 
@@ -152,7 +165,7 @@ function m:center()
   end
   local headTransform = mat4(x,y,z, angle, ax,ay,az)
   local headPosition = vec3(headTransform)
-  local panePosition = vec3(headTransform:mul(0,0,-1.3))
+  local panePosition = vec3(headTransform:mul(0,0,-1.0))
   self.transform:target(panePosition, headPosition)
 end
 
@@ -170,6 +183,7 @@ function m:openFile(filename_line)
   local coreFile = lovr.filesystem.getRealDirectory(filename) == lovr.filesystem.getSource()
   self.buffer:setName((coreFile and 'core! ' or '').. filename)
   self.path = filename
+  self.buffer:jumpToLine(1, 0)
   self:refresh()
 end
 
@@ -192,7 +206,6 @@ end
 
 
 function m:listFiles(path)
-  print('listing', path)
   if not path then -- try to use directory path of currently open file
     path = m.active and m.active.path:sub(1, (m.active.path:find('/[^/]+$') or 1) - 1) or ''
   end
@@ -207,23 +220,25 @@ function m:listFiles(path)
     parent = parent .. previous
   end
   self.buffer:insertString('-- directory listing\n')
-  parent = parent:sub(1, #parent - 1)
-  self.buffer:insertString(string.format('self:listFiles(\'%s\') -- parent dir\n', parent))
+  if path ~= '' then
+    parent = parent:sub(1, #parent - 1)
+    self.buffer:insertString(string.format('self:listFiles(\'%s\') -- parent dir\n', parent))
+  end
   --list directory items, first subdirectories then files
-  local lines = 1
+  local last_line = 2
   local files = {}
+  local prefix = path == '' and '.' or path
   for _,filename in ipairs(lovr.filesystem.getDirectoryItems(path)) do
-    local fullpath = path .. '/' .. filename
+    local fullpath = prefix .. '/' .. filename
     if lovr.filesystem.isDirectory(fullpath) then
       self.buffer:insertString(string.format('self:listFiles(\'%s\')\n', fullpath))
+      last_line = last_line + 1
     else
       table.insert(files, fullpath)
     end
-    lines = lines + 1
   end
-
   if path == '' then -- root dir should only list directories and project-switching
-    self.buffer:insertString('\n-- switch to project\n')
+    self.buffer:insertString('\n-- run project\n')
     for _,projname in ipairs(lovr.filesystem.getDirectoryItems('projects')) do
       self.buffer:insertString(string.format("self.switchToProject('%s')\n", projname))
     end
@@ -232,11 +247,11 @@ function m:listFiles(path)
       self.buffer:insertString(string.format('self:openFile(\'%s\')\n', fullpath))
     end
     self.buffer:insertString('\n-- useful commands\n')
-    self.buffer:insertString('self:openFile(\'new_source.lua\') -- new file\n')
+    self.buffer:insertString('self:openFile(\''..path..'/'..'new_source.lua\') -- new file\n')
     self.buffer:insertString('self:removeFile(\''..path..'/'..'unwanted.ext\') -- remove file\n')
   end
   self.buffer:insertString('\nctrl+shift+enter   confirm selection')
-  self.buffer:jumpToLine(lines, 0)
+  self.buffer:jumpToLine(last_line, 0)
   self:refresh()
 end
 
@@ -296,20 +311,20 @@ function m:draw(pass)
   -- oriented towards -z so that mat4.target() works as expected
   pass:push()
   pass:transform(self.transform)
+  -- background and side handle
   pass:setColor(palette.background)
   local margin = 0.02
   pass:plane(0,0, margin / 4, self.width + margin, self.height + margin, math.pi, 0,1,0)
-  pass:setColor(1,1,1)
-  if self.texture then
-    pass:setMaterial(self.texture)
-    pass:plane(0,0,0, -self.width, self.height)
-    pass:setMaterial()
-  end
   pass:setColor(self == m.active and palette.active_bar or palette.disabled_bar)
   local thickness = 0.02
   local handleX = self.width/2 + thickness / 2 + margin
   local handleY = 0
   pass:box(handleX, handleY, 0,  thickness, self.height * 0.8, thickness)
+  -- code rendered from texture
+  pass:setColor(1,1,1)
+  pass:setMaterial(self.texture)
+  pass:plane(0,0,0, -self.width, self.height)
+  pass:setMaterial()
   pass:pop()
 end
 
