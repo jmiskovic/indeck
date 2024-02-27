@@ -130,6 +130,7 @@ function m.new(cols, rows, switchToProjectFn)
   self.is_dirty = true
   self.switchToProject = switchToProjectFn or function() end
   self.buffer = buffer.new(cols, rows, drawToken, drawRectangle)
+  self.pass = lovr.graphics.newPass()
   self:resize(cols, rows)
   self:center()
   table.insert(m, self)
@@ -148,6 +149,7 @@ function m:resize(cols, rows)
   self.height = texture_height / 1000
   self.ortho:orthographic(0, texture_width, 0, -texture_height, -10, 10)
   self.texture = lovr.graphics.newTexture(texture_width, texture_height, {mipmaps=false})
+  self.pass:setCanvas(self.texture)
   self:refresh()
 end
 
@@ -331,15 +333,16 @@ end
 function m:drawToTexture()
   if not self.texture then
     self.texture = lovr.graphics.newTexture(self.texture_size, self.texture_size, {mipmaps=false})
+    self.pass:setCanvas(self.texture)
   end
-  local texture_pass = lovr.graphics.getPass('render', {self.texture})
-  texture_pass:setDepthWrite(false)
-  texture_pass:setViewPose(1, mat4())
-  texture_pass:setProjection(1, self.ortho)
-  texture_pass:setColor(palette.background)
-  texture_pass:fill()
-  self.buffer:drawCode(texture_pass)
-  return texture_pass
+  self.pass:reset()
+  self.pass:setDepthWrite(false)
+  self.pass:setViewPose(1, mat4())
+  self.pass:setProjection(1, self.ortho)
+  self.pass:setColor(palette.background)
+  self.pass:fill()
+  self.buffer:drawCode(self.pass)
+  return self.pass
 end
 
 
