@@ -332,14 +332,17 @@ function m:drawToTexture()
   if not self.texture then
     self.texture = lovr.graphics.newTexture(self.texture_size, self.texture_size, {mipmaps=false})
   end
-  local texture_pass = lovr.graphics.getPass('render', {self.texture})
-  texture_pass:setDepthWrite(false)
-  texture_pass:setViewPose(1, mat4())
-  texture_pass:setProjection(1, self.ortho)
-  texture_pass:setColor(palette.background)
-  texture_pass:fill()
-  self.buffer:drawCode(texture_pass)
-  return texture_pass
+  if not self.texture_pass then
+    self.texture_pass = lovr.graphics.newPass({self.texture})
+  end
+  self.texture_pass:reset()
+  self.texture_pass:setDepthWrite(false)
+  self.texture_pass:setViewPose(1, mat4())
+  self.texture_pass:setProjection(1, self.ortho)
+  self.texture_pass:setColor(palette.background)
+  self.texture_pass:fill()
+  self.buffer:drawCode(self.texture_pass)
+  return self.texture_pass
 end
 
 

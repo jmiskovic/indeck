@@ -17,12 +17,13 @@ function lovr.draw(pass)
     local skeleton = lovr.headset.getSkeleton(handName)
     if skeleton then
       for _, bone in ipairs(skeleton) do
-        pass:sphere(mat4(unpack(bone)):scale(0.004, 0.002, 0.006))
+        local x, y, z, r, angle, ax,ay,az = unpack(bone)
+        pass:sphere(mat4(x, y, z, angle, ax,ay,az):scale(0.004, 0.002, 0.006))
       end
     else
-      local handPose = mat4(lovr.headset.getPose(handName))
-      handPose:scale(0.04, 0.08, 0.08)
-      pass:box(handPose)
+      local handPose =
+      handPose
+      pass:box(mat4(lovr.headset.getPose(handName)):scale(0.02, 0.04, 0.06))
     end
   end
 end

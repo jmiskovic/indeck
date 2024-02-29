@@ -9,7 +9,6 @@ local xpacall = function(fn, err, ...)
   return xpcall(function() return fn(unpack(args)) end, err)
 end
 
-
 -- copy example project to save dir if it doesn't exist
 if not lovr.filesystem.isDirectory('projects') then
   lovr.filesystem.createDirectory('example')
@@ -115,7 +114,7 @@ function lovr.draw(pass)
   end
   pass:setColor(1,1,1)
   local _, skip = xpacall(callbacks.draw, errhand, pass)
-  -- drawing to texture in temp passes
+  -- drawing to texture in separate passes per editor
   local passes = {}
   for _, editor in ipairs(editors) do
     local editor_pass = editor:drawToTexture()
