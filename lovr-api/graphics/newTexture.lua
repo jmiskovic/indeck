@@ -125,8 +125,8 @@ return {
     If no `type` is provided in the options table, LÖVR will guess the `TextureType` of the Texture
     based on the number of layers:
 
-    - If there's 1 layer, the type will be `2d`.
-    - If there are 6 layers, the type will be `cube`.
+    - If there's only 1 layer, the type will be `2d`.
+    - If there are 6 images provided, the type will be `cube`.
     - Otherwise, the type will be `array`.
 
     Note that an Image can contain multiple layers and mipmaps.  When a single Image is provided,

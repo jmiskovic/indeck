@@ -44,7 +44,14 @@ return {
       returns = {}
     }
   },
-  notes = 'By default, stencil writes are disabled.',
+  notes = [[
+    By default, stencil writes are disabled.
+
+    Setting the stencil test requires the `Pass` to have a depth texture with the `d24s8` or
+    `d32fs8` format (the `s` means "stencil").  The `t.graphics.stencil` and `t.headset.stencil`
+    flags in `lovr.conf` can be used to request a stencil format for the default window and headset
+    passes, respectively.
+  ]],
   related = {
     'Pass:setStencilTest',
     'Pass:setDepthTest'

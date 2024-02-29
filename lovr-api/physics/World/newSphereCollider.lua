@@ -6,22 +6,26 @@ return {
     x = {
       type = 'number',
       default = '0',
-      description = 'The x coordinate of the center of the sphere.'
+      description = 'The x coordinate of the center of the sphere, in meters.'
     },
     y = {
       type = 'number',
       default = '0',
-      description = 'The y coordinate of the center of the sphere.'
+      description = 'The y coordinate of the center of the sphere, in meters.'
     },
     z = {
       type = 'number',
       default = '0',
-      description = 'The z coordinate of the center of the sphere.'
+      description = 'The z coordinate of the center of the sphere, in meters.'
     },
     radius = {
       type = 'number',
       default = '1',
       description = 'The radius of the sphere, in meters.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the center of the sphere, in meters.'
     }
   },
   returns = {
@@ -33,6 +37,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z', 'radius' },
+      returns = { 'collider' }
+    },
+    {
+      arguments = { 'position', 'radius' },
       returns = { 'collider' }
     }
   },

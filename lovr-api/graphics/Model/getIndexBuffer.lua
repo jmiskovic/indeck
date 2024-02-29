@@ -18,6 +18,7 @@ return {
     }
   },
   related = {
-    'Model:getVertexBuffer'
+    'Model:getVertexBuffer',
+    'Model:getMesh'
   }
 }

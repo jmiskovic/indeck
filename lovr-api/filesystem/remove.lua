@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Remove a file or directory.',
   description = 'Remove a file or directory in the save directory.',
   arguments = {

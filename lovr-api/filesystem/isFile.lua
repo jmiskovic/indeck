@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Check whether a path is a file.',
   description = 'Check if a path exists and is a file.',
   arguments = {

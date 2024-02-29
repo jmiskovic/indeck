@@ -1,4 +1,5 @@
 return {
+  tag = 'headset-misc',
   summary = 'Submit a frame to the headset display.',
   description = [[
     Submits the current headset texture to the VR display.  This should be called after calling

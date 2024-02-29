@@ -21,7 +21,8 @@ return {
       description = [[
         A list of joint transforms for the device.  Each transform is a table with 3 numbers for the
         position of the joint, 1 number for the joint radius (in meters), and 4 numbers for the
-        angle/axis orientation of the joint.
+        angle/axis orientation of the joint.  There is also a `radius` key with the radius of the
+        joint as well.
       ]]
     }
   },
@@ -42,6 +43,10 @@ return {
     The joint orientation is similar to the graphics coordinate system: -Z is the forwards
     direction, pointing towards the fingertips.  The +Y direction is "up", pointing out of the back
     of the hand.  The +X direction is to the right, perpendicular to X and Z.
+
+    Here's a picture, courtesy of Khronos Group:
+
+    ![Hand Skeleton Joints](https://lovr.org/img/hand-skeleton.png)
 
     Hand joints are returned in the following order:
 

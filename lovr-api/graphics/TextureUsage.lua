@@ -29,7 +29,10 @@ return {
     },
     {
       name = 'transfer',
-      description = 'Whether the texture can be used in a transfer pass.'
+      description = [[
+        Whether the texture can be used for transfer operations like `Texture:setPixels`,
+        `Texture:blit`, etc.
+      ]]
     }
   }
 }

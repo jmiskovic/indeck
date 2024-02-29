@@ -58,6 +58,7 @@ return {
     }
   },
   related = {
+    'lovr.audio.getDevice',
     'lovr.audio.getDevices',
     'lovr.audio.start',
     'lovr.audio.stop'

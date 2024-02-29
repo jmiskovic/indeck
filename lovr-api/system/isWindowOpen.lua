@@ -1,4 +1,5 @@
 return {
+  tag = 'system-window',
   summary = 'Check if the desktop window is open.',
   description = [[
     Returns whether the desktop window is open.  `t.window` can be set to `nil` in `lovr.conf` to

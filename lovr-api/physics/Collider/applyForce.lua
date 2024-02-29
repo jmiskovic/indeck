@@ -25,6 +25,14 @@ return {
     pz = {
       type = 'number',
       description = 'The z position to apply the force at, in world coordinates.'
+    },
+    force = {
+      type = 'Vec3',
+      description = 'The force vector to apply.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position to apply the force at, in world coordinates.'
     }
   },
   returns = {},
@@ -36,12 +44,17 @@ return {
     {
       arguments = { 'x', 'y', 'z', 'px', 'py', 'pz' },
       returns = {}
+    },
+    {
+      arguments = { 'force' },
+      returns = {}
+    },
+    {
+      arguments = { 'force', 'position' },
+      returns = {}
     }
   },
-  notes = [[
-    If the Collider is asleep, it will need to be woken up with `Collider:setAwake` for this
-    function to have any affect.
-  ]],
+  notes = 'If the Collider is asleep, calling this function will wake it up.',
   related = {
     'Collider:applyTorque'
   }

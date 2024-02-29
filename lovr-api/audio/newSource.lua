@@ -23,17 +23,40 @@ return {
           name = 'decode',
           type = 'boolean',
           default = 'false',
-          description = 'Whether to immediately decode compressed sounds.'
+          description = [[
+            Whether to immediately decode compressed sounds, instead of progressively decoding as
+            the Source plays.  Enabling this will use more memory but reduce CPU overhead during
+            playback.  Recommended for short sound effects.
+          ]]
+        },
+        {
+          name = 'pitchable',
+          type = 'boolean',
+          default = 'true',
+          description = [[
+            Whether the pitch of the Source can be changed with `Source:setPitch`.  Setting this to
+            false will improve performance slightly.
+          ]]
+        },
+        {
+          name = 'spatial',
+          type = 'boolean',
+          default = 'true',
+          description = [[
+            Whether the Source should use spatial effects.  Non-spatial sources will get routed
+            directly to the speakers without further processing.  Enabling an effect on a
+            non-spatial source will raise an error.
+          ]]
         },
         {
           name = 'effects',
           type = 'table',
-          default = 'true',
+          default = 'nil',
           description = [[
-            A table of `Effect`s to enable.  Keys can be integers (list) or effect names (map), or a
-            combination of both.  The special value `false` can be used to completely disable
-            effects, bypassing the spatializer entirely and throwing an error when trying to enable
-            effects.  `true` will enable all effects.
+            A table of `Effect`s to enable on the Source.  This can be a list (numeric keys, effect
+            name values) or a map (effect name keys, boolean values) or a mix of the two.  Effects
+            can also be enabled later using `Source:setEffectEnabled`.  If nil, all effects will be
+            enabled.  Ignored if the `spatial` flag is false.
           ]]
         }
       }

@@ -12,9 +12,58 @@ return {
     colortext = {
       type = 'table',
       description = [[
-        A table of strings with colors to render, in the form `{ color1, string1, color2, string2
-      }`, where color is a `Vec3`, `Vec4`, hexcode, or table of numbers.
+        A table of strings with colors to render, in the form
+        `{ color1, string1, color2, string2 }`, where color is a `Vec3`, `Vec4`, hexcode, or table
+        of numbers.
       ]]
+    },
+    x = {
+      type = 'number',
+      default = '0',
+      description = 'The x coordinate of the text origin.'
+    },
+    y = {
+      type = 'number',
+      default = '0',
+      description = 'The y coordinate of the text origin.'
+    },
+    z = {
+      type = 'number',
+      default = '0',
+      description = 'The z coordinate of the text origin.'
+    },
+    scale = {
+      type = 'number',
+      default = '1',
+      description = 'The scale of the text (with the default pixel density, units are meters).'
+    },
+    angle = {
+      type = 'number',
+      default = '0',
+      description = 'The rotation of the text around its rotation axis, in radians.'
+    },
+    ax = {
+      type = 'number',
+      default = '0',
+      description = 'The x component of the axis of rotation.'
+    },
+    ay = {
+      type = 'number',
+      default = '1',
+      description = 'The y component of the axis of rotation.'
+    },
+    az = {
+      type = 'number',
+      default = '0',
+      description = 'The z component of the axis of rotation.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the text.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation of the text.'
     },
     transform = {
       type = 'Mat4',
@@ -31,28 +80,46 @@ return {
     halign = {
       type = 'HorizontalAlign',
       default = [['center']],
-      description = 'The horizontal alignment.'
+      description = 'The horizontal alignment relative to the text origin.'
     },
     valign = {
       type = 'VerticalAlign',
       default = [['middle']],
-      description = 'The vertical alignment.'
+      description = 'The vertical alignment relative to the text origin.'
     }
   },
   returns = {},
   variants = {
     {
+      arguments = { 'text', 'x', 'y', 'z', 'scale', 'angle', 'ax', 'ay', 'az', 'wrap', 'halign', 'valign' },
+      returns = {}
+    },
+    {
+      arguments = { 'text', 'position', 'scale', 'orientation', 'wrap', 'halign', 'valign' },
+      returns = {}
+    },
+    {
       arguments = { 'text', 'transform', 'wrap', 'halign', 'valign' },
       returns = {}
     },
     {
-      description = 'Renders multicolor text with a single draw call.',
+      description = 'Renders multicolor text.',
+      arguments = { 'colortext', 'x', 'y', 'z', 'scale', 'angle', 'ax', 'ay', 'az', 'wrap', 'halign', 'valign' },
+      returns = {}
+    },
+    {
+      description = 'Renders multicolor text.',
+      arguments = { 'colortext', 'position', 'scale', 'orientation', 'wrap', 'halign', 'valign' },
+      returns = {}
+    },
+    {
+      description = 'Renders multicolor text.',
       arguments = { 'colortext', 'transform', 'wrap', 'halign', 'valign' },
       returns = {}
     }
   },
   notes = [[
-    Strings should be encoded as UTF-8.
+    UTF-8 encoded strings are supported.
 
     Newlines will start a new line of text.  Tabs will be rendered as four spaces.  Carriage returns
     are ignored.
@@ -66,7 +133,8 @@ return {
 
     Blending should be enabled when rendering text (it's on by default).
 
-    This function can draw up to 16384 visible characters at a time.
+    This function can draw up to 16384 visible characters at a time, and will currently throw an
+    error if the string is too long.
   ]],
   related = {
     'Pass:setFont',

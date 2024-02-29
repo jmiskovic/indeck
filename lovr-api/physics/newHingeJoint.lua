@@ -25,15 +25,23 @@ return {
     },
     ax = {
       type = 'number',
-      description = 'The x component of the hinge axis.'
+      description = 'The x component of the hinge axis direction.'
     },
     ay = {
       type = 'number',
-      description = 'The y component of the hinge axis.'
+      description = 'The y component of the hinge axis direction.'
     },
     az = {
       type = 'number',
-      description = 'The z component of the hinge axis.'
+      description = 'The z component of the hinge axis direction.'
+    },
+    anchor = {
+      type = 'Vec3',
+      description = 'The anchor point, in world coordinates.'
+    },
+    axis = {
+      type = 'Vec3',
+      description = 'The hinge axis direction.'
     }
   },
   returns = {
@@ -45,6 +53,10 @@ return {
   variants = {
     {
       arguments = { 'colliderA', 'colliderB', 'x', 'y', 'z', 'ax', 'ay', 'az' },
+      returns = { 'hinge' }
+    },
+    {
+      arguments = { 'colliderA', 'colliderB', 'anchor', 'axis' },
       returns = { 'hinge' }
     }
   },

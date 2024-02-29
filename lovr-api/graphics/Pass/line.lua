@@ -3,7 +3,7 @@ return {
   summary = 'Draw a line.',
   description = [[
     Draws a line between points.  `Pass:mesh` can also be used to draw line segments using the
-    `line` `MeshMode`.
+    `line` `DrawMode`.
   ]],
   arguments = {
     x1 = {

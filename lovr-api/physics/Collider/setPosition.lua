@@ -13,12 +13,22 @@ return {
     z = {
       type = 'number',
       description = 'The z position of the Collider, in meters.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the Collider, in meters.'
     }
   },
   returns = {},
   variants = {
     {
+      description = 'Set the position of the Collider using numbers.',
       arguments = { 'x', 'y', 'z' },
+      returns = {}
+    },
+    {
+      description = 'Set the position of the Collider using a vector.',
+      arguments = { 'position' },
       returns = {}
     }
   },

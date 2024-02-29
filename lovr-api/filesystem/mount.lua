@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-virtual',
   summary = 'Mount a directory or archive.',
   description = [[
     Mounts a directory or `.zip` archive, adding it to the virtual filesystem.  This

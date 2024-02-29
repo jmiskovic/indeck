@@ -3,15 +3,15 @@ return {
   description = 'Transposes the matrix, mirroring its values along the diagonal.',
   arguments = {},
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The transposed matrix.'
     }
   },
   variants = {
     {
       arguments = {},
-      returns = { 'm' }
+      returns = { 'self' }
     }
   }
 }

@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-metadata',
   summary = 'Check if a Texture was created with a set of usage flags.',
   description = [[
     Returns whether a Texture was created with a set of `TextureUsage` flags.  Usage flags are

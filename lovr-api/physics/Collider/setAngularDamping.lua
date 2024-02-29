@@ -23,7 +23,10 @@ return {
       returns = {}
     }
   },
-  notes = 'Angular damping can also be set on the World.',
+  notes = [[
+    When the Collider is created, it will use the world's angular damping value, which is set using
+    `World:setAngularDamping`.
+  ]],
   related = {
     'World:getAngularDamping',
     'World:setAngularDamping'

@@ -15,6 +15,10 @@ return {
     z = {
       type = 'number',
       description = 'The z coordinate of the local vector.'
+    },
+    vector = {
+      type = 'Vec3',
+      description = 'The local vector.'
     }
   },
   returns = {
@@ -34,6 +38,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z' },
+      returns = { 'wx', 'wy', 'wz' }
+    },
+    {
+      arguments = { 'vector' },
       returns = { 'wx', 'wy', 'wz' }
     }
   },

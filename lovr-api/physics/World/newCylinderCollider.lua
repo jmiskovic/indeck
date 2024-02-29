@@ -6,17 +6,17 @@ return {
     x = {
       type = 'number',
       default = '0',
-      description = 'The x coordinate of the center of the cylinder.'
+      description = 'The x coordinate of the center of the cylinder, in meters.'
     },
     y = {
       type = 'number',
       default = '0',
-      description = 'The y coordinate of the center of the cylinder.'
+      description = 'The y coordinate of the center of the cylinder, in meters.'
     },
     z = {
       type = 'number',
       default = '0',
-      description = 'The z coordinate of the center of the cylinder.'
+      description = 'The z coordinate of the center of the cylinder, in meters.'
     },
     radius = {
       type = 'number',
@@ -27,6 +27,10 @@ return {
       type = 'number',
       default = '1',
       description = 'The length of the cylinder, in meters.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the center of the cylinder, in meters.'
     }
   },
   returns = {
@@ -38,6 +42,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z', 'radius', 'length' },
+      returns = { 'collider' }
+    },
+    {
+      arguments = { 'position', 'radius', 'length' },
       returns = { 'collider' }
     }
   },

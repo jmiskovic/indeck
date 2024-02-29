@@ -1,33 +1,40 @@
 return {
-  summary = 'Clear the data in the Buffer.',
-  description = [[
-    Clears some or all of the data in the **temporary** Buffer to zero.  Permanent Buffers can be
-    cleared in a transfer pass using `Pass:clear`.
-  ]],
+  tag = 'buffer-transfer',
+  summary = 'Clear data in the Buffer.',
+  description = 'Clears a range of data in the Buffer to a value.',
   arguments = {
-    index = {
+    offset = {
       type = 'number',
-      default = '1',
-      description = 'The index of the first item to clear.'
+      default = '0',
+      description = [[
+        The offset of the range of the Buffer to clear, in bytes.  Must be a multiple of 4.
+      ]]
     },
-    count = {
+    extent = {
       type = 'number',
       default = 'nil',
-      description = 'The number of items to clear.  If `nil`, clears to the end of the Buffer.'
+      description = [[
+        The number of bytes to clear.  If `nil`, clears to the end of the Buffer.  Must be a
+        multiple of 4.
+      ]]
+    },
+    value = {
+      type = 'number',
+      default = '0x00000000',
+      description = [[
+        The value to clear to.  This will be interpreted as a 32 bit number, which will be repeated
+        across the clear range.
+      ]]
     }
   },
   returns = {},
   variants = {
     {
-      arguments = { 'index', 'count' },
+      arguments = { 'offset', 'extent', 'value' },
       returns = {}
     }
   },
-  notes = [[
-    Clearing a permanent buffer requires the byte offset and byte count of the cleared range to be a
-    multiple of 4.  This will usually be true for most data types.
-  ]],
   related = {
-    'Pass:clear'
+    'Texture:clear'
   }
 }

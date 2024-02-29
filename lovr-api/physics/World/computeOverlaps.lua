@@ -22,6 +22,10 @@ return {
       print(shapeA, shapeB, areColliding)
     end
   ]],
+  notes = [[
+    This performs the "broad phase" culling of objects in the World, usually using a spatial hash or
+    other acceleration structure like a quad tree or octree.
+  ]],
   related = {
     'World:overlaps',
     'World:collide',

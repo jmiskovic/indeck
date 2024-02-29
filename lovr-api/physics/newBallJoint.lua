@@ -22,6 +22,10 @@ return {
     z = {
       type = 'number',
       description = 'The z position of the joint anchor point, in world coordinates.'
+    },
+    anchor = {
+      type = 'Vec3',
+      description = 'The joint anchor point, in world coordinates.'
     }
   },
   returns = {
@@ -33,6 +37,10 @@ return {
   variants = {
     {
       arguments = { 'colliderA', 'colliderB', 'x', 'y', 'z' },
+      returns = { 'ball' }
+    },
+    {
+      arguments = { 'colliderA', 'colliderB', 'anchor' },
       returns = { 'ball' }
     }
   },

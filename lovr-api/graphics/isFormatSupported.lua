@@ -17,15 +17,25 @@ return {
     }
   },
   returns = {
-    supported = {
+    linear = {
       type = 'boolean',
-      description = 'Whether the GPU supports these operations for textures with this format.'
+      description = [[
+        Whether the GPU supports these operations for textures with this format, when created with
+        the `linear` flag set to `true`.
+      ]]
+    },
+    srgb = {
+      type = 'boolean',
+      description = [[
+        Whether the GPU supports these operations for textures with this format, when created with
+        the `linear` flag set to `false`.
+      ]]
     }
   },
   variants = {
     {
       arguments = { 'format', '...features' },
-      returns = { 'supported' }
+      returns = { 'linear', 'srgb' }
     }
   },
   related = {

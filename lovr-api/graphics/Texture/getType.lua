@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-metadata',
   summary = 'Get the type of the Texture.',
   description = 'Returns the type of the texture.',
   arguments = {},

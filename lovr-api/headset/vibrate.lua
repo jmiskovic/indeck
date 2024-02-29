@@ -37,5 +37,8 @@ return {
       arguments = { 'device', 'strength', 'duration', 'frequency' },
       returns = { 'vibrated' }
     }
+  },
+  related = {
+    'lovr.headset.stopVibration'
   }
 }

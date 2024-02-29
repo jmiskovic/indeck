@@ -3,15 +3,15 @@ return {
   description = 'Inverts the matrix, causing it to represent the opposite of its old transform.',
   arguments = {},
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The inverted matrix.'
     }
   },
   variants = {
     {
       arguments = {},
-      returns = { 'm' }
+      returns = { 'self' }
     }
   }
 }

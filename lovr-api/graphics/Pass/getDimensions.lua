@@ -1,7 +1,7 @@
 return {
-  tag = 'pass-misc',
-  summary = 'Get the texture dimensions of a render pass.',
-  description = 'Returns the dimensions of the textures attached to the render pass.',
+  tag = 'canvas',
+  summary = 'Get the dimensions of the Pass\'s canvas.',
+  description = 'Returns the dimensions of the textures of the Pass\'s canvas, in pixels.',
   arguments = {},
   returns = {
     width = {
@@ -19,14 +19,13 @@ return {
       returns = { 'width', 'height' }
     }
   },
-  notes = [[
-    If the pass is not a render pass, this function returns zeros.
-  ]],
+  notes = 'If the pass doesn\'t have a canvas, this function returns zeros.',
   related = {
     'Pass:getWidth',
     'Pass:getHeight',
     'Pass:getViewCount',
-    'lovr.graphics.getPass',
+    'Pass:getCanvas',
+    'Pass:setCanvas',
     'lovr.system.getWindowDimensions',
     'lovr.headset.getDisplayDimensions'
   }

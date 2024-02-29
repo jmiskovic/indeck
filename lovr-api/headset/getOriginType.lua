@@ -1,5 +1,6 @@
 return {
-  tag = 'headset',
+  deprecated = true,
+  tag = 'playArea',
   summary = 'Get the type of tracking origin of the headset.',
   description = [[
     Returns the type of origin used for the tracking volume.  The different types of origins are

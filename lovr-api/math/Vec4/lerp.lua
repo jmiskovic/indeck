@@ -26,26 +26,26 @@ return {
     w = {
       type = 'number',
       description = 'A value of w component to lerp towards.'
-    },    
+    },
     t = {
       type = 'number',
       description = 'The lerping parameter.'
     }
   },
   returns = {
-    v = {
+    self = {
       type = 'Vec4',
-      description = 'The original vector, containing the new lerped values.'
+      description = 'The interpolated vector.'
     }
   },
   variants = {
     {
       arguments = { 'u', 't' },
-      returns = { 'v' }
+      returns = { 'self' }
     },
     {
       arguments = { 'x', 'y', 'z', 'w', 't' },
-      returns = { 'v' }
+      returns = { 'self' }
     }
   },
   related = {

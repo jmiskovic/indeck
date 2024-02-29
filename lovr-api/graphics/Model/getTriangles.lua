@@ -34,6 +34,7 @@ return {
   related = {
     'Model:getTriangleCount',
     'Model:getVertexCount',
+    'Model:getMesh',
     'ModelData:getTriangles'
   }
 }

@@ -1,5 +1,5 @@
 return {
-  tag = 'headset',
+  tag = 'headset-misc',
   summary = 'Get the Texture for the headset display.',
   description = [[
     Returns a Texture that will be submitted to the headset display.  This will be the render target

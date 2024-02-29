@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-view',
   summary = 'Check if a Texture is a texture view.',
   description = [[
     Returns whether a Texture is a texture view, created with `Texture:newView`.

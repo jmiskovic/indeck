@@ -24,10 +24,10 @@ return {
     }
   },
   notes = [[
-    A linear damping of 0 means the Collider won't slow down over time.  This is the default.
+    When the Collider is created, it will use the world's linear damping value, which is set using
+    `World:setLinearDamping`.
 
-    Linear damping can also be set on the World using `World:setLinearDamping`, which will affect
-    all new colliders.
+    A linear damping of 0 means the Collider won't slow down over time.
   ]],
   related = {
     'World:getLinearDamping',

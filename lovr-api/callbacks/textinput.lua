@@ -21,9 +21,9 @@ return {
   },
   notes = [[
     Some characters in UTF-8 unicode take multiple bytes to encode.  Due to the way Lua works, the
-    length of these strings will be bigger than 1 even though they are just a single character.
-    `lovr.graphics.print` is compatible with UTF-8 but doing other string processing on these
-    strings may require a library.  Lua 5.3+ has support for working with UTF-8 strings.
+    length of these strings will be bigger than 1 even though they are just a single character.  The
+    `utf8` library included with LÖVR can be used to manipulate UTF-8 strings.  `Pass:text` will
+    also correctly handle UTF-8.
   ]],
   returns = {},
   related = {

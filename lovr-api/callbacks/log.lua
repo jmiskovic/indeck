@@ -32,6 +32,6 @@ return {
   },
   returns = {},
   related = {
-    'lovr.graphics.print'
+    'Pass:text'
   }
 }

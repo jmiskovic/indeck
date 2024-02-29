@@ -22,6 +22,10 @@ return {
     az = {
       type = 'number',
       description = 'The z component of the slider axis.'
+    },
+    axis = {
+      type = 'Vec3',
+      description = 'The slider axis direction.'
     }
   },
   returns = {
@@ -33,6 +37,10 @@ return {
   variants = {
     {
       arguments = { 'colliderA', 'colliderB', 'ax', 'ay', 'az' },
+      returns = { 'slider' }
+    },
+    {
+      arguments = { 'colliderA', 'colliderB', 'axis' },
       returns = { 'slider' }
     }
   },

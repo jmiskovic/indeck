@@ -32,6 +32,14 @@ return {
       type = 'number',
       default = 'width',
       description = 'The total depth of the box, in meters.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the center of the box, in meters.'
+    },
+    size = {
+      type = 'Vec3',
+      description = 'The size of the box, in meters.'
     }
   },
   returns = {
@@ -43,6 +51,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z', 'width', 'height', 'depth' },
+      returns = { 'collider' }
+    },
+    {
+      arguments = { 'position', 'size' },
       returns = { 'collider' }
     }
   },

@@ -1,4 +1,5 @@
 return {
+  tag = 'system-window',
   summary = 'Get the height of the window.',
   description = 'Returns the height of the desktop window.',
   arguments = {},

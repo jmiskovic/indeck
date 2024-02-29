@@ -42,10 +42,6 @@ return {
       returns = { 'x', 'y', 'z' }
     }
   },
-  notes = [[
-    For best results when animating, it's recommended to keep the 3 components of the scale the
-    same.
-  ]],
   related = {
     'Model:getNodePosition',
     'Model:setNodePosition',

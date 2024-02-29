@@ -25,12 +25,26 @@ return {
     z2 = {
       type = 'number',
       description = 'The z coordinate of the second anchor point, in world coordinates.'
+    },
+    first = {
+      type = 'Vec3',
+      description = 'The first anchor point, in world coordinates.'
+    },
+    second = {
+      type = 'Vec3',
+      description = 'The second anchor point, in world coordinates.'
     }
   },
   returns = {},
   variants = {
     {
+      description = 'Sets the anchor points using numbers.',
       arguments = { 'x1', 'y1', 'z1', 'x2', 'y2', 'z2' },
+      returns = {}
+    },
+    {
+      description = 'Sets the anchor points using vectors.',
+      arguments = { 'first', 'second' },
       returns = {}
     }
   }

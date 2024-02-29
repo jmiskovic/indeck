@@ -31,6 +31,8 @@ return {
     'CapsuleShape',
     'lovr.physics.newBoxShape',
     'lovr.physics.newCylinderShape',
-    'lovr.physics.newSphereShape'
+    'lovr.physics.newMeshShape',
+    'lovr.physics.newSphereShape',
+    'lovr.physics.newTerrainShape'
   }
 }

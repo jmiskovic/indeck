@@ -10,27 +10,64 @@ return {
       description = 'A number to use for the diagonal elements.'
     },
     n = {
-      type = 'mat4',
+      type = 'Mat4',
       description = 'An existing matrix to copy the values from.'
+    },
+    x = {
+      type = 'number',
+      description = 'The x component of the translation.'
+    },
+    y = {
+      type = 'number',
+      description = 'The y component of the translation.'
+    },
+    z = {
+      type = 'number',
+      description = 'The z component of the translation.'
+    },
+    sx = {
+      type = 'number',
+      description = 'The x component of the scale.'
+    },
+    sy = {
+      type = 'number',
+      description = 'The y component of the scale.'
+    },
+    sz = {
+      type = 'number',
+      description = 'The z component of the scale.'
+    },
+    angle = {
+      type = 'number',
+      description = 'The angle of the rotation, in radians.'
+    },
+    ax = {
+      type = 'number',
+      description = 'The x component of the axis of rotation.'
+    },
+    ay = {
+      type = 'number',
+      description = 'The y component of the axis of rotation.'
+    },
+    az = {
+      type = 'number',
+      description = 'The z component of the axis of rotation.'
     },
     position = {
       type = 'Vec3',
-      default = '0, 0, 0',
       description = 'The translation of the matrix.'
     },
     scale = {
       type = 'Vec3',
-      default = '1, 1, 1',
       description = 'The scale of the matrix.'
     },
     rotation = {
       type = 'Quat',
-      default = '0, 0, 0, 1',
       description = 'The rotation of the matrix.'
     },
     ['...'] = {
       type = 'number',
-      description = '16 numbers to use as the raw values of the matrix (column-major).'
+      description = 'The raw values of the matrix, in column-major order.'
     }
   },
   returns = {
@@ -41,13 +78,28 @@ return {
   },
   variants = {
     {
-      description = 'Resets the matrix to the identity matrix.',
+      description = [[
+        Resets the matrix to the identity matrix, without any translation, rotation, or scale.
+      ]],
       arguments = {},
       returns = { 'm' }
     },
     {
       description = 'Copies the values from an existing matrix.',
       arguments = { 'n' },
+      returns = { 'm' }
+    },
+    {
+      description = 'Sets the position, scale, and rotation of the matrix using numbers.',
+      arguments = { 'x', 'y', 'z', 'sx', 'sy', 'sz', 'angle', 'ax', 'ay', 'az' },
+      returns = { 'm' }
+    },
+    {
+      description = [[
+        Sets the pose (position and orientation) of the matrix using numbers.  The scale is set to 1
+        on all axes.
+      ]],
+      arguments = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' },
       returns = { 'm' }
     },
     {
@@ -59,6 +111,7 @@ return {
       returns = { 'm' }
     },
     {
+      description = 'Sets the raw components of the matrix using 16 numbers in column-major order.',
       arguments = { '...' },
       returns = { 'm' }
     },

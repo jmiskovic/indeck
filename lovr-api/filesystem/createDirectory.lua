@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Create a directory.',
   description = [[
     Creates a directory in the save directory.  Any parent directories that don't exist will also be

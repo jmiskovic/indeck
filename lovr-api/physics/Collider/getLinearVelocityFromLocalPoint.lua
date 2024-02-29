@@ -1,8 +1,6 @@
 return {
   summary = 'Get the linear velocity of the Collider at a point.',
-  description = [[
-    Returns the linear velocity of a point relative to the Collider.
-  ]],
+  description = 'Returns the linear velocity of a point relative to the Collider.',
   arguments = {
     x = {
       type = 'number',
@@ -15,6 +13,10 @@ return {
     z = {
       type = 'number',
       description = 'The z coordinate.'
+    },
+    point = {
+      type = 'number',
+      description = 'The point.'
     }
   },
   returns = {
@@ -34,6 +36,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z' },
+      returns = { 'vx', 'vy', 'vz' }
+    },
+    {
+      arguments = { 'point' },
       returns = { 'vx', 'vy', 'vz' }
     }
   },

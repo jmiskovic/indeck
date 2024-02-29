@@ -1,4 +1,5 @@
 return {
+  deprecated = true,
   tag = 'headset',
   summary = 'Set the display refresh rate.',
   description = 'Sets the display refresh rate, in Hz.',

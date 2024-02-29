@@ -1,5 +1,5 @@
 return {
-  tag = 'pipeline',
+  tag = 'shaders',
   summary = 'Set the active Shader.',
   description = [[
     Sets the active shader.  In a render pass, the Shader will affect all drawing operations until

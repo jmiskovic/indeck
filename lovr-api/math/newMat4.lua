@@ -8,7 +8,7 @@ return {
       description = 'A number to use for the diagonal elements.'
     },
     n = {
-      type = 'mat4',
+      type = 'Mat4',
       description = 'An existing matrix to copy the values from.'
     },
     position = {

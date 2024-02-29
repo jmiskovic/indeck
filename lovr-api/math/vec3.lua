@@ -27,6 +27,10 @@ return {
     m = {
       type = 'Mat4',
       description = 'A matrix to use the position of.'
+    },
+    q = {
+      type = 'Quat',
+      description = 'A quat to use the direction of.'
     }
   },
   returns = {
@@ -46,6 +50,10 @@ return {
     },
     {
       arguments = { 'm' },
+      returns = { 'v' }
+    },
+    {
+      arguments = { 'q' },
       returns = { 'v' }
     }
   },

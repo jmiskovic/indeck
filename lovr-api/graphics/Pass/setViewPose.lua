@@ -41,6 +41,14 @@ return {
       type = 'number',
       description = 'The z component of the axis of rotation.'
     },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the viewer, in meters.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation of the viewer.'
+    },
     matrix = {
       type = 'Mat4',
       description = 'A matrix containing the viewer pose.'
@@ -53,10 +61,17 @@ return {
   returns = {},
   variants = {
     {
+      description = 'Set the pose of the view using numbers.',
       arguments = { 'view', 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' },
       returns = {}
     },
     {
+      description = 'Set the pose of the view using vectors.',
+      arguments = { 'view', 'position', 'orientation' },
+      returns = {}
+    },
+    {
+      description = 'Set the pose of the view using a matrix.',
       arguments = { 'view', 'matrix', 'inverted' },
       returns = {}
     }

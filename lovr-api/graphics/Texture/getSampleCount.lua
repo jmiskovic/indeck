@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-metadata',
   summary = 'Get the number of MSAA samples in the Texture.',
   description = [[
     Returns the number of samples in the texture.  Multiple samples are used for multisample

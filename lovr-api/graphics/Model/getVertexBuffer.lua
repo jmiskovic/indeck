@@ -15,6 +15,7 @@ return {
     }
   },
   related = {
-    'Model:getIndexBuffer'
+    'Model:getIndexBuffer',
+    'Model:getMesh'
   }
 }

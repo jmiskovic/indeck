@@ -14,12 +14,20 @@ return {
     zg = {
       type = 'number',
       description = 'The z component of the gravity force.'
+    },
+    gravity = {
+      type = 'Vec3',
+      description = 'The gravity force.'
     }
   },
   returns = {},
   variants = {
     {
       arguments = { 'xg', 'yg', 'zg' },
+      returns = {}
+    },
+    {
+      arguments = { 'gravity' },
       returns = {}
     }
   }

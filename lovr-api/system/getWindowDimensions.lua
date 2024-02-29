@@ -1,4 +1,5 @@
 return {
+  tag = 'system-window',
   summary = 'Get the dimensions of the window.',
   description = 'Returns the dimensions of the desktop window.',
   arguments = {},

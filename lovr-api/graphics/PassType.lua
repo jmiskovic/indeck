@@ -1,4 +1,5 @@
 return {
+  deprecated = true,
   summary = 'Different types of Passes.',
   description = [[
     The three different types of `Pass` objects.  Each Pass has a single type, which determines the

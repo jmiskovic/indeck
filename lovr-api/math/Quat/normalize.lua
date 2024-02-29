@@ -1,19 +1,17 @@
 return {
   summary = 'Normalize the length of the quaternion to 1.',
-  description = [[
-    Adjusts the values in the quaternion so that its length becomes 1.
-  ]],
+  description = 'Adjusts the values in the quaternion so that its length becomes 1.',
   arguments = {},
   returns = {
-    q = {
+    self = {
       type = 'Quat',
-      description = 'The original quaternion.'
+      description = 'The normalized quaternion.'
     }
   },
   variants = {
     {
       arguments = {},
-      returns = { 'q' }
+      returns = { 'self' }
     }
   },
   notes = [[

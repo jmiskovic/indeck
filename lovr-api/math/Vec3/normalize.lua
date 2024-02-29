@@ -5,15 +5,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    v = {
+    self = {
       type = 'Vec3',
-      description = 'The original vector.'
+      description = 'The normalized vector.'
     }
   },
   variants = {
     {
       arguments = {},
-      returns = { 'v' }
+      returns = { 'self' }
     }
   },
   related = {

@@ -7,7 +7,7 @@ return {
       description = 'Models absorption as sound travels through the air, water, etc.'
     },
     {
-      name = 'falloff',
+      name = 'attenuation',
       description = 'Decreases audio volume with distance (1 / max(distance, 1)).'
     },
     {

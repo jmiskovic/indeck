@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-paths',
   summary = 'Get the current working directory.',
   description = [[
     Returns the absolute path of the working directory.  Usually this is where the executable was

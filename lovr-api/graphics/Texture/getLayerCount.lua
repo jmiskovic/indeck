@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-metadata',
   summary = 'Get the layer count of the Texture.',
   description = [[
     Returns the layer count of the Texture.  2D textures always have 1 layer and cubemaps always

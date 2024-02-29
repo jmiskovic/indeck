@@ -28,6 +28,8 @@ return {
   },
   related = {
     'Shape:getPosition',
-    'Shape:setPosition'
+    'Shape:setPosition',
+    'Shape:getPose',
+    'Shape:setPose'
   }
 }

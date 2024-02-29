@@ -15,7 +15,8 @@ return {
     }
   },
   notes = [[
-    If the transfer pass that created the readback has not been submitted yet, no wait will occur
-    and this function will return `false`.
+    If `lovr.graphics.submit` or `lovr.graphics.wait` has not been called since the readback was
+    created, the readback has not been submitted yet, so no wait will occur and this function will
+    return `false`.
   ]]
 }

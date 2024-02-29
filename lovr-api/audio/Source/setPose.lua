@@ -5,15 +5,15 @@ return {
   arguments = {
     x = {
       type = 'number',
-      description = 'The x position of the Source, in meters.'
+      description = 'The x position of the Source.'
     },
     y = {
       type = 'number',
-      description = 'The y position of the Source, in meters.'
+      description = 'The y position of the Source.'
     },
     z = {
       type = 'number',
-      description = 'The z position of the Source, in meters.'
+      description = 'The z position of the Source.'
     },
     angle = {
       type = 'number',
@@ -30,15 +30,30 @@ return {
     az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation.'
     }
   },
   returns = {},
   variants = {
     {
+      description = 'Set the pose using numbers.',
       arguments = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' },
+      returns = {}
+    },
+    {
+      description = 'Set the pose using vector types.',
+      arguments = { 'position', 'orientation' },
       returns = {}
     }
   },
+  notes = 'The position doesn\'t have any defined units, but meters are used by convention.',
   related = {
     'Source:setPosition',
     'Source:setOrientation',

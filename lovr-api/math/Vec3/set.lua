@@ -21,6 +21,10 @@ return {
       type = 'Vec3',
       description = 'The vector to copy the values from.'
     },
+    q = {
+      type = 'Quat',
+      description = 'A quat to use the direction of.'
+    },
     m = {
       type = 'Mat4',
       description = 'The matrix to use the position of.'
@@ -39,6 +43,10 @@ return {
     },
     {
       arguments = { 'u' },
+      returns = { 'v' }
+    },
+    {
+      arguments = { 'q' },
       returns = { 'v' }
     },
     {

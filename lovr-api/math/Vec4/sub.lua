@@ -27,19 +27,19 @@ return {
     }
   },
   returns = {
-    v = {
+    self = {
       type = 'Vec4',
-      description = 'The original vector.'
+      description = 'The modified vector.'
     }
   },
   variants = {
     {
       arguments = { 'u' },
-      returns = { 'v' }
+      returns = { 'self' }
     },
     {
       arguments = { 'x', 'y', 'z', 'w' },
-      returns = { 'v' }
+      returns = { 'self' }
     }
   },
   related = {

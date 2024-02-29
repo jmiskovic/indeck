@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-virtual',
   summary = 'Get the absolute path to a file.',
   description = [[
     Get the absolute path of the mounted archive containing a path in the virtual filesystem.  This

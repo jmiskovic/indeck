@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Read a file.',
   description = 'Read the contents of a file.',
   arguments = {

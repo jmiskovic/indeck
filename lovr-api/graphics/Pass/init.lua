@@ -1,25 +1,29 @@
 return {
   summary = 'A stream of graphics commands.',
   description = [[
-    Pass objects are used to record commands for the GPU.  Commands can be recorded by calling
-    functions on the Pass.  After recording a set of passes, they can be submitted for the GPU to
-    process using `lovr.graphics.submit`.
+    Pass objects record work for the GPU.  They contain a list of things to draw and a list of
+    compute shaders to run.
 
-    Pass objects are **temporary** and only exist for a single frame.  Once `lovr.graphics.submit`
-    is called to end the frame, any passes that were created during that frame become **invalid**.
-    Each frame, a new set of passes must be created and recorded.  LÖVR tries to detect if you use a
-    pass after it's invalid, but this error checking is not 100% accurate at the moment.
+    Methods like `Pass:sphere` will "record" a draw on the Pass, which adds it to the list.  Other
+    methods like `Pass:setBlendMode` or `Pass:setShader` will change the way the next draws are
+    processed.
 
-    There are 3 types of passes.  Each type can record a specific type of command:
+    Once all of the work has been recorded to a Pass, it can be sent to the GPU using
+    `lovr.graphics.submit`, which will start processing all of the compute work and draws (in that
+    order).
 
-    - `render` passes render graphics to textures.
-    - `compute` passes run compute shaders.
-    - `transfer` passes can transfer data to/from GPU objects, like `Buffer` and `Texture`.
+    A Pass can have a canvas, which is a set of textures that the draws will render to.
+
+    `Pass:reset` is used to clear all of the computes and draws, putting the Pass in a fresh state.
+
+    `lovr.draw` is called every frame with a `Pass` that is configured to render to either the
+    headset or the window.  The Pass will automatically get submitted afterwards.
   ]],
   constructors = {
-    'lovr.graphics.getPass',
+    'lovr.graphics.newPass',
     'lovr.graphics.getWindowPass',
-    'lovr.headset.getPass'
+    'lovr.headset.getPass',
+    'lovr.graphics.getPass'
   },
   sections = {
     {
@@ -35,27 +39,34 @@ return {
     {
       name = 'Render States',
       tag = 'pipeline',
-      description = 'Set render states that change the way drawing happens.'
+      description = [[
+        Set render states that change the way draws appear.  Render states can be saved and restored
+        using `Pass:push` and `Pass:pop`.
+      ]]
     },
     {
-      name = 'Shader Variables',
-      tag = 'shader-inputs',
-    },
-    {
-      name = 'Camera',
-      tag = 'camera',
+      name = 'Shaders',
+      tag = 'shaders',
+      description = [[
+        Change the shader used for draws or computes, and set variables in the active shader.
+      ]]
     },
     {
       name = 'Compute',
-      tag = 'compute',
+      tag = 'compute'
     },
     {
-      name = 'Transfers',
-      tag = 'transfer'
+      name = 'Tally',
+      tag = 'tally',
+      description = 'Tallies count the number of pixels that were visible for a draw.'
     },
     {
-      name = 'Tallies',
-      tag = 'tallies'
+      name = 'Camera',
+      tag = 'camera'
+    },
+    {
+      name = 'Canvas',
+      tag = 'canvas'
     },
     {
       name = 'Miscellaneous',

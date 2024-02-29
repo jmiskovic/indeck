@@ -6,6 +6,10 @@ return {
     often used to render to the depth or stencil buffer without affecting existing pixel colors.
   ]],
   arguments = {
+    index = {
+      type = 'number',
+      description = 'The index of the canvas texture to update.'
+    },
     r = {
       type = 'boolean',
       description = 'Whether the red component should be affected by draws.'
@@ -35,6 +39,14 @@ return {
     },
     {
       arguments = { 'r', 'g', 'b', 'a' },
+      returns = {}
+    },
+    {
+      arguments = { 'index', 'enable' },
+      returns = {}
+    },
+    {
+      arguments = { 'index', 'r', 'g', 'b', 'a' },
       returns = {}
     }
   },

@@ -29,6 +29,11 @@ return {
       name = 'Version',
       tag = 'version',
       description = 'This function can be used to get the current version of LÖVR.'
+    },
+    {
+      name = 'Libraries',
+      tag = 'libraries',
+      description = 'LÖVR bundles a few third-party modules by default.'
     }
   }
 }

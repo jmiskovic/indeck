@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-paths',
   summary = 'Get the path of the LÖVR executable.',
   description = 'Returns the absolute path of the LÖVR executable.',
   arguments = {},

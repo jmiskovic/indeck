@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Get the modification time of a file.',
   description = 'Returns when a file was last modified, since some arbitrary time in the past.',
   arguments = {

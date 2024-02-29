@@ -1,6 +1,9 @@
 return {
   summary = 'Set or blend the orientation of a node.',
-  description = 'Sets or blends the orientation of a node to a new orientation.',
+  description = [[
+    Sets or blends the orientation of a node to a new orientation.  This sets the local orientation
+    of the node, relative to its parent.
+  ]],
   arguments = {
     index = {
       type = 'number',
@@ -10,9 +13,25 @@ return {
       type = 'string',
       description = 'The name of the node.'
     },
+    angle = {
+      type = 'number',
+      description = 'The number of radians the node should be rotated around its rotation axis.'
+    },
+    ax = {
+      type = 'number',
+      description = 'The x component of the axis of rotation.'
+    },
+    ay = {
+      type = 'number',
+      description = 'The y component of the axis of rotation.'
+    },
+    az = {
+      type = 'number',
+      description = 'The z component of the axis of rotation.'
+    },
     orientation = {
-      type = 'rotation',
-      description = 'The target orientation.'
+      type = 'Quat',
+      description = 'The orientation.'
     },
     blend = {
       type = 'number',
@@ -26,6 +45,14 @@ return {
   },
   returns = {},
   variants = {
+    {
+      arguments = { 'index', 'angle', 'ax', 'ay', 'az', 'blend' },
+      returns = {}
+    },
+    {
+      arguments = { 'name', 'angle', 'ax', 'ay', 'az', 'blend' },
+      returns = {}
+    },
     {
       arguments = { 'index', 'orientation', 'blend' },
       returns = {}

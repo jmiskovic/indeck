@@ -19,13 +19,17 @@ return {
       type = 'number',
       description = 'The z coordinate of the first control point.'
     },
+    v = {
+      type = 'Vec3',
+      description = 'The first control point.'
+    },
     ['...'] = {
       type = '*',
       description = 'Additional control points.'
     },
     points = {
       type = 'table',
-      description = 'A table of points, as above.'
+      description = 'A table of control points, formatted as numbers or `Vec3` objects.'
     }
   },
   returns = {
@@ -41,7 +45,15 @@ return {
       returns = { 'curve' }
     },
     {
-      description = 'Create a Curve from a (flat) table of points.',
+      description = 'Create a Curve from a set of initial control points, using vectors.',
+      arguments = { 'v', '...' },
+      returns = { 'curve' }
+    },
+    {
+      description = [[
+        Create a Curve from control points in a table.  The table values can be numbers or `Vec3`
+        objects.
+      ]],
       arguments = { 'points' },
       returns = { 'curve' }
     },

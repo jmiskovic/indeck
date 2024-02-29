@@ -1,8 +1,6 @@
 return {
   summary = 'Convert a vector from world space to local space.',
-  description = [[
-    Converts a direction vector from world space to local space.
-  ]],
+  description = ' Converts a direction vector from world space to local space.',
   arguments = {
     wx = {
       type = 'number',
@@ -15,6 +13,10 @@ return {
     wz = {
       type = 'number',
       description = 'The z component of the world vector.'
+    },
+    vector = {
+      type = 'Vec3',
+      description = 'The world vector.'
     }
   },
   returns = {
@@ -34,6 +36,10 @@ return {
   variants = {
     {
       arguments = { 'wx', 'wy', 'wz' },
+      returns = { 'x', 'y', 'z' }
+    },
+    {
+      arguments = { 'vector' },
       returns = { 'x', 'y', 'z' }
     }
   },

@@ -24,15 +24,15 @@ return {
     }
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The modified matrix.'
     }
   },
   variants = {
     {
       arguments = { 'from', 'to', 'up' },
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

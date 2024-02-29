@@ -1,4 +1,6 @@
 return {
+  deprecated = true,
+  tag = 'buffer-metadata',
   summary = 'Check if the Buffer is temporary.',
   description = 'Returns whether the Buffer is temporary.',
   arguments = {},

@@ -29,19 +29,19 @@ return {
     }
   },
   returns = {
-    v = {
+    self = {
       type = 'Vec3',
-      description = 'The original vector, containing the new lerped values.'
+      description = 'The interpolated vector.'
     }
   },
   variants = {
     {
       arguments = { 'u', 't' },
-      returns = { 'v' }
+      returns = { 'self' }
     },
     {
       arguments = { 'x', 'y', 'z', 't' },
-      returns = { 'v' }
+      returns = { 'self' }
     }
   },
   related = {

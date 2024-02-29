@@ -1,4 +1,5 @@
 return {
+  tag = 'headset-misc',
   summary = 'Get the predicted display time.',
   description = [[
     Returns the estimated time in the future at which the light from the pixels of the current frame

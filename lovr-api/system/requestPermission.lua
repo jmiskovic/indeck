@@ -1,4 +1,5 @@
 return {
+  tag = 'system-info',
   summary = 'Request permission to use a feature.',
   description = [[
     Requests permission to use a feature.  Usually this will pop up a dialog box that the user needs

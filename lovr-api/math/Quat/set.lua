@@ -40,55 +40,55 @@ return {
       description = 'Whether the components should be interpreted as raw `(x, y, z, w)` components.'
     },
     v = {
-      type = 'vec3',
+      type = 'Vec3',
       description = 'A normalized direction vector.'
     },
     u = {
-      type = 'vec3',
+      type = 'Vec3',
       description = 'Another normalized direction vector.'
     },
     r = {
-      type = 'quat',
+      type = 'Quat',
       description = 'An existing quaternion to copy the values from.'
     },
     m = {
-      type = 'mat4',
+      type = 'Mat4',
       description = 'A matrix to use the rotation from.'
     }
   },
   returns = {
-    q = {
-      type = 'quat',
-      description = 'The original quaternion.'
+    self = {
+      type = 'Quat',
+      description = 'The modified quaternion.'
     }
   },
   variants = {
     {
       arguments = { 'angle', 'ax', 'ay', 'az', 'raw' },
-      returns = { 'q' }
+      returns = { 'self' }
     },
     {
       arguments = { 'r' },
-      returns = { 'q' }
+      returns = { 'self' }
     },
     {
       description = 'Sets the values from a direction vector.',
       arguments = { 'v' },
-      returns = { 'q' }
+      returns = { 'self' }
     },
     {
       description = 'Sets the values to represent the rotation between two vectors.',
       arguments = { 'v', 'u' },
-      returns = { 'q' }
+      returns = { 'self' }
     },
     {
       arguments = { 'm' },
-      returns = { 'q' }
+      returns = { 'self' }
     },
     {
       description = 'Reset the quaternion to the identity (0, 0, 0, 1).',
       arguments = {},
-      returns = { 'q' }
+      returns = { 'self' }
     }
   },
   related = {

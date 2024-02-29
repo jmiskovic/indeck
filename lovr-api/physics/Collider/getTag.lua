@@ -5,7 +5,7 @@ return {
   returns = {
     tag = {
       type = 'string',
-      description = 'The Collider\'s collision tag.'
+      description = 'The Collider\'s collision tag, or `nil` if the Collider doesn\'t have a tag.'
     }
   },
   variants = {

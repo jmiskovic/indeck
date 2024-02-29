@@ -22,7 +22,10 @@ return {
       returns = { 'damping', 'threshold' }
     }
   },
-  notes = 'Angular damping can also be set on individual colliders.',
+  notes = [[
+    This sets the default damping for newly-created colliders.  Damping can also be set on a
+    per-collider basis using `Collider:setAngularDamping`.
+  ]],
   related = {
     'Collider:getAngularDamping',
     'Collider:setAngularDamping'

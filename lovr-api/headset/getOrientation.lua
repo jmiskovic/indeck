@@ -37,6 +37,7 @@ return {
   related = {
     'lovr.headset.getPose',
     'lovr.headset.getPosition',
+    'lovr.headset.getDirection',
     'lovr.headset.getVelocity',
     'lovr.headset.getAngularVelocity',
     'lovr.headset.isTracked',

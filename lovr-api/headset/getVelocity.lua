@@ -29,6 +29,7 @@ return {
       returns = { 'vx', 'vy', 'vz' }
     }
   },
+  notes = 'If the device isn\'t tracked, all zeroes will be returned.',
   related = {
     'lovr.headset.getAngularVelocity',
     'lovr.headset.getPose',

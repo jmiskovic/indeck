@@ -15,7 +15,7 @@ return {
     },
     format = {
       type = 'TextureFormat',
-      default = 'rgba',
+      default = 'rgba8',
       description = 'The format of the texture\'s pixels.'
     },
     filename = {
@@ -34,14 +34,6 @@ return {
     source = {
       type = 'Image',
       description = 'The Image to clone.'
-    },
-    flip = {
-      type = 'boolean',
-      default = 'true',
-      description = [[
-        Whether to vertically flip the image on load.  This should be true for normal textures, and
-        false for textures that are going to be used in a cubemap.
-      ]]
     }
   },
   returns = {
@@ -53,7 +45,7 @@ return {
   variants = {
     {
       description = 'Load image data from a file.',
-      arguments = { 'filename', 'flip' },
+      arguments = { 'filename' },
       returns = { 'image' }
     },
     {
@@ -68,15 +60,14 @@ return {
     },
     {
       description = 'Decode image data from a Blob.',
-      arguments = { 'blob', 'flip' },
+      arguments = { 'blob' },
       returns = { 'image' }
     }
   },
   notes = [[
-    The supported image file formats are png, jpg, hdr, dds (DXT1, DXT3, DXT5), ktx, and astc.
+    The supported image file formats are png, jpg, hdr, dds, ktx1, ktx2, and astc.
 
-    Only 2D textures are supported for DXT/ASTC.
-
-    Currently textures loaded as KTX need to be in DXT/ASTC formats.
+    DDS and KTX files can contain cubemaps and array textures, in any of the texture formats LÖVR
+    supports.
   ]]
 }

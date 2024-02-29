@@ -21,19 +21,23 @@ return {
     },
     far = {
       type = 'number',
-      description = 'The far plane.'
+      default = '0',
+      description = [[
+        The far plane.  Zero is a special value that will set an infinite far plane with a reversed
+        Z range, which improves depth buffer precision and is the default.
+      ]]
     },
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The modified matrix.'
     }
   },
   variants = {
     {
       arguments = { 'fov', 'aspect', 'near', 'far' },
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

@@ -22,19 +22,19 @@ return {
     }
   },
   returns = {
-    v = {
+    self = {
       type = 'Vec3',
-      description = 'The original vector.'
+      description = 'The modified vector.'
     }
   },
   variants = {
     {
       arguments = { 'u' },
-      returns = { 'v' }
+      returns = { 'self' }
     },
     {
       arguments = { 'x', 'y', 'z' },
-      returns = { 'v' }
+      returns = { 'self' }
     }
   },
   related = {

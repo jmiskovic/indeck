@@ -20,15 +20,15 @@ return {
     }
   },
   returns = {
-    q = {
+    self = {
       type = 'Quat',
-      description = 'The original quaternion, containing the new lerped values.'
+      description = 'The modified quaternion, containing the new lerped values.'
     }
   },
   variants = {
     {
       arguments = { 'r', 't' },
-      returns = { 'q' }
+      returns = { 'self' }
     }
   },
   related = {

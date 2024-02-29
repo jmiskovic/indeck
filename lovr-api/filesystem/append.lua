@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Append content to the end of a file.',
   description = 'Appends content to the end of a file.',
   arguments = {

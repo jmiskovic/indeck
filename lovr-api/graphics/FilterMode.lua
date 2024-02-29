@@ -12,6 +12,8 @@ return {
     }
   },
   related = {
-    'Pass:blit'
+    'lovr.graphics.newSampler',
+    'Sampler:getFilter',
+    'Texture:setPixels'
   }
 }

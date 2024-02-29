@@ -29,12 +29,26 @@ return {
     az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the Collider, in meters.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation of the Collider.'
     }
   },
   returns = {},
   variants = {
     {
+      description = 'Set the pose of the Collider using numbers.',
       arguments = { 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az' },
+      returns = {}
+    },
+    {
+      description = 'Set the pose of the Collider using vector types.',
+      arguments = { 'position', 'orientation' },
       returns = {}
     }
   },

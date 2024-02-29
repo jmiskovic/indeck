@@ -1,6 +1,6 @@
 return {
   tag = 'worldBasics',
-  summary = 'Cast a ray through the World.',
+  summary = 'Cast a ray through the World, calling a function for each hit.',
   description = [[
     Casts a ray through the World, calling a function every time the ray intersects with a Shape.
   ]],
@@ -28,6 +28,14 @@ return {
     z2 = {
       type = 'number',
       description = 'The z coordinate of the ending position of the ray.',
+    },
+    start = {
+      type = 'Vec3',
+      description = 'The starting position of the ray.'
+    },
+    ['end'] = {
+      type = 'Vec3',
+      description = 'The end position of the ray.'
     },
     callback = {
       type = 'function',
@@ -62,19 +70,20 @@ return {
         }
       },
       returns = {},
-  variants = {
-    {
-      arguments = { 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'callback' },
-      returns = {}
-    }
-  },
-      description = 'The function to call when an intersection is detected.'
+      description = [[
+        The function to call when an intersection is detected.  It can return `false` to cancel
+        checks against additional shapes.
+      ]]
     }
   },
   returns = {},
   variants = {
     {
       arguments = { 'x1', 'y1', 'z1', 'x2', 'y2', 'z2', 'callback' },
+      returns = {}
+    },
+    {
+      arguments = { 'start', 'end', 'callback' },
       returns = {}
     }
   },
@@ -94,5 +103,11 @@ return {
         print('Collision detected!', shape, x, y, z, nx, ny, nz)
       end)
     end
-  ]]
+  ]],
+  related = {
+    'World:raycastAny',
+    'World:raycastClosest',
+    'World:queryBox',
+    'World:querySphere'
+  }
 }

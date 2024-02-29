@@ -18,6 +18,7 @@ return {
   },
   notes = 'The default cull mode is `none`.',
   related = {
+    'Pass:setViewCull',
     'Pass:setWinding'
   }
 }

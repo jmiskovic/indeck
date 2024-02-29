@@ -1,6 +1,9 @@
 return {
   summary = 'Set or blend the pose of a node.',
-  description = 'Sets or blends the pose (position and orientation) of a node to a new pose.',
+  description = [[
+    Sets or blends the pose (position and orientation) of a node to a new pose.  This sets the local
+    pose of the node, relative to its parent.  The scale will remain unchanged.
+  ]],
   arguments = {
     index = {
       type = 'number',
@@ -9,6 +12,34 @@ return {
     name = {
       type = 'string',
       description = 'The name of the node.'
+    },
+    x = {
+      type = 'number',
+      description = 'The x component of the position.'
+    },
+    y = {
+      type = 'number',
+      description = 'The y component of the position.'
+    },
+    z = {
+      type = 'number',
+      description = 'The z component of the position.'
+    },
+    angle = {
+      type = 'number',
+      description = 'The number of radians the node should be rotated around its rotation axis.'
+    },
+    ax = {
+      type = 'number',
+      description = 'The x component of the axis of rotation.'
+    },
+    ay = {
+      type = 'number',
+      description = 'The y component of the axis of rotation.'
+    },
+    az = {
+      type = 'number',
+      description = 'The z component of the axis of rotation.'
     },
     position = {
       type = 'Vec3',
@@ -29,6 +60,14 @@ return {
   },
   returns = {},
   variants = {
+    {
+      arguments = { 'index', 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az', 'blend' },
+      returns = {}
+    },
+    {
+      arguments = { 'name', 'x', 'y', 'z', 'angle', 'ax', 'ay', 'az', 'blend' },
+      returns = {}
+    },
     {
       arguments = { 'index', 'position', 'orientation', 'blend' },
       returns = {}

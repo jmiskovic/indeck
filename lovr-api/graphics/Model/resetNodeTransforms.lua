@@ -8,5 +8,8 @@ return {
       arguments = {},
       returns = {}
     }
+  },
+  related = {
+    'Model:resetBlendShapes'
   }
 }

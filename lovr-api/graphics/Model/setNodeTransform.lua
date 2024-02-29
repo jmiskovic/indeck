@@ -1,6 +1,9 @@
 return {
   summary = 'Set or blend the transform of a node.',
-  description = 'Sets or blends the transform of a node to a new transform.',
+  description = [[
+    Sets or blends the transform of a node to a new transform.  This sets the local transform of the
+    node, relative to its parent.
+  ]],
   arguments = {
     index = {
       type = 'number',
@@ -10,12 +13,61 @@ return {
       type = 'string',
       description = 'The name of the node.'
     },
+    x = {
+      type = 'number',
+      description = 'The x component of the position.'
+    },
+    y = {
+      type = 'number',
+      description = 'The y component of the position.'
+    },
+    z = {
+      type = 'number',
+      description = 'The z component of the position.'
+    },
+    sx = {
+      type = 'number',
+      description = 'The x component of the scale.'
+    },
+    sy = {
+      type = 'number',
+      description = 'The y component of the scale.'
+    },
+    sz = {
+      type = 'number',
+      description = 'The z component of the scale.'
+    },
+    angle = {
+      type = 'number',
+      description = 'The number of radians the node should be rotated around its rotation axis.'
+    },
+    ax = {
+      type = 'number',
+      description = 'The x component of the axis of rotation.'
+    },
+    ay = {
+      type = 'number',
+      description = 'The y component of the axis of rotation.'
+    },
+    az = {
+      type = 'number',
+      description = 'The z component of the axis of rotation.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position.'
+    },
+    scale = {
+      type = 'Vec3',
+      description = 'The scale.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation.'
+    },
     transform = {
       type = 'Mat4',
-      description = [[
-        The target transform.  Can also be provided as position, scale, and rotation using a mix of
-        `Vectors` or numbers, with 3 scale components.
-      ]]
+      description = 'The transform.'
     },
     blend = {
       type = 'number',
@@ -30,6 +82,22 @@ return {
   returns = {},
   variants = {
     {
+      arguments = { 'index', 'x', 'y', 'z', 'sx', 'sy', 'sz', 'angle', 'ax', 'ay', 'az', 'blend' },
+      returns = {}
+    },
+    {
+      arguments = { 'name', 'x', 'y', 'z', 'sx', 'sy', 'sz', 'angle', 'ax', 'ay', 'az', 'blend' },
+      returns = {}
+    },
+    {
+      arguments = { 'index', 'position', 'scale', 'orientation', 'blend' },
+      returns = {}
+    },
+    {
+      arguments = { 'name', 'position', 'scale', 'orientation', 'blend' },
+      returns = {}
+    },
+    {
       arguments = { 'index', 'transform', 'blend' },
       returns = {}
     },
@@ -41,6 +109,9 @@ return {
   notes = [[
     For best results when animating, it's recommended to keep the 3 components of the scale the
     same.
+
+    Even though the translation, scale, and rotation parameters are given in TSR order, they are
+    applied in the normal TRS order.
   ]],
   related = {
     'Model:getNodePosition',

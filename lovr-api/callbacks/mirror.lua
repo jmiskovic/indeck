@@ -7,8 +7,20 @@ return {
     mirroring behavior.  For example, a stereo view could be drawn instead of a single eye or a 2D
     HUD could be rendered.
   ]],
-  arguments = {},
-  returns = {},
+  arguments = {
+    {
+      name = 'pass',
+      type = 'Pass',
+      description = 'A render pass targeting the window.'
+    }
+  },
+  returns = {
+    {
+      name = 'skip',
+      type = 'boolean',
+      description = 'If truthy, the input Pass will not be submitted to the GPU.'
+    }
+  },
   example = {
     description = [[
       The default `lovr.mirror` implementation draws the headset mirror texture to the window if

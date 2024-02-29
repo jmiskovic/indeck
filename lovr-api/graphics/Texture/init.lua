@@ -8,5 +8,19 @@ return {
   constructors = {
     'lovr.graphics.newTexture',
     'Texture:newView'
+  },
+  sections = {
+    {
+      name = 'Metadata',
+      tag = 'texture-metadata'
+    },
+    {
+      name = 'Transfers',
+      tag = 'texture-transfer'
+    },
+    {
+      name = 'Texture Views',
+      tag = 'texture-view'
+    }
   }
 }

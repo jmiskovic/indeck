@@ -18,7 +18,9 @@ return {
   returns = {
     property = {
       type = 'AnimationProperty',
-      description = 'The property (translation, rotation, scale) affected by the keyframes.'
+      description = [[
+        The property (translation, rotation, scale, weights) affected by the keyframes.
+      ]]
     }
   },
   variants = {

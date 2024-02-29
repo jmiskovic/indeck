@@ -7,28 +7,28 @@ return {
   ]],
   arguments = {
     r = {
-      type = 'quat',
+      type = 'Quat',
       description = 'A quaternion to combine with the original.'
     },
     v3 = {
-      type = 'vec3',
+      type = 'Vec3',
       description = 'A vector to rotate.'
     }
   },
   returns = {
-    q = {
-      type = 'quat',
-      description = 'The original quaternion.'
+    self = {
+      type = 'Quat',
+      description = 'The modified quaternion.'
     },
     v3 = {
-      type = 'vec3',
-      description = 'Vector rotated by quaternion.'
+      type = 'Vec3',
+      description = 'The rotated vector.'
     }
   },
   variants = {
     {
       arguments = { 'r' },
-      returns = { 'q' }
+      returns = { 'self' }
     },
     {
       arguments = { 'v3' },

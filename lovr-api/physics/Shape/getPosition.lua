@@ -24,6 +24,8 @@ return {
   },
   related = {
     'Shape:getOrientation',
-    'Shape:setOrientation'
+    'Shape:setOrientation',
+    'Shape:getPose',
+    'Shape:setPose'
   }
 }

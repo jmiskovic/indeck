@@ -2,10 +2,18 @@ return {
   tag = 'worldCollision',
   summary = 'Attempt to collide two shapes.',
   description = [[
-    Attempt to collide two shapes.  Internally this uses joints and forces to ensure the colliders
-    attached to the shapes do not pass through each other.  Collisions can be customized using
-    friction and restitution (bounciness) parameters, and default to using a mix of the colliders'
-    friction and restitution parameters.  Usually this is called automatically by `World:update`.
+    Attempt to collide two shapes.  Internally this sets up constraint forces to move the shapes'
+    colliders apart if they are touching.  The colliders won't actually move until `World:update` is
+    called again to advance the physics simulation.
+
+    Collision responses can be customized using friction and restitution (bounciness) parameters,
+    and default to using a mix between the parameters of the two colliders.
+
+    Usually this is called internally by `World:update`, or in a custom collision resolver passed to
+    `World:update`.
+
+    If you want to detect if objects are touching without colliding them, use `World:getContacts`
+    or make one or both of the shapes sensors using `Shape:setSensor`.
   ]],
   arguments = {
     shapeA = {
@@ -52,6 +60,8 @@ return {
     'World:overlaps',
     'World:disableCollisionBetween',
     'World:enableCollisionBetween',
-    'World:isCollisionEnabledBetween'
+    'World:isCollisionEnabledBetween',
+    'Collider:setFriction',
+    'Collider:setRestitution'
   }
 }

@@ -34,6 +34,14 @@ return {
     z2 = {
       type = 'number',
       description = 'The z position of the second anchor point, in world coordinates.'
+    },
+    first = {
+      type = 'Vec3',
+      description = 'The first anchor point, in world coordinates.'
+    },
+    second = {
+      type = 'Vec3',
+      description = 'The second anchor point, in world coordinates.'
     }
   },
   returns = {
@@ -45,6 +53,10 @@ return {
   variants = {
     {
       arguments = { 'colliderA', 'colliderB', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2' },
+      returns = { 'joint' }
+    },
+    {
+      arguments = { 'colliderA', 'colliderB', 'first', 'second' },
       returns = { 'joint' }
     }
   },

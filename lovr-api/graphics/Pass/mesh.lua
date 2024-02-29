@@ -28,12 +28,61 @@ return {
       type = 'number',
       description = 'The number of bytes between consecutive elements in the draw buffer.'
     },
+    x = {
+      type = 'number',
+      default = '0',
+      description = 'The x coordinate of the position to draw the mesh at.'
+    },
+    y = {
+      type = 'number',
+      default = '0',
+      description = 'The y coordinate of the position to draw the mesh at.'
+    },
+    z = {
+      type = 'number',
+      default = '0',
+      description = 'The z coordinate of the position to draw the mesh at.'
+    },
+    scale = {
+      type = 'number',
+      default = '1',
+      description = 'The scale of the mesh.'
+    },
+    angle = {
+      type = 'number',
+      default = '0',
+      description = 'The number of radians the mesh is rotated around its rotational axis.'
+    },
+    ax = {
+      type = 'number',
+      default = '0',
+      description = 'The x component of the axis of rotation.'
+    },
+    ay = {
+      type = 'number',
+      default = '1',
+      description = 'The y component of the axis of rotation.'
+    },
+    az = {
+      type = 'number',
+      default = '0',
+      description = 'The z component of the axis of rotation.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position to draw the mesh at.'
+    },
+    scales = {
+      type = 'Vec3',
+      description = 'The scale of the mesh.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation of the mesh.'
+    },
     transform = {
       type = 'Mat4',
-      description = [[
-        The transform to apply to the mesh.  Can also be provided as a position, 1-component scale,
-        and rotation using a combination of `Vectors` and numbers.
-      ]]
+      description = 'The transform to apply to the mesh.'
     },
     start = {
       type = 'number',
@@ -54,7 +103,11 @@ return {
     },
     vertexcount = {
       type = 'number',
-      description = 'The number of vertices or indices to draw.'
+      description = 'The number of vertices to draw.'
+    },
+    indexcount = {
+      type = 'number',
+      description = 'The number of indices to draw.'
     },
     instances = {
       type = 'number',
@@ -70,23 +123,47 @@ return {
   returns = {},
   variants = {
     {
-      arguments = { 'vertices', 'transform', 'start', 'count', 'instances', 'base' },
+      description = 'Draw a range of vertices from a Buffer, using numbers for the transform.',
+      arguments = { 'vertices', 'x', 'y', 'z', 'scale', 'angle', 'ax', 'ay', 'az', 'start', 'count', 'instances' },
       returns = {}
     },
     {
+      description = 'Draw a range of vertices from a Buffer, using vector types for the transform.',
+      arguments = { 'vertices', 'position', 'scales', 'orientation', 'start', 'count', 'instances' },
+      returns = {}
+    },
+    {
+      description = 'Draw a range of vertices from a Buffer, using a matrix for the transform.',
+      arguments = { 'vertices', 'transform', 'start', 'count', 'instances' },
+      returns = {}
+    },
+    {
+      description = [[
+        Draw a mesh using a vertex buffer and an index buffer, using numbers for the transform.
+      ]],
+      arguments = { 'vertices', 'indices', 'x', 'y', 'z', 'scale', 'angle', 'ax', 'ay', 'az', 'start', 'count', 'instances', 'base' },
+      returns = {}
+    },
+    {
+      description = [[
+        Draw a mesh using a vertex buffer and an index buffer, using vector types for the transform.
+      ]],
+      arguments = { 'vertices', 'indices', 'position', 'scales', 'orientation', 'start', 'count', 'instances', 'base' },
+      returns = {}
+    },
+    {
+      description = [[
+        Draw a mesh using a vertex buffer and an index buffer, using a matrix for the transform.
+      ]],
       arguments = { 'vertices', 'indices', 'transform', 'start', 'count', 'instances', 'base' },
       returns = {}
     },
     {
+      description = [[
+        Perform indirect draws.  `drawcount` meshes from the vertex and index buffer will be drawn,
+        using parameters starting from `offset` bytes in the `draws` buffer.
+      ]],
       arguments = { 'vertices', 'indices', 'draws', 'drawcount', 'offset', 'stride' },
-      returns = {}
-    },
-    {
-      arguments = { 'vertexcount', 'transform' },
-      returns = {}
-    },
-    {
-      arguments = { 'vertexcount', 'indices', 'transform' },
       returns = {}
     }
   },
@@ -94,12 +171,16 @@ return {
     The index buffer defines the order the vertices are drawn in.  It can be used to reorder, reuse,
     or omit vertices from the mesh.
 
-    The active `MeshMode` controls whether the vertices are drawn as points, lines, or triangles.
+    When drawing without a vertex buffer, the `VertexIndex` variable can be used in shaders to
+    compute the position of each vertex, possibly by reading data from other `Buffer` or `Texture`
+    resources.
+
+    The active `DrawMode` controls whether the vertices are drawn as points, lines, or triangles.
 
     The active `Material` is applied to the mesh.
   ]],
   example = [[
-    function lovr.draw(pass)
+    function lovr.load()
       local vertices = {
         vec3(  0,  .4, 0), vec4(1, 0, 0, 1),
         vec3(-.5, -.4, 0), vec4(0, 1, 0, 1),
@@ -107,12 +188,14 @@ return {
       }
 
       local format = {
-        { type = 'vec3', location = 'VertexPosition' },
-        { type = 'vec4', location = 'VertexColor' }
+        { name = 'VertexPosition', type = 'vec3' },
+        { name = 'VertexColor', type = 'vec4' }
       }
 
-      local triangle = lovr.graphics.getBuffer(vertices, format)
+      triangle = lovr.graphics.newBuffer(format, vertices)
+    end
 
+    function lovr.draw(pass)
       pass:mesh(triangle, 0, 1.7, -1)
     end
   ]]

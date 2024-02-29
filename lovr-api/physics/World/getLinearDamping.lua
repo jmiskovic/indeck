@@ -25,7 +25,8 @@ return {
   notes = [[
     A linear damping of 0 means colliders won't slow down over time.  This is the default.
 
-    Linear damping can also be set on individual colliders.
+    This sets the default damping for newly-created colliders.  Damping can also be set on a
+    per-collider basis using `Collider:setLinearDamping`.
   ]],
   related = {
     'Collider:getLinearDamping',

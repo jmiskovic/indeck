@@ -27,19 +27,19 @@ return {
     }
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The rotated matrix.'
     }
   },
   variants = {
     {
       arguments = { 'q' },
-      returns = { 'm' }
+      returns = { 'self' }
     },
     {
       arguments = { 'angle', 'ax', 'ay', 'az' },
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

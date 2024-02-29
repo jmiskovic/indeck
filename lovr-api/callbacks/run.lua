@@ -29,8 +29,8 @@ return {
     - Returning a number will exit LÖVR using the number as the exit code (0 means success).
 
     Care should be taken when overriding this callback.  For example, if the main loop does not call
-    `lovr.event.pump` then the OS will think LÖVR is unresponsive, and if the quit event is not
-    handled then closing the window won't work.
+    `lovr.system.pollEvents` then the OS will think LÖVR is unresponsive, or if the quit event is
+    not handled then closing the window won't work.
   ]],
   example = {
     description = 'The default `lovr.run`:',
@@ -39,8 +39,8 @@ return {
         if lovr.timer then lovr.timer.step() end
         if lovr.load then lovr.load(arg) end
         return function()
+          if lovr.system then lovr.system.pollEvents() end
           if lovr.event then
-            lovr.event.pump()
             for name, a, b, c, d in lovr.event.poll() do
               if name == 'restart' then
                 local cookie = lovr.restart and lovr.restart()
@@ -56,21 +56,12 @@ return {
           if lovr.headset then dt = lovr.headset.update() end
           if lovr.update then lovr.update(dt) end
           if lovr.graphics then
-            if lovr.headset then
-              local pass = lovr.headset.getPass()
-              if pass then
-                local skip = lovr.draw and lovr.draw(pass)
-                if not skip then lovr.graphics.submit(pass) end
-              end
-            end
-            if lovr.system.isWindowOpen() then
-              if lovr.mirror then
-                local pass = lovr.graphics.getWindowPass()
-                local skip = lovr.mirror(pass)
-                if not skip then lovr.graphics.submit(pass) end
-              end
-              lovr.graphics.present()
-            end
+            local headset = lovr.headset and lovr.headset.getPass()
+            if headset and (not lovr.draw or lovr.draw(headset)) then headset = nil end
+            local window = lovr.graphics.getWindowPass()
+            if window and (not lovr.mirror or lovr.mirror(window)) then window = nil end
+            lovr.graphics.submit(headset, window)
+            lovr.graphics.present()
           end
           if lovr.headset then lovr.headset.submit() end
           if lovr.math then lovr.math.drain() end

@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-view',
   summary = 'Get the parent of a texture view.',
   description = [[
     Returns the parent of a Texture view, which is the Texture that it references.  Returns `nil`

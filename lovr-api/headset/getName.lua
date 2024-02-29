@@ -1,5 +1,5 @@
 return {
-  tag = 'headset',
+  tag = 'headset-misc',
   summary = 'Get the name of the connected headset display.',
   description = [[
     Returns the name of the headset as a string.  The exact string that is returned depends on the

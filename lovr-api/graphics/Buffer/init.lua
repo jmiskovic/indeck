@@ -1,39 +1,62 @@
 return {
   summary = 'A block of memory on the GPU.',
   description = [[
-    A Buffer is a block of GPU memory.  Buffers are similar to Lua tables or arrays: they have a
-    length and store a list of values.  The length of a Buffer and its format (the type of each
-    value) are declared upfront and can't be changed.  Each value of a Buffer consists of one or
-    more fields, and each field has a type.  For example, if a Buffer is used to store vertices,
-    each value might store 3 fields for the position, normal vector, and UV coordinates of a vertex.
+    A Buffer is a block of memory on the GPU.  It's like a GPU version of a `Blob`.  Lua code can
+    write data to the buffer which uploads to VRAM, and shaders read buffer data during rendering.
+    Compute shaders can also write to buffers.
 
-    Buffers are commonly used for:
+    The **size** of a Buffer is the number of bytes of VRAM it occupies.  It's set when the Buffer
+    is created and can't be changed afterwards.
 
-    - Mesh data: Buffers hold the data that define the vertices in a mesh. Buffers also store the
-      vertex indices of a mesh, which define the order the vertices are connected together into
-      triangles. These are often called vertex buffers and index buffers.
-    - Shader data: Buffers can be bound to a Shader, letting the Shader read arbitrary data. For
-      example, Lua code could create a Buffer with the positions and colors of all the lights in a
-      scene, which a Shader can use to do lighting calculations.
-    - Compute: Compute shaders can write data to Buffers.  This GPU-generated data can be used in
-      later rendering work or sent back to Lua.
-    - Indirect: Indirect rendering is an advanced technique where instructions for rendering work
-      are recorded to a Buffer (potentially by a compute shader) and later drawn.
+    Buffers can optionally have a **format**, which defines the type of data stored in the buffer.
+    The format determines how Lua values are converted into binary.  Like the size, it can't change
+    after the buffer is created.  `Shader:getBufferFormat` returns the format of a variable in a
+    `Shader`.
 
-    There are two types of Buffers:
+    When a Buffer has a format, it also has a **length**, which is the number of items it holds, and
+    a **stride**, which is the number of bytes between each item.
 
-    - **Temporary** buffers are very inexpensive to create, and writing to them from Lua is fast.
-      However, they become invalid at the end of `lovr.draw` (i.e. when `lovr.graphics.submit` is
-      called).  The GPU is slightly slower at accessing data from temporary buffers, and compute
-      shaders can not write to them.  They are designed for storing data that changes every frame.
-    - **Permanent** buffers are more expensive to create, and updating their contents requires a
-      transfer from CPU memory to VRAM.  They act like normal LÖVR objects and don't need to be
-      recreated every frame.  They often have faster performance when used by the GPU, and compute
-      shaders can write to them.  They are great for large pieces of data that are initialized once
-      at load time, or data that is updated infrequently.
+    `Buffer:setData` is used to upload data to the Buffer.  `Buffer:clear` can also be used to
+    efficiently zero out a Buffer.
+
+    `Buffer:getData` can be used to download data from the Buffer, but be aware that it stalls the
+    GPU until the download is complete, which is very slow!  `Buffer:newReadback` will instead
+    download the data in the background, which avoids costly stalls.
+
+    Buffers are often used for mesh data.  Vertices stored in buffers can be drawn using
+    `Pass:mesh`.  `Mesh` objects can also be used, which wrap Buffers along with some extra
+    metadata.
+
+    Buffers can be "bound" to a variable in a Shader using `Pass:send`.  That means that the next
+    time the shader runs, the data from the Buffer will be used for the stuff in the variable.
+
+    It's important to understand that data from a Buffer will only be used at the point when
+    graphics commands are actually submitted.  This example records 2 draws, changing the buffer
+    data between each one:
+
+        buffer:setData(data1)
+        pass:mesh(buffer)
+        buffer:setData(data2)
+        pass:mesh(buffer)
+        lovr.graphics.submit(pass)
+
+    **Both** draws will use `data2` here!  That's because `lovr.graphics.submit` is where the draws
+    actually get processed, so they both see the "final" state of the buffer.  The data in a Buffer
+    can't be 2 things at once!  If you need multiple versions of data, it's best to use a bigger
+    buffer with offsets (or multiple buffers).
   ]],
   constructors = {
-    'lovr.graphics.getBuffer',
-    'lovr.graphics.newBuffer'
+    'lovr.graphics.newBuffer',
+    'lovr.graphics.getBuffer'
+  },
+  sections = {
+    {
+      name = 'Metadata',
+      tag = 'buffer-metadata'
+    },
+    {
+      name = 'Transfers',
+      tag = 'buffer-transfer'
+    }
   }
 }

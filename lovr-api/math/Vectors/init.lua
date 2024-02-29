@@ -42,29 +42,31 @@ return {
 
         local position = lovr.math.vec3(x, y, z)
 
-    As a further shorthand, these vector constructors are placed on the global scope.  If you prefer to
-    keep the global scope clean, this can be configured using the `t.math.globals` flag in `lovr.conf`.
+    As a shortcut, vector constructors are placed on the global scope.  The uppercase name of the
+    vector is a function that will create a permanent vector, and the lowercase name will create a
+    temporary vector.  This can be disabled using the `t.math.globals` option in `lovr.conf`.
 
         local position = vec3(x1, y1, z1) + vec3(x2, y2, z2)
+        local transform = Mat4()
 
-    Temporary vectors, with all their speed, come with an important restriction: they can only be used
-    during the frame in which they were created.  Saving them into variables and using them later on
-    will throw an error:
+    Temporary vectors, with all their speed, come with an important restriction: they can only be
+    used during the frame in which they were created.  Saving them into variables and using them
+    later on will throw an error:
 
         local position = vec3(1, 2, 3)
 
         function lovr.update(dt)
-          -- Reusing a temporary vector across frames will error:
+          -- Reusing the temporary 'position' vector across frames will error:
           position:add(vec3(dt))
         end
 
-    It's possible to overflow the temporary vector pool.  If that happens, `lovr.math.drain` can be used
-    to periodically drain the pool, invalidating any existing temporary vectors.
+    It's possible to overflow the temporary vector pool.  If that happens, `lovr.math.drain` can be
+    used to periodically drain the pool, invalidating any existing temporary vectors.
 
     ### Metamethods
 
-    Vectors have metamethods, allowing them to be used using the normal math operators like `+`, `-`,
-    `*`, `/`, etc.
+    Vectors have metamethods, allowing them to be used using the normal math operators like `+`,
+    `-`, `*`, `/`, etc.
 
         print(vec3(2, 4, 6) * .5 + vec3(10, 20, 30))
 
@@ -103,5 +105,24 @@ return {
     a vector object.  For quaternions you can choose whether you want to unpack the angle/axis
     representation or the raw quaternion components.  Similarly, matrices support raw unpacking as well
     as decomposition into translation/scale/rotation values.
+
+    ### Vector Constants
+
+    The following vector constants are available.  They return new temporary vectors each time they
+    are used:
+
+    - `vec2.zero` (0, 0)
+    - `vec2.one` (1, 1)
+    - `vec3.zero` (0, 0, 0)
+    - `vec3.one` (1, 1, 1)
+    - `vec3.left` (-1, 0, 0)
+    - `vec3.right` (1, 0, 0)
+    - `vec3.up` (0, 1, 0)
+    - `vec3.down` (0, -1, 0)
+    - `vec3.back` (0, 0, 1)
+    - `vec3.forward` (0, 0, -1)
+    - `vec4.zero` (0, 0, 0, 0)
+    - `vec4.one` (1, 1, 1, 1)
+    - `quat.identity` (0, 0, 0, 1)
   ]]
 }

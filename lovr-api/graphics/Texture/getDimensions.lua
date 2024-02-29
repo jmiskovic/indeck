@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-metadata',
   summary = 'Get the dimensions of the Texture.',
   description = 'Returns the width, height, and depth of the Texture.',
   arguments = {},

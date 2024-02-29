@@ -1,5 +1,5 @@
 return {
-  summary = 'Get the size of the Blob\'s data.',
+  summary = 'Get the size of the Blob, in bytes.',
   description = [[
     Returns the size of the Blob's contents, in bytes.
   ]],

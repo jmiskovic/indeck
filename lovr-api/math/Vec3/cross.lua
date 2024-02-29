@@ -23,19 +23,19 @@ return {
     }
   },
   returns = {
-    v = {
+    self = {
       type = 'Vec3',
-      description = 'The original vector, with the cross product as its values.'
+      description = 'The modified vector.'
     }
   },
   variants = {
     {
       arguments = { 'u' },
-      returns = { 'v' }
+      returns = { 'self' }
     },
     {
       arguments = { 'x', 'y', 'z' },
-      returns = { 'v' }
+      returns = { 'self' }
     }
   },
   notes = 'The vectors are not normalized before or after computing the cross product.',

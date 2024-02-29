@@ -18,12 +18,22 @@ return {
     az = {
       type = 'number',
       description = 'The z component of the axis of rotation.'
+    },
+    orientation = {
+      type = 'Quat',
+      description = 'The orientation.'
     }
   },
   returns = {},
   variants = {
     {
+      description = 'Set the orientation using angle/axis numbers.',
       arguments = { 'angle', 'ax', 'ay', 'az' },
+      returns = {}
+    },
+    {
+      description = 'Set the orientation using a quaternion.',
+      arguments = { 'orientation' },
       returns = {}
     }
   },

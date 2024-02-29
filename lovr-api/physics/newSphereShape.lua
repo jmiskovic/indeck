@@ -26,6 +26,8 @@ return {
     'SphereShape',
     'lovr.physics.newBoxShape',
     'lovr.physics.newCapsuleShape',
-    'lovr.physics.newCylinderShape'
+    'lovr.physics.newCylinderShape',
+    'lovr.physics.newMeshShape',
+    'lovr.physics.newTerrainShape'
   }
 }

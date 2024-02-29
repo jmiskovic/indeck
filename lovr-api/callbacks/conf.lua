@@ -158,14 +158,19 @@ return {
               name = 'supersample',
               type = 'number',
               description = [[
-                A scaling factor to apply to the headset texture.  Improves visual quality but
-                reduces performance.  Can also be a boolean.
+                A scaling factor to apply to the headset texture.  Can be any positive floating
+                point number, which gets multiplied by the default texture resolution.  A value
+                greater than 1 improves visual quality but reduces performance.  Can also be a
+                boolean, where "true" means "2.0".
               ]]
             },
             {
-              name = 'offset',
-              type = 'number',
-              description = 'The vertical offset for seated experiences.'
+              name = 'seated',
+              type = 'boolean',
+              description = [[
+                Whether <a data-key="lovr.headset.isSeated">seated mode</a> should be used instead
+                of standing, changing the headset coordinate space to place y=0 at eye level.
+              ]]
             },
             {
               name = 'antialias',
@@ -187,7 +192,10 @@ return {
             {
               name = 'overlay',
               type = 'boolean',
-              description = 'Whether the project should run as an overlay.'
+              description = [[
+                Whether the project should run as an overlay.  Can also be a number to control sort
+                order against other overlays (default is zero, higher numbers go on top).
+              ]]
             }
           }
         },
@@ -252,12 +260,11 @@ return {
 
     Enabling the `t.graphics.debug` flag will add additional error checks and will send messages
     from the GPU driver to the `lovr.log` callback.  This will decrease performance but can help
-    provide information on performance problems or other bugs.
+    provide information on performance problems or other bugs.  It will also cause
+    `lovr.graphics.newShader` to embed debugging information in shaders which allows inspecting
+    variables and stepping through shaders line-by-line in tools like RenderDoc.
 
-    The `headset.offset` field is a vertical offset applied to the scene for headsets that do not
-    center their tracking origin on the floor.  This can be thought of as a "default user height".
-    Setting this offset makes it easier to design experiences that work in both seated and standing
-    VR configurations.
+    `t.graphics.debug` can also be enabled using the `--graphics-debug` command line option.
   ]],
   example = {
     description = 'A noop conf.lua that sets all configuration settings to their defaults:',
@@ -265,7 +272,7 @@ return {
         function lovr.conf(t)
 
           -- Set the project version and identity
-          t.version = '0.16.0'
+          t.version = '0.17.0'
           t.identity = 'default'
 
           -- Set save directory precedence
@@ -298,8 +305,9 @@ return {
           -- Headset settings
           t.headset.drivers = { 'openxr', 'desktop' }
           t.headset.supersample = false
-          t.headset.offset = 1.7
+          t.headset.seated = false
           t.headset.antialias = true
+          t.headset.stencil = false
           t.headset.submitdepth = true
           t.headset.overlay = false
 
@@ -310,6 +318,7 @@ return {
           t.window.width = 1080
           t.window.height = 600
           t.window.fullscreen = false
+          t.window.resizable = false
           t.window.title = 'LÖVR'
           t.window.icon = nil
         end

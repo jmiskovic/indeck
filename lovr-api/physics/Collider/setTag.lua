@@ -12,6 +12,11 @@ return {
     {
       arguments = { 'tag' },
       returns = {}
+    },
+    {
+      description = 'Clear the Collider\'s tag.',
+      arguments = {},
+      returns = {}
     }
   },
   notes = [[

@@ -13,16 +13,26 @@ return {
     z = {
       type = 'number',
       description = 'The z offset.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position.'
     }
   },
-  notes = 'If the Shape isn\'t attached to a Collider, this will error.',
   returns = {},
   variants = {
     {
+      description = 'Set the position of the Shape using numbers.',
       arguments = { 'x', 'y', 'z' },
+      returns = {}
+    },
+    {
+      description = 'Set the position of the Shape using a vector.',
+      arguments = { 'position' },
       returns = {}
     }
   },
+  notes = 'If the Shape isn\'t attached to a Collider, this will error.',
   related = {
     'Shape:getOrientation',
     'Shape:setOrientation'

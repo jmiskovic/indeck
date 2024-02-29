@@ -4,12 +4,10 @@ return {
   description = [[
     Sets the projection for a single view.  4 field of view angles can be used, similar to the field
     of view returned by `lovr.headset.getViewAngles`.  Alternatively, a projection matrix can be
-    used for other types of projections like orthographic, oblique, etc.  There is also a shorthand
-    string "orthographic" that can be used to configure an orthographic projection.
+    used for other types of projections like orthographic, oblique, etc.
 
-    Up to 6 views are supported.  When rendering to the headset, both projections are changed to
-    match the ones used by the headset.  This is also available by calling
-    `lovr.headset.getViewAngles`.
+    Up to 6 views are supported.  The Pass returned by `lovr.headset.getPass` will have its views
+    automatically configured to match the headset.
   ]],
   arguments = {
     view = {
@@ -39,7 +37,7 @@ return {
     },
     far = {
       type = 'number',
-      default = '100.0',
+      default = '0.0',
       description = 'The far clipping plane distance, in meters.'
     },
     matrix = {
@@ -60,7 +58,9 @@ return {
   },
   notes = [[
     A far clipping plane of 0.0 can be used for an infinite far plane with reversed Z range.  This
-    is the default.
+    is the default because it improves depth precision and reduces Z fighting.  Using a non-infinite
+    far plane requires the depth buffer to be cleared to 1.0 instead of 0.0 and the default depth
+    test to be changed to `lequal` instead of `gequal`.
   ]],
   related = {
     'lovr.headset.getViewAngles',

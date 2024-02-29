@@ -5,11 +5,13 @@ return {
   arguments = {
     tag1 = {
       type = 'string',
-      description = 'The first tag.'
+      default = 'nil',
+      description = 'The first tag, or `nil` to use a wildcard.'
     },
     tag2 = {
       type = 'string',
-      description = 'The second tag.'
+      default = 'nil',
+      description = 'The second tag, or `nil` to use a wildcard.'
     }
   },
   returns = {

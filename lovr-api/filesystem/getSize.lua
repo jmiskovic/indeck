@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Get the size of a file.',
   description = 'Returns the size of a file, in bytes.',
   arguments = {

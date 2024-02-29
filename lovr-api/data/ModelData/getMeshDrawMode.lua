@@ -12,7 +12,7 @@ return {
   },
   returns = {
     mode = {
-      type = 'DrawMode',
+      type = 'ModelDrawMode',
       description = 'The draw mode of the mesh.'
     }
   },

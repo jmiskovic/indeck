@@ -30,7 +30,13 @@ return {
       returns = {}
     }
   },
-  notes = 'The `getPixel` shader helper function will use this sampler.',
+  notes = [[
+    The `getPixel` shader helper function will use this sampler.
+
+    When a Pass is reset, its sampler will be reset to `linear`.
+
+    The sampler applies to all draws in the pass on submit, regardless of when the sampler is set.
+  ]],
   example = [[
     function lovr.draw(pass)
       pass:setSampler('nearest') -- activate minecraft mode

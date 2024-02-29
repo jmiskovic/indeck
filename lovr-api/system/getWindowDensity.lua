@@ -1,4 +1,5 @@
 return {
+  tag = 'system-window',
   summary = 'Get the window pixel density.',
   description = [[
     Returns the window pixel density.  High DPI windows will usually return 2.0 to indicate that

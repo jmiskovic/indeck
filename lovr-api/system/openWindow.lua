@@ -1,4 +1,5 @@
 return {
+  tag = 'system-window',
   summary = 'Open the desktop window.',
   description = [[
     Opens the desktop window.  If the window is already open, this function does nothing.

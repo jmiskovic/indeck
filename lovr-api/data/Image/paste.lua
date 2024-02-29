@@ -54,6 +54,6 @@ return {
   related = {
     'Image:getPixel',
     'Image:setPixel',
-    'Pass:copy'
+    'Texture:setPixels'
   }
 }

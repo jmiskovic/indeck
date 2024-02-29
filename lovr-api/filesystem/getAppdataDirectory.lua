@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-paths',
   summary = 'Get the application data directory.',
   description = [[
     Returns the application data directory.  This will be something like:

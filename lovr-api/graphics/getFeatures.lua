@@ -40,6 +40,14 @@ return {
           ]]
         },
         {
+          name = 'depthResolve',
+          type = 'boolean',
+          description = [[
+            When supported, multisampled render passes can use a non-multisampled depth texture.
+            Otherwise, the depth texture sample count needs to match the render pass sample count.
+          ]]
+        },
+        {
           name = 'indirectDrawFirstInstance',
           type = 'boolean',
           description = [[

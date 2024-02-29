@@ -1,6 +1,10 @@
 return {
   summary = 'Set the value of a pixel of the Image.',
-  description = 'Sets the value of a pixel of the Image.',
+  description = [[
+    Sets the value of a single pixel of the Image.
+
+    If you need to change a bunch of pixels, consider using `Image:mapPixel`.
+  ]],
   arguments = {
     x = {
       type = 'number',
@@ -36,11 +40,13 @@ return {
     }
   },
   notes = [[
-    The following texture formats are supported: `rgba`, `rgb`, `r32f`, `rg32f`, and `rgba32f`.
+    The following texture formats are supported: `r8`, `rg8`, `rgba8`, `r16`, `rg16`, `rgba16`,
+    `r32f`, `rg32f`, `rgba32f`.
   ]],
   related = {
+    'Image:mapPixel',
     'Image:getPixel',
     'TextureFormat',
-    'Pass:copy'
+    'Texture:setPixels'
   }
 }

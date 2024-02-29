@@ -1,4 +1,5 @@
 return {
+  tag = 'texture-view',
   summary = 'Create a texture view referencing a parent Texture.',
   description = [[
     Creates a new Texture view.  A texture view does not store any pixels on its own, but instead
@@ -15,10 +16,6 @@ return {
     - Binding a particular image or mipmap level to a shader.
   ]],
   arguments = {
-    parent = {
-      type = 'Texture',
-      description = 'The parent Texture to create the view of.'
-    },
     type = {
       type = 'TextureType',
       description = 'The texture type of the view.'
@@ -52,7 +49,13 @@ return {
   },
   variants = {
     {
-      arguments = { 'parent', 'type', 'layer', 'layerCount', 'mipmap', 'mipmapCount' },
+      description = 'Create a 2D texture view referencing a single layer and mipmap.',
+      arguments = { 'layer', 'mipmap' },
+      returns = { 'view' }
+    },
+    {
+      description = 'Create a texture view with an explicit type, layer range, and mipmap range.',
+      arguments = { 'type', 'layer', 'layerCount', 'mipmap', 'mipmapCount' },
       returns = { 'view' }
     }
   },

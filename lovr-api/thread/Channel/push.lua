@@ -2,7 +2,8 @@ return {
   summary = 'Push a message onto the Channel.',
   description = [[
     Pushes a message onto the Channel.  The following types of data can be pushed: nil, boolean,
-    number, string, and userdata.  Tables should be serialized to strings.
+    number, string, lightuserdata, vectors, and userdata (LÖVR objects).  Notably, tables are not
+    currently supported and should be serialized to strings.
   ]],
   arguments = {
     message = {

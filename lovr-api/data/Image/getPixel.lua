@@ -36,11 +36,15 @@ return {
     }
   },
   notes = [[
-    The following texture formats are supported: `rgba`, `rgb`, `r32f`, `rg32f`, and `rgba32f`.
+    The following texture formats are supported: `r8`, `rg8`, `rgba8`, `r16`, `rg16`, `rgba16`,
+    `r32f`, `rg32f`, `rgba32f`.
   ]],
   related = {
     'Image:setPixel',
+    'Image:mapPixel',
     'TextureFormat',
-    'Pass:copy'
+    'Texture:getPixels',
+    'Texture:setPixels',
+    'Texture:newReadback'
   }
 }

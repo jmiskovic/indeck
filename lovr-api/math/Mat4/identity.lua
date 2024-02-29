@@ -6,15 +6,15 @@ return {
   ]],
   arguments = {},
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The modified matrix.'
     }
   },
   variants = {
     {
       arguments = {},
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

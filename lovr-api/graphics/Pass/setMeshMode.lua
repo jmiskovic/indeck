@@ -4,7 +4,7 @@ return {
   description = 'Changes the way vertices are connected together when drawing using `Pass:mesh`.',
   arguments = {
     mode = {
-      type = 'MeshMode',
+      type = 'DrawMode',
       description = 'The mesh mode to use.'
     }
   },

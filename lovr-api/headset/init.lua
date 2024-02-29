@@ -9,16 +9,20 @@ return {
   ]],
   sections = {
     {
-      name = 'Headset',
-      tag = 'headset',
-      description = 'Functions that return information about the active head mounted display (HMD).'
-    },
-    {
       name = 'Input',
       tag = 'input',
       description = [[
         Functions for accessing input devices, like controllers, hands, trackers, or gamepads.
       ]]
+    },
+    {
+      name = 'Controller Models',
+      tag = 'controller-models'
+    },
+    {
+      name = 'Display',
+      tag = 'headset',
+      description = 'Functions that return information about the active head mounted display (HMD).'
     },
     {
       name = 'Play area',
@@ -28,6 +32,16 @@ return {
         information about the "chaperone", a visual indicator that appears whenever a player is
         about to run into a wall.
       ]]
+    },
+    {
+      name = 'Layers',
+      tag = 'layers',
+      description = 'TODO'
+    },
+    {
+      name = 'Miscellaneous',
+      tag = 'headset-misc',
+      description = 'Functions that are internal or return information about the VR session.'
     }
   }
 }

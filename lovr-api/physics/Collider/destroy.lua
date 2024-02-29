@@ -13,6 +13,7 @@ return {
     Calling functions on the collider after destroying it is a bad idea.
   ]],
   related = {
+    'Collider:isDestroyed',
     'World:destroy',
     'Shape:destroy',
     'Joint:destroy'

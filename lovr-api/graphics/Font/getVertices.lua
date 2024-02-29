@@ -46,7 +46,11 @@ return {
   },
   variants = {
     {
-      arguments = { 'halign', 'valign' },
+      arguments = { 'string', 'wrap', 'halign', 'valign' },
+      returns = { 'vertices', 'material' }
+    },
+    {
+      arguments = { 'strings', 'wrap', 'halign', 'valign' },
       returns = { 'vertices', 'material' }
     }
   },

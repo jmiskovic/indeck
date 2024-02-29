@@ -1,10 +1,11 @@
 return {
   tag = 'modules',
   summary = 'Provides access to the filesystem.',
-  description = 'The `lovr.filesystem` module provides access to the filesystem.',
-  notes = [[
-    LÖVR programs can only write to a single directory, called the save directory.  The location of
-    the save directory is platform-specific:
+  description = [[
+    The `lovr.filesystem` module provides access to the filesystem.
+
+    All files written will go in a special folder called the "save directory".  The location of the
+    save directory is platform-specific:
 
     <table>
       <tr>
@@ -25,11 +26,39 @@ return {
       </tr>
     </table>
 
-    `<identity>` should be a unique identifier for your app.  It can be set either in `lovr.conf` or
-    by using `lovr.filesystem.setIdentity`.  On Android, the identity can not be changed and will
-    always be the package id, like `org.lovr.app`.
+    `<identity>` is a unique identifier for the project, and can be set in `lovr.conf`.  On Android,
+    the identity can not be changed and will always be the package id (e.g. `org.lovr.app`).
 
-    All filenames are relative to either the save directory or the directory containing the project
-    source.  Files in the save directory take precedence over files in the project.
-  ]]
+    When files are read, they will be searched for in multiple places.  By default, the save
+    directory is checked first, then the project source (folder or zip).  That way, when data is
+    written to a file, any future reads will see the new data.  The `t.saveprecedence` conf setting
+    can be used to change this precedence.
+
+    Conceptually, `lovr.filesystem` uses a "virtual filesystem", which is an ordered list of folders
+    and zip files that are merged into a single filesystem hierarchy.  Folders and archives in the
+    list can be added and removed with `lovr.filesystem.mount` and `lovr.filesystem.unmount`.
+
+    LÖVR extends Lua's `require` function to look for modules in the virtual filesystem.  The search
+    patterns can be changed with `lovr.filesystem.setRequirePath`, similar to `package.path`.
+  ]],
+  sections = {
+    {
+      name = 'Files',
+      tag = 'filesystem-files',
+      description = 'Operations for reading/writing files and querying their metadata.'
+    },
+    {
+      name = 'Virtual Filesystem',
+      tag = 'filesystem-virtual'
+    },
+    {
+      name = 'Paths',
+      tag = 'filesystem-paths',
+      description = 'Useful system paths.'
+    },
+    {
+      name = 'Lua',
+      tag = 'filesystem-lua'
+    }
+  }
 }

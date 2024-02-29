@@ -1,45 +1,55 @@
 return {
+  tag = 'buffer-transfer',
   summary = 'Change the data in the Buffer.',
-  description = [[
-    Changes data in a temporary Buffer using a table or a Blob.  Permanent buffers can be changed
-    using `Pass:copy`.
-  ]],
+  description = 'Copies data to the Buffer from either a table, `Blob`, or `Buffer`.',
   arguments = {
-    data = {
+    table = {
       type = 'table',
       description = 'A flat or nested table of items to copy to the Buffer (see notes for format).'
-    },
-    sourceIndex = {
-      type = 'number',
-      default = '1',
-      description = 'The index in the table to copy from.'
     },
     destinationIndex = {
       type = 'number',
       default = '1',
       description = 'The index of the first value in the Buffer to update.'
     },
+    sourceIndex = {
+      type = 'number',
+      default = '1',
+      description = 'The index in the table to copy from.'
+    },
     count = {
       type = 'number',
       default = 'nil',
       description = [[
-        The number of values to update.  `nil` will copy as many items as possible, based on the
+        The number of items to copy.  `nil` will copy as many items as possible, based on the
         lengths of the source and destination.
       ]]
+    },
+    ['...numbers'] = {
+      type = 'number',
+      description = 'Numerical components to copy to the buffer.'
+    },
+    vector = {
+      type = '*',
+      description = 'Vector objects to copy to the buffer.'
     },
     blob = {
       type = 'Blob',
       description = 'The Blob to copy data from.'
     },
+    buffer = {
+      type = 'Buffer',
+      description = 'The Buffer to copy data from.'
+    },
     sourceOffset = {
       type = 'number',
       default = '0',
-      description = 'A byte offset into the Blob to copy from.'
+      description = 'The byte offset to copy from.'
     },
     destinationOffset = {
       type = 'number',
       default = '0',
-      description = 'A byte offset in the Buffer to copy to.'
+      description = 'The byte offset to copy to.'
     },
     size = {
       type = 'number',
@@ -50,45 +60,104 @@ return {
   returns = {},
   variants = {
     {
-      arguments = { 'data', 'sourceIndex', 'destinationIndex', 'count' },
+      arguments = { 'table', 'destinationIndex', 'sourceIndex', 'count' },
       returns = {}
     },
     {
-      arguments = { 'blob', 'sourceOffset', 'destinationOffset', 'size' },
+      description = 'Copies a single field to a buffer with numbers (buffer length must be 1).',
+      arguments = { '...numbers' },
+      returns = {}
+    },
+    {
+      description = 'Copies a single vector to a buffer (buffer length must be 1).',
+      arguments = { 'vector' },
+      returns = {}
+    },
+    {
+      arguments = { 'blob', 'destinationOffset', 'sourceOffset', 'size' },
+      returns = {}
+    },
+    {
+      arguments = { 'buffer', 'destinationOffset', 'sourceOffset', 'size' },
       returns = {}
     }
   },
   notes = [[
-    When using a table, the table can contain a nested table for each value in the Buffer, or it can
-    be a flat list of field component values.  It is not possible to mix both nested tables and flat
-    values.
+    One gotcha is that unspecified fields will be set to zero.  Here's an example:
 
-    For each item updated, components of each field in the item (according to the Buffer's format)
-    are read from either the nested subtable or the table itself.  A single number can be used to
-    update a field with a scalar type.  Multiple numbers or a `lovr.math` vector can be used to
-    update a field with a vector or mat4 type.  Multiple numbers can be used to update mat2 and mat3
-    fields.  When updating normalized field types, components read from the table will be clamped to
-    the normalized range ([0,1] or [-1,1]).  In the Buffer, each field is written at its byte offset
-    according to the Buffer's format, and subsequent items are separated by the byte stride of the
-    Buffer.  Any missing components for an updated field will be set to zero.
-  ]],
-  example = [[
-    function lovr.draw(pass)
-      buffer = lovr.graphics.getBuffer(3, 'floats')
-      buffer:setData({ { 1.0 }, { 2.0 }, { 3.0 } })
-      buffer:setData({ 1.0, 2.0, 3.0 })
+        buffer = lovr.graphics.newBuffer({{ 'x', 'int' }, { 'y', 'int' }})
+        buffer:setData({ x = 1, y = 1 }) -- set the data
+        buffer:setData({ x = 1 }) -- set the data, partially
+        -- buffer data is now {x=1, y=0}!
 
-      buffer = lovr.graphics.getBuffer(5, { 'vec3', 'vec3', 'vec2' })
-      buffer:setData({ vec3(1, 2, 3), vec3(4, 5, 6), vec2(7, 8) })
-      buffer:setData({ { 1, 2, 3, 4, 5, 6, 7, 8 } })
-      buffer:setData({ 1, 2, 3, 4, 5, 6, 7, 8 })
-      buffer:setData({
-        { x1, y1, z1, nx1, ny1, nz1, u1, v1 },
-        { x2, y2, z2, vec3(nx, ny, nz) }
-      }, 1, 3, 2)
-    end
+    This doesn't apply to separate items in the buffer.  For example, if the Buffer's length is 2
+    and only the 1st item is set, the second item will remain undisturbed:
+
+        buffer = lovr.graphics.newBuffer({{ 'x', 'int' }, { 'y', 'int' }}, 2)
+        buffer:setData({{ x = 1, y = 1 }, { x = 2, y = 2 }}) -- set the data
+        buffer:setData({{ x = 1 }}) -- set one item, partially
+        -- buffer data is now {{x=1, y=0}, {x=2, y=2}}
   ]],
-  related = {
-    'Pass:copy'
+  example = {
+    description = 'Various examples of copying different formats.',
+    code = [[
+      function lovr.load()
+        buffer = lovr.graphics.newBuffer('int', 3)
+        buffer:setData({ 1, 2, 3 })
+
+        buffer = lovr.graphics.newBuffer('vec3', 2)
+        buffer:setData({ 1,2,3, 4,5,6 })
+        buffer:setData({ { 1, 2, 3 }, { 4, 5, 6 } })
+        buffer:setData({ vec3(1, 2, 3), vec3(4, 5, 6) })
+
+        -- When the Buffer's length is 1, wrapping in table is optional:
+        buffer = lovr.graphics.newBuffer('vec3')
+        buffer:setData(1, 2, 3)
+        buffer:setData(vec3(1, 2, 3))
+
+        -- Same for key-value structs
+        buffer = lovr.graphics.newBuffer({
+          { 'x', 'float' },
+          { 'y', 'float' }
+        })
+        buffer:setData({ x = 1, y = 2 })
+
+        -- Key/value formats
+        buffer = lovr.graphics.newBuffer({
+          { 'x', 'float' },
+          { 'y', 'float' }
+        }, 3)
+        buffer:setData({
+          { x = 1, y = 2 },
+          { x = 3, y = 4 },
+          { x = 5, y = 6 }
+        })
+        buffer:setData({ 1, 2, 3, 4, 5, 6 })
+        buffer:setData({ { 1, 2 }, { 3, 4 }, { 5, 6 } })
+
+        -- Nested formats
+        buffer = lovr.graphics.newBuffer({
+          { 'a', {
+            {'b', {
+              'c', 'float'
+            }}
+          }}
+        })
+        buffer:setData({ a = { b = { c = 42 } } })
+
+        -- Inner arrays
+        buffer = lovr.graphics.newBuffer({
+          { 'positions', 'vec3', 10 },
+          { 'sizes', 'float', 10 },
+          layout = 'std140'
+        })
+        local data = { positions = {}, sizes = {} }
+        for i = 1, buffer:getLength() do
+          data.positions[i] = vec3(i, i, i)
+          data.sizes[i] = i
+        end
+        buffer:setData(data)
+      end
+    ]]
   }
 }

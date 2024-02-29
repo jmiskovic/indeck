@@ -17,6 +17,10 @@ return {
       type = 'number',
       default = '0',
       description = 'The z position of the Collider.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the Collider.'
     }
   },
   returns = {
@@ -28,6 +32,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z' },
+      returns = { 'collider' }
+    },
+    {
+      arguments = { 'position' },
       returns = { 'collider' }
     }
   },

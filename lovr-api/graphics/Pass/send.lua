@@ -1,9 +1,9 @@
 return {
-  tag = 'shader-inputs',
+  tag = 'shaders',
   summary = 'Set the value of a shader variable.',
   description = [[
     Sends a value to a variable in the Pass's active `Shader`.  The active shader is changed using
-    using `Pass:setShader`.
+    `Pass:setShader`.
   ]],
   arguments = {
     name = {
@@ -18,6 +18,20 @@ return {
       type = 'Buffer',
       description = 'The Buffer to assign.'
     },
+    offset = {
+      type = 'number',
+      default = '0',
+      description = 'An offset from the start of the buffer where data will be read, in bytes.'
+    },
+    extent = {
+      type = 'number',
+      default = '0',
+      description = [[
+        The number of bytes that will be available for reading.  If zero, as much data as possible
+        will be bound, depending on the offset, buffer size, and the `uniformBufferRange` or
+        `storageBufferRange` limit.
+      ]]
+    },
     texture = {
       type = 'Texture',
       description = 'The Texture to assign.'
@@ -28,13 +42,13 @@ return {
     },
     constant = {
       type = '*',
-      description = 'Numbers or vectors to assign to the push constant.'
+      description = 'Numbers, vectors, or tables to assign to the constant or uniform buffer.'
     }
   },
   returns = {},
   variants = {
     {
-      arguments = { 'name', 'buffer' },
+      arguments = { 'name', 'buffer', 'offset', 'extent' },
       returns = {}
     },
     {
@@ -50,7 +64,7 @@ return {
       returns = {}
     },
     {
-      arguments = { 'binding', 'buffer' },
+      arguments = { 'binding', 'buffer', 'offset', 'extent' },
       returns = {}
     },
     {
@@ -76,6 +90,10 @@ return {
         layout(set = 2, binding = 1) uniform Colors { vec4 colors[256]; };
         layout(set = 2, binding = 2) uniform texture2D rocks;
 
+        Constants {
+          uint constant;
+        };
+
         vec4 lovrmain() {
           return DefaultPosition;
         }
@@ -91,6 +109,7 @@ return {
       pass:send('mySampler', clampler)
       pass:send('Colors', colorBuffer)
       pass:send('rocks', rockTexture)
+      pass:send('constant', 42)
       -- Draw
     end
   ]=]

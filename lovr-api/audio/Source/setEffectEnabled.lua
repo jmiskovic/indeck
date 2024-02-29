@@ -24,7 +24,9 @@ return {
     enabled on a Source, no error will be reported.  Instead, it will be silently ignored.  See
     `lovr.audio.getSpatializer` for a table showing the effects supported by each spatializer.
 
-    Calling this function on a Source that was created with `{ effects = false }` will throw an
-    error.
-  ]]
+    Calling this function on a non-spatial Source will throw an error.
+  ]],
+  related = {
+    'Source:isSpatial'
+  }
 }

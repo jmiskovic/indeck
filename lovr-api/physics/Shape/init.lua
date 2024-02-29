@@ -8,9 +8,13 @@ return {
     'lovr.physics.newCapsuleShape',
     'lovr.physics.newCylinderShape',
     'lovr.physics.newSphereShape',
+    'lovr.physics.newMeshShape',
+    'lovr.physics.newTerrainShape',
     'World:newBoxCollider',
     'World:newCapsuleCollider',
     'World:newCylinderCollider',
-    'World:newSphereCollider'
+    'World:newSphereCollider',
+    'World:newMeshCollider',
+    'World:newTerrainCollider'
   }
 }

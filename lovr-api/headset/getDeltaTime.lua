@@ -1,5 +1,5 @@
 return {
-  tag = 'headset',
+  tag = 'headset-misc',
   summary = 'Get the predicted delta time.',
   description = [[
     Returns the headset delta time, which is the difference between the current and previous

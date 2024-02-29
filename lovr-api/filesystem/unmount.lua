@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-virtual',
   summary = 'Unmount a mounted archive.',
   description = 'Unmounts a directory or archive previously mounted with `lovr.filesystem.mount`.',
   arguments = {

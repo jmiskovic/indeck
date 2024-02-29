@@ -20,9 +20,9 @@ return {
     }
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix, containing the result.'
+      description = 'The modified matrix.'
     },
     v3 = {
       type = 'Vec3',
@@ -36,7 +36,7 @@ return {
   variants = {
     {
       arguments = { 'n' },
-      returns = { 'm' }
+      returns = { 'self' }
     },
     {
       arguments = { 'v3' },

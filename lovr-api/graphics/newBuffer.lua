@@ -3,8 +3,13 @@ return {
   summary = 'Create a new Buffer.',
   description = 'Creates a Buffer.',
   arguments = {
+    size = {
+      type = 'number',
+      description = 'The size of the Buffer, in bytes.'
+    },
     length = {
       type = 'number',
+      default = '1',
       description = 'The length of the Buffer.'
     },
     data = {
@@ -23,20 +28,16 @@ return {
       ]]
     },
     type = {
-      type = 'FieldType',
+      type = 'DataType',
       description = 'The type of each item in the Buffer.'
     },
     format = {
       type = 'table',
-      default = 'nil',
-      description = [[
-        A list of fields in the Buffer (see notes).  `nil` is a valid format, but means only `Blob`s
-        can be written to the Buffer from Lua.
-      ]],
+      description = 'A list of fields in the Buffer.',
       table = {
         {
           name = 'layout',
-          type = 'BufferLayout',
+          type = 'DataLayout',
           default = 'packed',
           description = 'How to lay out the Buffer fields in memory.'
         },
@@ -60,50 +61,132 @@ return {
   },
   variants = {
     {
+      arguments = { 'size' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'blob' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'format', 'length' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'format', 'data' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'format', 'blob' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'type', 'length' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'type', 'data' },
+      returns = { 'buffer' }
+    },
+    {
+      arguments = { 'type', 'blob' },
+      returns = { 'buffer' }
+    },
+    {
+      deprecated = true,
       arguments = { 'length', 'type' },
       returns = { 'buffer' }
     },
     {
+      deprecated = true,
       arguments = { 'data', 'type' },
       returns = { 'buffer' }
     },
     {
+      deprecated = true,
       arguments = { 'length', 'format' },
       returns = { 'buffer' }
     },
     {
+      deprecated = true,
       arguments = { 'data', 'format' },
       returns = { 'buffer' }
     },
     {
+      deprecated = true,
       arguments = { 'blob', 'type' },
       returns = { 'buffer' }
     },
     {
+      deprecated = true,
       arguments = { 'blob', 'format' },
       returns = { 'buffer' }
     }
   },
   notes = [[
-    The format table can contain a list of `FieldType`s or a list of tables to provide extra
+    The format table can contain a list of `DataType`s or a list of tables to provide extra
     information about each field.  Each inner table has the following keys:
 
-    - `type` is the `FieldType` of the field and is required.
+    - `type` is the `DataType` of the field and is required.
+    - `name` is the name of the field, used to match table keys and vertex attribute names.
     - `offset` is the byte offset of the field.  Any fields with a `nil` offset will be placed next
       to each other sequentially in memory, subject to any padding required by the Buffer's layout.
       In practice this means that you probably want to provide an `offset` for either all of the
       fields or none of them.
-    - `location` is the vertex attribute location of each field.  This is used to match up each
-      field with an attribute declared in a shader, and doesn't have any purpose when binding the
-      buffer as a uniform or storage buffer.  Any fields with a `nil` location will use an
-      autoincrementing location starting at zero.  Named locations are not currently supported, but
-      may be added in the future.
+    - `length` is the array size of the field.
+
+    As a shorthand, the name, type, and optionally the length of a field can be provided as a list
+    instead of using keys.
 
     If no table or Blob is used to define the initial Buffer contents, its data will be undefined.
-
-    There is currently a max of 16 fields.
   ]],
+  example = {
+    description = 'Examples of different buffer formats.',
+    code = [[
+      -- 2 matrices
+      lovr.graphics.newBuffer('mat4', 2)
+
+      -- 3 integers, with initial data
+      lovr.graphics.newBuffer('int', { 1, 2, 3 })
+
+      -- a simple mesh:
+      lovr.graphics.newBuffer({
+        { name = 'VertexPosition', type = 'vec3' },
+        { name = 'VertexColor', type = 'color' }
+      }, 4)
+
+      -- a uniform buffer with vec3's, using the std140 packing
+      lovr.graphics.newBuffer({ 'vec3', layout = 'std140' }, data)
+
+      -- a uniform buffer with key-value fields
+      lovr.graphics.newBuffer({
+        { 'AmbientColor', 'vec3' },
+        { 'LightPosition', 'vec3' },
+        { 'LightType', 'u32' },
+        { 'LightColor', 'vec4' },
+        layout = 'std140'
+      })
+
+      -- a buffer with nested structure and array types
+      lovr.graphics.newBuffer({
+        { 'globals', {
+          { 'ObjectCount', 'int' },
+          { 'WorldSize', 'vec2' },
+          { 'Scale', 'float' }
+        }},
+        { 'materials', {
+          { 'Color', 'vec4' },
+          { 'Glow', 'vec3' },
+          { 'Roughness', 'float' }
+        }, length = 32 },
+        layout = 'std430'
+      })
+
+      -- a buffer using a variable from a shader:
+      lovr.graphics.newBuffer(shader:getBufferFormat('transforms'))
+    ]]
+  },
   related = {
-    'lovr.graphics.getBuffer'
+    'Shader:getBufferFormat'
   }
 }

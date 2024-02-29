@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Get a list of files in a directory.',
   description = 'Returns a sorted table containing all files and folders in a single directory.',
   arguments = {

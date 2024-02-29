@@ -22,19 +22,19 @@ return {
     }
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The modified matrix.'
     }
   },
   variants = {
     {
       arguments = { 'scale' },
-      returns = { 'm' }
+      returns = { 'self' }
     },
     {
       arguments = { 'sx', 'sy', 'sz' },
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

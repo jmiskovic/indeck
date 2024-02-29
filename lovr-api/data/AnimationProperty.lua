@@ -1,6 +1,6 @@
 return {
   summary = 'Different animated properties.',
-  description = 'This indicates the different transform properties that can be animated.',
+  description = 'This indicates the different node properties that can be animated.',
   values = {
     {
       name = 'translation',
@@ -13,6 +13,10 @@ return {
     {
       name = 'scale',
       description = 'Node scale.'
+    },
+    {
+      name = 'weights',
+      description = 'Node blend shape weights.'
     }
   }
 }

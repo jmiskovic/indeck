@@ -1,6 +1,7 @@
 return {
+  deprecated = true,
   tag = 'headset',
-  summary = 'Get the refresh rate of the headset display.',
+  summary = 'Get the refresh rate of the display.',
   description = 'Returns the refresh rate of the headset display, in Hz.',
   arguments = {},
   returns = {

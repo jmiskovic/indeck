@@ -1,5 +1,5 @@
 return {
-  tag = 'pipeline',
+  tag = 'camera',
   summary = 'Set the viewport.',
   description = [[
     Sets the viewport.  Everything rendered will get mapped to the rectangle defined by the
@@ -17,7 +17,7 @@ return {
     },
     w = {
       type = 'number',
-      description = 'The width of the viewport.',
+      description = 'The width of the viewport.  Must be positive.',
     },
     h = {
       type = 'number',
@@ -26,12 +26,12 @@ return {
     dmin = {
       type = 'number',
       default = '0.0',
-      description = 'The min component of the depth range.'
+      description = 'The min component of the depth range, between 0 and 1.'
     },
     dmax = {
       type = 'number',
       default = '1.0',
-      description = 'The max component of the depth range.'
+      description = 'The max component of the depth range, between 0 and 1.'
     }
   },
   returns = {},
@@ -39,9 +39,17 @@ return {
     {
       arguments = { 'x', 'y', 'w', 'h', 'dmin', 'dmax' },
       returns = {}
+    },
+    {
+      description = 'Disable the viewport.',
+      arguments = {},
+      returns = {}
     }
   },
   notes = [[
+    The viewport will apply to all draws in a Pass when the pass is submitted, even if this function
+    is called after adding the draws.
+
     The viewport rectangle can use floating point numbers.
 
     A negative viewport height (with a y coordinate equal to the bottom of the viewport) can be used
@@ -51,6 +59,7 @@ return {
     depth and max depth respectively set to 0 and 1.
   ]],
   related = {
+    'Pass:getScissor',
     'Pass:setScissor',
     'Pass:getDimensions'
   }

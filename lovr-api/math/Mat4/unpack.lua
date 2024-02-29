@@ -8,6 +8,7 @@ return {
   arguments = {
     raw = {
       type = 'boolean',
+      default = 'false',
       description = 'Whether to return the 16 raw components.'
     }
   },
@@ -24,6 +25,10 @@ return {
     }
   },
   related = {
-    'Mat4:set'
+    'Mat4:set',
+    'Mat4:getPosition',
+    'Mat4:getOrientation',
+    'Mat4:getScale',
+    'Mat4:getPose'
   }
 }

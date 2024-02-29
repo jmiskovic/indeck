@@ -6,17 +6,17 @@ return {
     x = {
       type = 'number',
       default = '0',
-      description = 'The x coordinate of the center of the capsule.'
+      description = 'The x coordinate of the center of the capsule, in meters.'
     },
     y = {
       type = 'number',
       default = '0',
-      description = 'The y coordinate of the center of the capsule.'
+      description = 'The y coordinate of the center of the capsule, in meters.'
     },
     z = {
       type = 'number',
       default = '0',
-      description = 'The z coordinate of the center of the capsule.'
+      description = 'The z coordinate of the center of the capsule, in meters.'
     },
     radius = {
       type = 'number',
@@ -27,6 +27,10 @@ return {
       type = 'number',
       default = '1',
       description = 'The length of the capsule, not including the caps, in meters.'
+    },
+    position = {
+      type = 'Vec3',
+      description = 'The position of the center of the capsule, in meters.'
     }
   },
   returns = {
@@ -38,6 +42,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z', 'radius', 'length' },
+      returns = { 'collider' }
+    },
+    {
+      arguments = { 'position', 'radius', 'length' },
       returns = { 'collider' }
     }
   },

@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-paths',
   summary = 'Get the location of the save directory.',
   description = 'Returns the absolute path to the save directory.',
   arguments = {},

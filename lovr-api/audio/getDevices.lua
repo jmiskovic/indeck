@@ -45,6 +45,7 @@ return {
   },
   related = {
     'lovr.audio.setDevice',
+    'lovr.audio.getDevice',
     'lovr.audio.start',
     'lovr.audio.stop'
   }

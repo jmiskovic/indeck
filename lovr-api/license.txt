@@ -1,1 +1,0 @@
-All the code in the example/showcase projects is released under CC0. However, the models, textures, sounds, and other assets used may use different licensing, so be sure to double check those.

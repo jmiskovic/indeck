@@ -1,4 +1,5 @@
 return {
+  tag = 'system-info',
   summary = 'Get the number of logical cores.',
   description = 'Returns the number of logical cores on the system.',
   arguments = {},

@@ -1,4 +1,5 @@
 return {
+  tag = 'headset-misc',
   summary = 'Get a Pass that renders to the headset.',
   description = 'Returns a `Pass` that renders to the headset display.',
   arguments = {},
@@ -30,7 +31,7 @@ return {
     multisampled.
   ]],
   related = {
-    'lovr.graphics.getPass',
+    'lovr.graphics.newPass',
     'lovr.graphics.getWindowPass',
     'lovr.conf'
   }

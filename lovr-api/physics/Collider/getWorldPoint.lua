@@ -13,6 +13,10 @@ return {
     z = {
       type = 'number',
       description = 'The z position of the point.'
+    },
+    point = {
+      type = 'Vec3',
+      description = 'The local point.'
     }
   },
   returns = {
@@ -32,6 +36,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z' },
+      returns = { 'wx', 'wy', 'wz' }
+    },
+    {
+      arguments = { 'point' },
       returns = { 'wx', 'wy', 'wz' }
     }
   },

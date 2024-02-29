@@ -15,6 +15,10 @@ return {
     z = {
       type = 'number',
       description = 'The z coordinate in world space.'
+    },
+    point = {
+      type = 'Vec3',
+      descriptio = 'The point.'
     }
   },
   returns = {
@@ -34,6 +38,10 @@ return {
   variants = {
     {
       arguments = { 'x', 'y', 'z' },
+      returns = { 'vx', 'vy', 'vz' }
+    },
+    {
+      arguments = { 'point' },
       returns = { 'vx', 'vy', 'vz' }
     }
   },

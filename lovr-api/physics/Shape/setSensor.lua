@@ -1,8 +1,9 @@
 return {
   summary = 'Set the sensor status for the Shape.',
   description = [[
-    Sets whether this Shape is a sensor.  Sensors do not trigger any collision response, but they
-    still report collisions in `World:collide`.
+    Sets whether this Shape is a sensor.  When a Shape is a sensor, it will not generate any
+    collision response when it collides with things, but collisions can still be detected with
+    `World:collide` and `World:getContacts`.
   ]],
   arguments = {
     sensor = {

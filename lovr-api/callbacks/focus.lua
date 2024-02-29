@@ -1,6 +1,6 @@
 return {
   tag = 'callbacks',
-  summary = 'Called when the application gets or loses focus.',
+  summary = 'Called when the application gains or loses input focus.',
   description = [[
     The `lovr.focus` callback is called whenever the application acquires or loses focus (for
     example, when opening or closing the Steam dashboard).  The callback receives a single argument,
@@ -16,6 +16,7 @@ return {
   },
   returns = {},
   related = {
-    'lovr.headset.isFocused'
+    'lovr.headset.isFocused',
+    'lovr.visible'
   }
 }

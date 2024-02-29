@@ -1,4 +1,5 @@
 return {
+  tag = 'system-info',
   summary = 'Get the current operating system.',
   description = 'Returns the current operating system.',
   arguments = {},

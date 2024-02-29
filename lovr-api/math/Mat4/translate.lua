@@ -20,19 +20,19 @@ return {
     }
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The translated matrix.'
     }
   },
   variants = {
     {
       arguments = { 'v' },
-      returns = { 'm' }
+      returns = { 'self' }
     },
     {
       arguments = { 'x', 'y', 'z' },
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

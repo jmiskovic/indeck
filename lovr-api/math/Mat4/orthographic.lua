@@ -41,19 +41,19 @@ return {
     }
   },
   returns = {
-    m = {
+    self = {
       type = 'Mat4',
-      description = 'The original matrix.'
+      description = 'The modified matrix.'
     }
   },
   variants = {
     {
       arguments = { 'left', 'right', 'bottom', 'top', 'near', 'far' },
-      returns = { 'm' }
+      returns = { 'self' }
     },
     {
       arguments = { 'width', 'height', 'near', 'far' },
-      returns = { 'm' }
+      returns = { 'self' }
     }
   },
   related = {

@@ -1,4 +1,5 @@
 return {
+  tag = 'filesystem-files',
   summary = 'Create a new Blob from a file.',
   description = 'Creates a new Blob that contains the contents of a file.',
   arguments = {

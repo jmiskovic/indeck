@@ -16,9 +16,9 @@ return {
   },
   returns = {},
   related = {
-    'lovr.graphics.getDimensions',
-    'lovr.graphics.getWidth',
-    'lovr.graphics.getHeight',
+    'Pass:getDimensions',
+    'Pass:getWidth',
+    'Pass:getHeight',
     'lovr.headset.getDisplayDimensions',
     'lovr.conf'
   }
